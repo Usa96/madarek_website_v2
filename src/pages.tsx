@@ -6,9 +6,8 @@
 
 import { useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { motion, AnimatePresence, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
+import { Link, useParams } from 'react-router-dom';
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import {
   BRAND, useDensity, withOpacity,
   FoldedMark, Eyebrow, SectionNumber,
@@ -19,6 +18,7 @@ import {
 } from './system';
 import type { BrandKey } from './system';
 import type { School } from './data';
+import { SchoolsExplorer } from './schools-explorer';
 
 /* ── page-level cinematic hero — reusable ──────────────────── */
 function PageHero({
@@ -90,20 +90,21 @@ export function AboutPage() {
   const d = useDensity();
 
   const values: { tone: BrandKey; title: string; detail: string }[] = [
-    { tone: 'red',    title: 'Excellence',     detail: 'Striving for the highest standards in curriculum, teaching, and student support.' },
-    { tone: 'yellow', title: 'Innovation',     detail: 'Embracing forward-thinking approaches to learning.' },
-    { tone: 'cyan',   title: 'Inclusivity',    detail: 'Creating welcoming communities for every student.' },
-    { tone: 'lime',   title: 'Sustainability', detail: 'Designing schools with environmental responsibility in mind.' },
+    { tone: 'red',    title: 'Excellence',    detail: 'Pursuing the highest standards across all aspects of education.' },
+    { tone: 'yellow', title: 'Innovation',    detail: 'Embracing new ideas and technologies to enhance learning experiences.' },
+    { tone: 'cyan',   title: 'Integrity',     detail: 'Operating with transparency, accountability, and responsibility.' },
+    { tone: 'lime',   title: 'Collaboration', detail: 'Building strong partnerships that foster growth and shared success.' },
+    { tone: 'pink',   title: 'Impact',        detail: 'Creating positive and lasting contributions to students and communities.' },
   ];
 
   return (
     <>
       <PageHero
         image="/redesign-assets/institutionalization.webp"
-        eyebrow="About Madarek"
-        title="A network of schools,"
-        italicTail="one shared standard."
-        lede="We operate premium schools in Dubai and Riyadh, each with its own identity, all bound by a single standard for what good education feels like."
+        eyebrow="Who We Are"
+        title="A regional education platform,"
+        italicTail="shaping the future of learning."
+        lede="MADAREK is a regional education platform dedicated to developing and operating high-quality educational institutions. Through a commitment to excellence, innovation, and responsible growth, we aim to create transformative learning experiences that empower students and positively impact communities."
         tone="ink" />
 
       {/* Story */}
@@ -113,12 +114,12 @@ export function AboutPage() {
             <div className="grid grid-cols-12 gap-6 mb-20">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone="ink" />
-                <div className="mt-3"><Eyebrow>Our story</Eyebrow></div>
+                <div className="mt-3"><Eyebrow>Vision &amp; Mission</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  <span>Schools,</span>
-                  <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.inkSub }}>not assets.</span>
+                  <span>Vision &amp;</span>
+                  <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.inkSub }}>mission.</span>
                 </Display>
               </div>
             </div>
@@ -126,12 +127,29 @@ export function AboutPage() {
 
           <Reveal delay={0.1}>
             <div className="grid grid-cols-12 gap-6 mt-16">
-              <div className="col-span-12 md:col-span-6 md:col-start-4">
+              <div className="col-span-12 md:col-span-3 md:col-start-4">
+                <Meta>Vision</Meta>
+              </div>
+              <div className="col-span-12 md:col-span-6">
                 <Body size="xl">
-                  Madarek was formed to bring together a small, deliberate group
-                  of schools across the Gulf. We invest patiently. We build for
-                  decades, not quarters. And we measure ourselves by student
-                  outcomes long before financial ones.
+                  To become a leading education platform recognized for
+                  delivering exceptional learning experiences and creating
+                  lasting value across the region.
+                </Body>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            <div className="grid grid-cols-12 gap-6 mt-12">
+              <div className="col-span-12 md:col-span-3 md:col-start-4">
+                <Meta>Mission</Meta>
+              </div>
+              <div className="col-span-12 md:col-span-6">
+                <Body size="xl">
+                  To nurture future generations through accessible, high-quality
+                  education that combines academic excellence with innovation and
+                  global best practices.
                 </Body>
               </div>
             </div>
@@ -243,279 +261,21 @@ export function AboutPage() {
 
 /* ── Schools page ──────────────────────────────────────────── */
 export function SchoolsPage({ schools }: { schools: School[] }) {
-  const d = useDensity();
   return (
     <>
       <PageHero
         image="/redesign-assets/1.webp"
         eyebrow="Our Schools"
-        title="Three campuses,"
-        italicTail="more on the way."
-        lede="We operate premium schools across the Gulf. Each campus carries its own character; all share the Madarek framework."
+        title="Investing in"
+        italicTail="educational excellence."
+        lede="MADAREK's schools provide diverse learning environments designed to nurture academic achievement, creativity, and personal growth."
         tone="cyan" />
 
-      <Section bg="paper" className={d.sectionY}>
-        <Container>
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-20">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={1} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">The network</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">Where we operate.</Display>
-              </div>
-            </div>
-          </Reveal>
-
-          <NetworkMap schools={schools} />
-        </Container>
-      </Section>
-
-      {schools.map((s, i) => (
-        <SchoolParallax key={s.slug} school={s} index={i + 1} reversed={i % 2 === 1} />
-      ))}
-
-      <Section bg="paperLo" className="py-28">
-        <Container max="6xl">
-          <div className="grid grid-cols-12 gap-6 items-center">
-            <div className="col-span-12 md:col-span-3">
-              <FoldedMark size={48} tone="cyan" />
-            </div>
-            <div className="col-span-12 md:col-span-6">
-              <Display size="md">
-                More campuses<span style={{ fontStyle: 'italic' }}> joining the network.</span>
-              </Display>
-              <div className="mt-6">
-                <Body size="md" muted>
-                  Each new school inherits the Madarek framework, the
-                  governance, and the academy. We add carefully.
-                </Body>
-              </div>
-            </div>
-            <div className="col-span-12 md:col-span-3 md:text-right">
-              <Meta>Future schools</Meta>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      <SchoolsExplorer schools={schools} />
     </>
   );
 }
 
-/* World countries TopoJSON, served from a stable CDN — used by
-   react-simple-maps to draw real country boundaries. */
-const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
-
-const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
-  Dubai:  { lat: 25.276, lng: 55.296 },
-  Riyadh: { lat: 24.713, lng: 46.674 },
-  Doha:   { lat: 25.286, lng: 51.534 },
-  Manama: { lat: 26.227, lng: 50.586 },
-};
-
-/* ISO numeric codes (string-padded as TopoJSON emits them). Used to
-   highlight the GCC region against neighbour countries. */
-const GCC_IDS = new Set(['682', '784', '512', '634', '414', '048', '887', '368', '400', '364']);
-//                        SA     UAE    OM     QA     KW     BH     YE     IQ     JO     IR
-const HIGHLIGHT_IDS = new Set(['682', '784', '512', '634', '414', '048', '887']);
-//                              SA     UAE    OM     QA     KW     BH     YE
-
-function NetworkMap({ schools }: { schools: School[] }) {
-  const navigate = useNavigate();
-
-  // Cluster schools by city (everything before the first comma).
-  const cityIndex = new Map<string, School[]>();
-  for (const s of schools) {
-    const city = s.location.split(',')[0].trim();
-    if (!cityIndex.has(city)) cityIndex.set(city, []);
-    cityIndex.get(city)!.push(s);
-  }
-
-  return (
-    <figure
-      className="relative w-full border overflow-hidden"
-      style={{ borderColor: BRAND.rule, background: BRAND.paperHi, aspectRatio: '10 / 7' }}
-      aria-label={`Map of the Arabian Peninsula showing ${schools.length} Madarek schools across ${cityIndex.size} cities`}>
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{ center: [49, 23], scale: 1500 }}
-        width={1000}
-        height={700}
-        style={{ width: '100%', height: '100%' }}>
-        <Geographies geography={GEO_URL}>
-          {({ geographies }) =>
-            geographies
-              .filter((geo) => GCC_IDS.has(String(geo.id)))
-              .map((geo) => {
-                const id = String(geo.id);
-                const highlighted = HIGHLIGHT_IDS.has(id);
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={highlighted ? BRAND.paper : BRAND.paperLo}
-                    stroke={BRAND.rule}
-                    strokeWidth={0.8}
-                    style={{
-                      default:  { outline: 'none' },
-                      hover:    { outline: 'none', fill: highlighted ? BRAND.paper : BRAND.paperLo },
-                      pressed:  { outline: 'none' },
-                    }} />
-                );
-              })
-          }
-        </Geographies>
-
-        {/* country labels — placed away from city markers so they
-           don't collide with the dots or their captions */}
-        {[
-          { name: 'Saudi Arabia', coords: [44, 21] as [number, number] },
-          { name: 'UAE',          coords: [54.5, 22.8] as [number, number] },
-          { name: 'Oman',         coords: [56.7, 20] as [number, number] },
-          { name: 'Yemen',        coords: [47, 15.5] as [number, number] },
-          { name: 'Iraq',         coords: [44, 32.5] as [number, number] },
-        ].map((c) => (
-          <Marker key={c.name} coordinates={c.coords}>
-            <text
-              textAnchor="middle"
-              fill={BRAND.inkMute}
-              style={{
-                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-                fontSize: 20,
-                letterSpacing: '0.24em',
-                fontWeight: 500,
-                textTransform: 'uppercase',
-                pointerEvents: 'none',
-              }}>
-              {c.name}
-            </text>
-          </Marker>
-        ))}
-
-        {Array.from(cityIndex.entries()).map(([city, citySchools]) => {
-          const coords = CITY_COORDS[city];
-          if (!coords) return null;
-          const count = citySchools.length;
-          const to = count === 1 ? `/schools/${citySchools[0].slug}` : '/schools';
-          const title = count === 1 ? citySchools[0].name : `${count} campuses in ${city}`;
-          return (
-            <Marker
-              key={city}
-              coordinates={[coords.lng, coords.lat]}
-              onClick={() => navigate(to)}
-              aria-label={title}
-              style={{ default: { cursor: 'pointer' }, hover: { cursor: 'pointer' }, pressed: { cursor: 'pointer' } }}>
-              {/* halo */}
-              <circle r={18} fill={withOpacity('cyan', 0.2)} />
-              {/* dot */}
-              <circle r={7} fill={BRAND.cyan} stroke={BRAND.paperHi} strokeWidth={2.5} />
-              <text
-                y={48}
-                textAnchor="middle"
-                fill={BRAND.ink}
-                style={{
-                  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-                  fontSize: 18,
-                  letterSpacing: '0.22em',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                }}>
-                {city}{count > 1 ? ` · ${count}` : ''}
-              </text>
-            </Marker>
-          );
-        })}
-      </ComposableMap>
-
-      {/* north indicator */}
-      <div className="absolute top-5 left-5 flex flex-col items-center gap-1.5" aria-hidden="true">
-        <div className="w-px h-5" style={{ background: BRAND.inkMute }} />
-        <Meta>N</Meta>
-      </div>
-
-      {/* legend */}
-      <figcaption className="absolute bottom-5 right-5 flex items-center gap-3">
-        <span className="block w-2 h-2 rounded-full" style={{ background: BRAND.cyan }} />
-        <Meta>{schools.length} schools · {cityIndex.size} cities · GCC</Meta>
-      </figcaption>
-    </figure>
-  );
-}
-
-function SchoolParallax({ school, index, reversed }: { school: School; index: number; reversed: boolean }) {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? ['0%', '0%'] : ['-12%', '12%']);
-  const inView = useInView(ref, { once: true, margin: '-15%' });
-
-  return (
-    <section
-      ref={ref}
-      className="relative w-full min-h-screen flex items-end overflow-hidden bg-black"
-      data-screen-label={`${String(index).padStart(2, '0')} ${school.name}`}>
-      <motion.div style={reduced ? undefined : { y }} className={`absolute ${reduced ? 'inset-0' : 'inset-[-15%]'} will-change-transform`} aria-hidden="true">
-        <img src={school.image} alt="" className="w-full h-full object-cover" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(to bottom, rgba(20,17,15,0.3) 0%, rgba(20,17,15,0.1) 40%, rgba(20,17,15,0.6) 75%, rgba(20,17,15,0.9) 100%)',
-          }} />
-      </motion.div>
-
-      <div className={`absolute top-32 z-10 pointer-events-none ${reversed ? 'right-6 md:right-12' : 'left-6 md:left-12'}`}>
-        <span
-          style={{
-            fontFamily: 'Fraunces, serif',
-            fontWeight: 200,
-            fontStyle: 'italic',
-            fontSize: 'clamp(8rem, 16vw, 16rem)',
-            lineHeight: 0.9,
-            color: withOpacity('paper', 0.07),
-          }}>
-          {String(index).padStart(2, '0')}
-        </span>
-      </div>
-
-      <div className="relative z-10 w-full px-6 md:px-12 pb-24">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className={`max-w-7xl mx-auto grid grid-cols-12 gap-6 items-end ${reversed ? 'text-right' : ''}`}>
-
-          <div className={`col-span-12 ${reversed ? 'md:col-start-4' : ''} md:col-span-9`}>
-            <div className={`flex items-center gap-3 mb-4 ${reversed ? 'justify-end' : ''}`}>
-              <FoldedMark size={24} tone="cyan" />
-              <Meta tone="paper">{school.location}</Meta>
-            </div>
-            <Display size="xl" style={{ color: BRAND.paperHi }}>
-              {school.name}
-            </Display>
-            <div className={`mt-8 max-w-2xl ${reversed ? 'ml-auto' : ''}`}>
-              <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>{school.description}</Body>
-            </div>
-            <div className={`mt-12 flex flex-wrap gap-6 ${reversed ? 'justify-end' : ''}`}>
-              <PillLink to={`/schools/${school.slug}`} variant="invert" size="md">View school →</PillLink>
-              {school.website && (
-                <a
-                  href={school.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors text-[15px] font-light border-b pb-1"
-                  style={{ color: withOpacity('paper', 0.8), borderColor: withOpacity('paper', 0.3) }}>
-                  Visit campus site →
-                </a>
-              )}
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
 /* ── School Detail page ────────────────────────────────────── */
 export function SchoolDetailPage({ school }: { school: School | undefined }) {
@@ -666,19 +426,20 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
 export function FoundationPage() {
   const d = useDensity();
   const pillars = [
-    { title: 'Scholarships & access',   detail: 'Removing financial barriers through merit-based scholarships and need-based support.' },
-    { title: 'Teacher development',     detail: 'Continuous professional development and leadership pathways for educators.' },
-    { title: 'Community outreach',      detail: 'Partnerships with local organisations to extend educational resources.' },
-    { title: 'Educational research',    detail: 'Supporting research that advances teaching practices and student wellbeing.' },
+    { title: 'Access to Education',           detail: 'Supporting initiatives that promote inclusive and accessible learning opportunities for individuals and communities.' },
+    { title: 'Community Development',         detail: 'Contributing to programs that strengthen communities and create meaningful and lasting social impact.' },
+    { title: 'Student Empowerment',          detail: 'Encouraging leadership, creativity, and lifelong learning by providing opportunities that help students reach their full potential.' },
+    { title: 'Partnerships for Good',        detail: 'Collaborating with institutions and organizations that share our vision of creating positive change through education.' },
+    { title: 'Sustainability & Social Impact', detail: 'Creating long-term value by supporting responsible initiatives that contribute to a better future for generations to come.' },
   ];
   return (
     <>
       <PageHero
         image="/redesign-assets/transformation.webp"
         eyebrow="Madarek Foundation"
-        title="Building futures"
-        italicTail="beyond the classroom."
-        lede="The Madarek Foundation extends our commitment to educational excellence into the wider community."
+        title="Creating lasting impact"
+        italicTail="through education."
+        lede="Empowering communities and expanding opportunities through meaningful educational initiatives and partnerships."
         tone="pink" />
 
       <Section bg="paper" className={d.sectionY}>
@@ -693,12 +454,25 @@ export function FoundationPage() {
                 <Display size="lg">Education<span style={{ fontStyle: 'italic' }}> transforms lives.</span></Display>
                 <div className="mt-10 max-w-3xl">
                   <Body size="xl">
-                    The Foundation exists to ensure that transformation reaches
-                    beyond our school gates — supporting students who face
-                    financial barriers, investing in the educators who shape
-                    young minds, and partnering with communities to expand
-                    access to quality learning.
+                    The MADAREK Foundation reflects our commitment to creating
+                    positive and sustainable impact beyond the classroom. Through
+                    educational initiatives, community engagement, and strategic
+                    collaborations, we aim to empower future generations and
+                    contribute to the advancement of the communities we serve.
+                    Guided by the belief that education has the power to transform
+                    lives, the Foundation seeks to create opportunities that
+                    inspire growth, foster inclusion, and promote lifelong
+                    learning.
                   </Body>
+                </div>
+                <div className="mt-8 max-w-3xl">
+                  <Meta tone="pink">Vision</Meta>
+                  <div className="mt-3">
+                    <Body size="lg" muted>
+                      To create lasting social impact by empowering communities
+                      and expanding opportunities through education.
+                    </Body>
+                  </div>
                 </div>
               </div>
             </div>
@@ -715,7 +489,7 @@ export function FoundationPage() {
                 <div className="mt-3"><Eyebrow tone="pink">Focus areas</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">Four pillars,<span style={{ fontStyle: 'italic' }}> one mission.</span></Display>
+                <Display size="lg">Five focus areas,<span style={{ fontStyle: 'italic' }}> one mission.</span></Display>
               </div>
             </div>
           </Reveal>
@@ -773,46 +547,62 @@ export function FoundationPage() {
 /* ── Academy page ─────────────────────────────────────────── */
 export function AcademyPage() {
   const d = useDensity();
-  const highlights = [
-    'Professional development',
-    'Leadership training',
-    'International certification',
-    'Career advancement',
+  const programs = [
+    { title: 'Student Exchange Programs',        detail: 'Providing students with opportunities to engage with peers across the MADAREK ecosystem and beyond. These experiences promote cultural understanding, broaden perspectives, and foster global citizenship.' },
+    { title: 'Leadership Development',           detail: 'Preparing future leaders through mentorship programs, workshops, and experiential learning opportunities that cultivate confidence, collaboration, and responsibility.' },
+    { title: 'Innovation & Entrepreneurship',   detail: 'Encouraging creativity, critical thinking, and problem-solving through initiatives designed to inspire the next generation of innovators and changemakers.' },
+    { title: 'Academic Enrichment',             detail: 'Supporting continuous learning through competitions, educational camps, workshops, and specialized programs that complement classroom education.' },
+    { title: 'Cross-School Collaboration',      detail: 'Connecting students and educators across the MADAREK ecosystem through shared initiatives, projects, and experiences that encourage collaboration and knowledge exchange.' },
+    { title: 'Global Partnerships',             detail: 'Collaborating with leading institutions and organizations to provide broader opportunities and exposure to international best practices.' },
   ];
   return (
     <>
       <PageHero
         image="/redesign-assets/5.webp"
         eyebrow="Madarek Academy"
-        title="Investing in"
-        italicTail="educator excellence."
-        lede="World-class training, certification, and leadership pathways for educators across our schools and the wider GCC education community."
+        title="Learning beyond"
+        italicTail="the classroom."
+        lede="Inspiring the next generation through enrichment programs, global experiences, and lifelong learning opportunities."
         tone="yellow" />
 
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-24">
+            <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">What we offer</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="yellow">Overview</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">A practice<span style={{ fontStyle: 'italic' }}> of teaching well.</span></Display>
+                <Display size="lg">A platform for<span style={{ fontStyle: 'italic' }}> student enrichment.</span></Display>
+                <div className="mt-10 max-w-3xl">
+                  <Body size="xl">
+                    MADAREK Academy serves as a platform for enrichment,
+                    leadership development, and collaborative experiences that
+                    empower students to explore new perspectives and unlock their
+                    full potential. By extending learning beyond traditional
+                    classrooms, MADAREK Academy aims to provide meaningful
+                    experiences that prepare students to thrive in a globally
+                    connected and rapidly evolving world.
+                  </Body>
+                </div>
               </div>
             </div>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
-            {highlights.map((h, i) => (
-              <div key={h} className="py-14 px-8 md:px-12" style={{ background: BRAND.paper }}>
+            {programs.map((p, i) => (
+              <div key={p.title} className="py-14 px-8 md:px-12" style={{ background: BRAND.paper }}>
                 <div className="flex items-baseline gap-4 mb-6">
                   <span className="font-mono tabular-nums" style={{ fontSize: 11, letterSpacing: '0.18em', color: BRAND.yellow, fontWeight: 600 }}>
                     0{i + 1}
                   </span>
-                  <Meta>Programme</Meta>
+                  <Meta>Program</Meta>
                 </div>
-                <Display size="sm">{h}</Display>
+                <Display size="sm">{p.title}</Display>
+                <div className="mt-5">
+                  <Body size="md" muted>{p.detail}</Body>
+                </div>
               </div>
             ))}
           </div>
@@ -836,11 +626,17 @@ export function AcademyPage() {
 
       <Section bg="ink" className="py-24 md:py-32">
         <Container max="6xl">
-          <Eyebrow tone="paper">Join the Academy</Eyebrow>
+          <Eyebrow tone="paper">Our vision</Eyebrow>
           <div className="mt-6 max-w-4xl">
             <Display size="md" style={{ color: BRAND.paperHi }}>
-              For educators<span style={{ fontStyle: 'italic' }}> who want to keep learning.</span>
+              To inspire lifelong learners<span style={{ fontStyle: 'italic' }}> and future leaders.</span>
             </Display>
+          </div>
+          <div className="mt-8 max-w-2xl">
+            <Body size="lg" style={{ color: withOpacity('paper', 0.78) }}>
+              By creating experiences that extend beyond the classroom and
+              prepare students to succeed in an interconnected world.
+            </Body>
           </div>
           <div className="mt-10">
             <PillLink to="mailto:academy@madarek.me" variant="invert" size="md">Express interest</PillLink>
@@ -873,8 +669,15 @@ export function ContactPage() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="xl" style={{ color: BRAND.paperHi }}>
-                Let's start<span style={{ fontStyle: 'italic' }}> a conversation.</span>
+                Let's shape the future<span style={{ fontStyle: 'italic' }}> together.</span>
               </Display>
+              <div className="mt-10 max-w-2xl">
+                <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>
+                  Whether you are a parent, educator, institution, or strategic
+                  partner, we welcome the opportunity to connect and explore how
+                  we can create meaningful educational experiences together.
+                </Body>
+              </div>
             </div>
           </div>
         </Container>
@@ -924,10 +727,35 @@ export function ContactPage() {
               <Eyebrow>Direct</Eyebrow>
               <div className="mt-10 space-y-8">
                 <div>
-                  <Meta>Email</Meta>
+                  <Meta>General Inquiries</Meta>
+                  <div className="mt-2">
+                    <Body size="md" muted>For general questions and information, please contact our team.</Body>
+                  </div>
                   <div className="mt-2">
                     <Body size="lg">
                       <a href="mailto:info@madarek.me" className="border-b border-current pb-1">info@madarek.me</a>
+                    </Body>
+                  </div>
+                </div>
+                <div>
+                  <Meta>Partnerships</Meta>
+                  <div className="mt-2">
+                    <Body size="md" muted>Interested in collaborating with MADAREK? We welcome opportunities to build meaningful partnerships that advance education and create lasting impact.</Body>
+                  </div>
+                  <div className="mt-2">
+                    <Body size="lg">
+                      <a href="mailto:partnerships@madarek.me" className="border-b border-current pb-1">partnerships@madarek.me</a>
+                    </Body>
+                  </div>
+                </div>
+                <div>
+                  <Meta>Careers</Meta>
+                  <div className="mt-2">
+                    <Body size="md" muted>Join us in shaping the future of learning.</Body>
+                  </div>
+                  <div className="mt-2">
+                    <Body size="lg">
+                      <a href="mailto:careers@madarek.me" className="border-b border-current pb-1">careers@madarek.me</a>
                     </Body>
                   </div>
                 </div>
@@ -1465,9 +1293,9 @@ export function NewsPage() {
       <PageHero
         image="/redesign-assets/transformation.webp"
         eyebrow="News & Insights"
-        title="The latest from"
-        italicTail="across the network."
-        lede="Stories of student achievement, faculty work, and the quiet operational moves that keep our schools moving forward."
+        title="Stay"
+        italicTail="connected."
+        lede="Stay updated with the latest announcements, achievements, partnerships, and developments across the MADAREK ecosystem. Through our news and insights, we share milestones, thought leadership, and stories that reflect our commitment to shaping the future of learning."
         tone="cyan"
         number={1} />
 
@@ -1540,10 +1368,10 @@ export function NewsPage() {
 
 /* ── Careers page ────────────────────────────────────────── */
 const CAREER_VALUES: { tone: BrandKey; title: string; detail: string }[] = [
-  { tone: 'red',    title: 'Impact',   detail: 'Shape the future of education across the GCC. Every role at Madarek contributes directly to student success and educational excellence.' },
-  { tone: 'yellow', title: 'Growth',   detail: 'Continuous professional development, leadership pathways, and opportunities to advance your career within a growing regional platform.' },
-  { tone: 'cyan',   title: 'Culture',  detail: 'Join a collaborative, mission-driven team that values innovation, integrity, and the whole person — students and colleagues alike.' },
-  { tone: 'lime',   title: 'Benefits', detail: 'Competitive compensation, comprehensive health coverage, professional development support, and relocation assistance for international hires.' },
+  { tone: 'red',    title: 'Purpose-Driven Culture', detail: 'Be part of an organization committed to creating meaningful and lasting impact.' },
+  { tone: 'yellow', title: 'Professional Growth',    detail: 'Develop your skills and unlock new opportunities within a dynamic environment.' },
+  { tone: 'cyan',   title: 'Collaboration',          detail: 'Work alongside talented professionals who share a passion for education and excellence.' },
+  { tone: 'lime',   title: 'Innovation',             detail: 'Contribute to an ecosystem that embraces creativity and continuous improvement.' },
 ];
 
 const LIFE_IMAGES = [
@@ -1569,9 +1397,9 @@ export function CareersPage() {
       <PageHero
         image="/redesign-assets/growth.webp"
         eyebrow="Careers at Madarek"
-        title="Build the future of"
-        italicTail="education with us."
-        lede="Join a team dedicated to academic excellence, the whole child, and lasting educational impact across the GCC. We're looking for educators, leaders, and innovators who share our mission."
+        title="Join the future"
+        italicTail="of education."
+        lede="At MADAREK, we believe people are at the heart of meaningful learning experiences. We are committed to attracting, developing, and empowering talented individuals who share our passion for education and innovation."
         tone="yellow"
         number={1} />
 
@@ -1581,7 +1409,7 @@ export function CareersPage() {
             <div className="grid grid-cols-12 gap-6 mb-20">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={2} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">Why Madarek</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="yellow">Why Join MADAREK?</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">

@@ -71,20 +71,21 @@ function AboutPage() {
   const d = useDensity();
 
   const values = [
-    { tone: "red",    title: "Excellence",      detail: "Striving for the highest standards in curriculum, teaching, and student support." },
-    { tone: "yellow", title: "Innovation",      detail: "Embracing forward-thinking approaches to learning." },
-    { tone: "cyan",   title: "Inclusivity",     detail: "Creating welcoming communities for every student." },
-    { tone: "lime",   title: "Sustainability",  detail: "Designing schools with environmental responsibility in mind." },
+    { tone: "red",    title: "Excellence",    detail: "Pursuing the highest standards across all aspects of education." },
+    { tone: "yellow", title: "Innovation",    detail: "Embracing new ideas and technologies to enhance learning experiences." },
+    { tone: "cyan",   title: "Integrity",     detail: "Operating with transparency, accountability, and responsibility." },
+    { tone: "lime",   title: "Collaboration", detail: "Building strong partnerships that foster growth and shared success." },
+    { tone: "pink",   title: "Impact",        detail: "Creating positive and lasting contributions to students and communities." },
   ];
 
   return (
     <>
       <PageHero
         image="redesign-assets/institutionalization.webp"
-        eyebrow="About Madarek"
-        title="A network of schools,"
-        italicTail="one shared standard."
-        lede="We operate premium schools in Dubai and Riyadh, each with its own identity, all bound by a single standard for what good education feels like."
+        eyebrow="Who We Are"
+        title="A regional education platform,"
+        italicTail="shaping the future of learning."
+        lede="MADAREK is a regional education platform dedicated to developing and operating high-quality educational institutions. Through a commitment to excellence, innovation, and responsible growth, we aim to create transformative learning experiences that empower students and positively impact communities."
         tone="ink" />
 
       {/* Story */}
@@ -94,12 +95,12 @@ function AboutPage() {
             <div className="grid grid-cols-12 gap-6 mb-20">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone="ink" />
-                <div className="mt-3"><Eyebrow>Our story</Eyebrow></div>
+                <div className="mt-3"><Eyebrow>Vision &amp; Mission</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  <span>Schools,</span>
-                  <span style={{ display: "block", fontStyle: "italic", color: BRAND.inkSub }}>not assets.</span>
+                  <span>Vision &amp;</span>
+                  <span style={{ display: "block", fontStyle: "italic", color: BRAND.inkSub }}>mission.</span>
                 </Display>
               </div>
             </div>
@@ -107,12 +108,29 @@ function AboutPage() {
 
           <Reveal delay={0.1}>
             <div className="grid grid-cols-12 gap-6 mt-16">
-              <div className="col-span-12 md:col-span-6 md:col-start-4">
+              <div className="col-span-12 md:col-span-3 md:col-start-4">
+                <Meta>Vision</Meta>
+              </div>
+              <div className="col-span-12 md:col-span-6">
                 <Body size="xl">
-                  Madarek was formed to bring together a small, deliberate group
-                  of schools across the Gulf. We invest patiently. We build for
-                  decades, not quarters. And we measure ourselves by student
-                  outcomes long before financial ones.
+                  To become a leading education platform recognized for
+                  delivering exceptional learning experiences and creating
+                  lasting value across the region.
+                </Body>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            <div className="grid grid-cols-12 gap-6 mt-12">
+              <div className="col-span-12 md:col-span-3 md:col-start-4">
+                <Meta>Mission</Meta>
+              </div>
+              <div className="col-span-12 md:col-span-6">
+                <Body size="xl">
+                  To nurture future generations through accessible, high-quality
+                  education that combines academic excellence with innovation and
+                  global best practices.
                 </Body>
               </div>
             </div>
@@ -230,9 +248,9 @@ function SchoolsPage({ schools }) {
       <PageHero
         image="redesign-assets/1.webp"
         eyebrow="Our Schools"
-        title="Three campuses,"
-        italicTail="more on the way."
-        lede="We operate premium schools across the Gulf. Each campus carries its own character; all share the Madarek framework."
+        title="Investing in"
+        italicTail="educational excellence."
+        lede="MADAREK's schools provide diverse learning environments designed to nurture academic achievement, creativity, and personal growth."
         tone="cyan" />
 
       {/* Index map — stylised */}
@@ -555,19 +573,20 @@ function SchoolDetailPage({ school }) {
 function FoundationPage() {
   const d = useDensity();
   const pillars = [
-    { title: "Scholarships & access",   detail: "Removing financial barriers through merit-based scholarships and need-based support." },
-    { title: "Teacher development",     detail: "Continuous professional development and leadership pathways for educators." },
-    { title: "Community outreach",      detail: "Partnerships with local organisations to extend educational resources." },
-    { title: "Educational research",    detail: "Supporting research that advances teaching practices and student wellbeing." },
+    { title: "Access to Education",            detail: "Supporting initiatives that promote inclusive and accessible learning opportunities for individuals and communities." },
+    { title: "Community Development",          detail: "Contributing to programs that strengthen communities and create meaningful and lasting social impact." },
+    { title: "Student Empowerment",           detail: "Encouraging leadership, creativity, and lifelong learning by providing opportunities that help students reach their full potential." },
+    { title: "Partnerships for Good",         detail: "Collaborating with institutions and organizations that share our vision of creating positive change through education." },
+    { title: "Sustainability & Social Impact", detail: "Creating long-term value by supporting responsible initiatives that contribute to a better future for generations to come." },
   ];
   return (
     <>
       <PageHero
         image="redesign-assets/transformation.webp"
         eyebrow="Madarek Foundation"
-        title="Building futures"
-        italicTail="beyond the classroom."
-        lede="The Madarek Foundation extends our commitment to educational excellence into the wider community."
+        title="Creating lasting impact"
+        italicTail="through education."
+        lede="Empowering communities and expanding opportunities through meaningful educational initiatives and partnerships."
         tone="pink" />
 
       <Section bg="paper" className={d.sectionY}>
@@ -582,12 +601,25 @@ function FoundationPage() {
                 <Display size="lg">Education<span style={{ fontStyle: "italic" }}> transforms lives.</span></Display>
                 <div className="mt-10 max-w-3xl">
                   <Body size="xl">
-                    The Foundation exists to ensure that transformation reaches
-                    beyond our school gates — supporting students who face
-                    financial barriers, investing in the educators who shape
-                    young minds, and partnering with communities to expand
-                    access to quality learning.
+                    The MADAREK Foundation reflects our commitment to creating
+                    positive and sustainable impact beyond the classroom. Through
+                    educational initiatives, community engagement, and strategic
+                    collaborations, we aim to empower future generations and
+                    contribute to the advancement of the communities we serve.
+                    Guided by the belief that education has the power to transform
+                    lives, the Foundation seeks to create opportunities that
+                    inspire growth, foster inclusion, and promote lifelong
+                    learning.
                   </Body>
+                </div>
+                <div className="mt-8 max-w-3xl">
+                  <Meta tone="pink">Vision</Meta>
+                  <div className="mt-3">
+                    <Body size="lg" muted>
+                      To create lasting social impact by empowering communities
+                      and expanding opportunities through education.
+                    </Body>
+                  </div>
                 </div>
               </div>
             </div>
@@ -604,7 +636,7 @@ function FoundationPage() {
                 <div className="mt-3"><Eyebrow tone="pink">Focus areas</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">Four pillars,<span style={{ fontStyle: "italic" }}> one mission.</span></Display>
+                <Display size="lg">Five focus areas,<span style={{ fontStyle: "italic" }}> one mission.</span></Display>
               </div>
             </div>
           </Reveal>
@@ -665,46 +697,62 @@ function FoundationPage() {
 /* ── Academy page ─────────────────────────────────────────── */
 function AcademyPage() {
   const d = useDensity();
-  const highlights = [
-    "Professional development",
-    "Leadership training",
-    "International certification",
-    "Career advancement",
+  const programs = [
+    { title: "Student Exchange Programs",      detail: "Providing students with opportunities to engage with peers across the MADAREK ecosystem and beyond. These experiences promote cultural understanding, broaden perspectives, and foster global citizenship." },
+    { title: "Leadership Development",         detail: "Preparing future leaders through mentorship programs, workshops, and experiential learning opportunities that cultivate confidence, collaboration, and responsibility." },
+    { title: "Innovation & Entrepreneurship", detail: "Encouraging creativity, critical thinking, and problem-solving through initiatives designed to inspire the next generation of innovators and changemakers." },
+    { title: "Academic Enrichment",           detail: "Supporting continuous learning through competitions, educational camps, workshops, and specialized programs that complement classroom education." },
+    { title: "Cross-School Collaboration",    detail: "Connecting students and educators across the MADAREK ecosystem through shared initiatives, projects, and experiences that encourage collaboration and knowledge exchange." },
+    { title: "Global Partnerships",           detail: "Collaborating with leading institutions and organizations to provide broader opportunities and exposure to international best practices." },
   ];
   return (
     <>
       <PageHero
         image="redesign-assets/5.webp"
         eyebrow="Madarek Academy"
-        title="Investing in"
-        italicTail="educator excellence."
-        lede="World-class training, certification, and leadership pathways for educators across our schools and the wider GCC education community."
+        title="Learning beyond"
+        italicTail="the classroom."
+        lede="Inspiring the next generation through enrichment programs, global experiences, and lifelong learning opportunities."
         tone="yellow" />
 
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-24">
+            <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">What we offer</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="yellow">Overview</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">A practice<span style={{ fontStyle: "italic" }}> of teaching well.</span></Display>
+                <Display size="lg">A platform for<span style={{ fontStyle: "italic" }}> student enrichment.</span></Display>
+                <div className="mt-10 max-w-3xl">
+                  <Body size="xl">
+                    MADAREK Academy serves as a platform for enrichment,
+                    leadership development, and collaborative experiences that
+                    empower students to explore new perspectives and unlock their
+                    full potential. By extending learning beyond traditional
+                    classrooms, MADAREK Academy aims to provide meaningful
+                    experiences that prepare students to thrive in a globally
+                    connected and rapidly evolving world.
+                  </Body>
+                </div>
               </div>
             </div>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
-            {highlights.map((h, i) => (
-              <div key={h} className="py-14 px-8 md:px-12" style={{ background: BRAND.paper }}>
+            {programs.map((p, i) => (
+              <div key={p.title} className="py-14 px-8 md:px-12" style={{ background: BRAND.paper }}>
                 <div className="flex items-baseline gap-4 mb-6">
                   <span className="font-mono tabular-nums" style={{ fontSize: 11, letterSpacing: "0.18em", color: BRAND.yellow, fontWeight: 600 }}>
                     0{i + 1}
                   </span>
-                  <Meta>Programme</Meta>
+                  <Meta>Program</Meta>
                 </div>
-                <Display size="sm">{h}</Display>
+                <Display size="sm">{p.title}</Display>
+                <div className="mt-5">
+                  <Body size="md" muted>{p.detail}</Body>
+                </div>
               </div>
             ))}
           </div>
@@ -728,11 +776,17 @@ function AcademyPage() {
 
       <Section bg="ink" className="py-24 md:py-32">
         <Container max="6xl">
-          <Eyebrow tone="paper">Join the Academy</Eyebrow>
+          <Eyebrow tone="paper">Our vision</Eyebrow>
           <div className="mt-6 max-w-4xl">
             <Display size="md" style={{ color: BRAND.paperHi }}>
-              For educators<span style={{ fontStyle: "italic" }}> who want to keep learning.</span>
+              To inspire lifelong learners<span style={{ fontStyle: "italic" }}> and future leaders.</span>
             </Display>
+          </div>
+          <div className="mt-8 max-w-2xl">
+            <Body size="lg" style={{ color: "rgba(244,237,224,0.78)" }}>
+              By creating experiences that extend beyond the classroom and
+              prepare students to succeed in an interconnected world.
+            </Body>
           </div>
           <div className="mt-10">
             <a
@@ -761,8 +815,15 @@ function ContactPage() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="xl" style={{ color: BRAND.paperHi }}>
-                Let's start<span style={{ fontStyle: "italic" }}> a conversation.</span>
+                Let's shape the future<span style={{ fontStyle: "italic" }}> together.</span>
               </Display>
+              <div className="mt-10 max-w-2xl">
+                <Body size="lg" style={{ color: "rgba(244,237,224,0.85)" }}>
+                  Whether you are a parent, educator, institution, or strategic
+                  partner, we welcome the opportunity to connect and explore how
+                  we can create meaningful educational experiences together.
+                </Body>
+              </div>
             </div>
           </div>
         </Container>
@@ -794,10 +855,35 @@ function ContactPage() {
               <Eyebrow>Direct</Eyebrow>
               <div className="mt-10 space-y-8">
                 <div>
-                  <Meta>Email</Meta>
+                  <Meta>General Inquiries</Meta>
+                  <div className="mt-2">
+                    <Body size="md" muted>For general questions and information, please contact our team.</Body>
+                  </div>
                   <div className="mt-2">
                     <Body size="lg">
                       <a href="mailto:info@madarek.me" className="border-b border-current pb-1">info@madarek.me</a>
+                    </Body>
+                  </div>
+                </div>
+                <div>
+                  <Meta>Partnerships</Meta>
+                  <div className="mt-2">
+                    <Body size="md" muted>Interested in collaborating with MADAREK? We welcome opportunities to build meaningful partnerships that advance education and create lasting impact.</Body>
+                  </div>
+                  <div className="mt-2">
+                    <Body size="lg">
+                      <a href="mailto:partnerships@madarek.me" className="border-b border-current pb-1">partnerships@madarek.me</a>
+                    </Body>
+                  </div>
+                </div>
+                <div>
+                  <Meta>Careers</Meta>
+                  <div className="mt-2">
+                    <Body size="md" muted>Join us in shaping the future of learning.</Body>
+                  </div>
+                  <div className="mt-2">
+                    <Body size="lg">
+                      <a href="mailto:careers@madarek.me" className="border-b border-current pb-1">careers@madarek.me</a>
                     </Body>
                   </div>
                 </div>

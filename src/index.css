@@ -37,3 +37,25 @@ html, body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Leaflet campus markers — expanding cyan pulse ring */
+@keyframes marker-pulse {
+  0%   { transform: scale(0.55); opacity: 0.65; }
+  70%  { transform: scale(1.8);  opacity: 0; }
+  100% { opacity: 0; }
+}
+.madarek-marker { background: transparent; border: none; }
+/* keep the Leaflet attribution quiet and on-brand */
+.leaflet-container { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; background: #E9DFCC; }
+.leaflet-control-attribution { font-size: 10px; }
+
+/* campus popup — flush content, on-brand bubble */
+.madarek-popup .leaflet-popup-content-wrapper {
+  border-radius: 6px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(10, 14, 28, 0.22);
+  border: 1px solid #D6CCB6;
+}
+.madarek-popup .leaflet-popup-content { margin: 0; width: 240px !important; }
+.madarek-popup .leaflet-popup-content p { margin: 0; }

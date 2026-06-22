@@ -38,14 +38,12 @@ export const schools: School[] = [
     email: 'admissions@mas-edu.ae',
     website: 'https://mas-edu.ae/',
     description:
-      'A next-generation international school blending Gulf cultural heritage with innovative teaching methods to prepare students for global citizenship.',
+      'Providing students with a comprehensive educational experience built upon academic excellence and holistic development.',
     overview:
-      'Al Maaref American School is an IB World School in the heart of Dubai. The campus brings together students from over 40 countries inside a curriculum that values Arabic, Islamic studies, and global readiness equally.',
+      'Al Maaref American School is an IB World School in the heart of Dubai. The campus brings together students from many nationalities inside a curriculum that values Arabic, Islamic studies, and global readiness equally.',
     highlights: [
       'IB World School with full PYP, MYP, and DP programmes',
-      '98% acceptance rate to top global universities',
       'State-of-the-art science labs, maker spaces, sports complexes',
-      'Diverse community: 40+ nationalities on campus',
       'Strong Arabic language and Islamic studies tradition',
       'University counselling from Grade 9',
     ],
@@ -65,7 +63,7 @@ export const schools: School[] = [
     email: 'info@mgis-sa.com',
     website: 'https://mgis-sa.com/',
     description:
-      'A nurturing, inquiry-based learning environment that pairs the American curriculum with the IB-PYP framework for academic excellence and global awareness.',
+      'Delivering internationally recognized education within a dynamic learning environment that prepares students for future success.',
     overview:
       "MGIS Qortuba combines the American academic structure with the IB-PYP's inquiry-led pedagogy, in classrooms designed for small group teaching and rigorous individual attention.",
     highlights: [
@@ -92,7 +90,7 @@ export const schools: School[] = [
     email: 'info@mgis-sa.com',
     website: 'https://mgis-sa.com/',
     description:
-      'A vibrant American-curriculum campus combining academic rigour, family-oriented culture, and advanced technology across every classroom.',
+      'Providing innovative learning experiences that inspire curiosity, creativity, and lifelong achievement.',
     overview:
       "MGIS Digital City is the network's youngest campus — trilingual, technology-rich, and designed around family partnerships and a love-of-learning approach.",
     highlights: [

@@ -56,9 +56,9 @@ function HeroSection() {
         className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-24 md:pb-32">
         <div className="max-w-[1400px]">
           <Display size="lg" style={{ color: BRAND.paperHi, fontWeight: 200 }}>
-            <span style={{ display: "block" }}>We educate</span>
+            <span style={{ display: "block" }}>Shaping the future</span>
             <span style={{ display: "block", fontStyle: "italic", color: BRAND.paperHi }}>
-              for what comes next.
+              of learning.
             </span>
           </Display>
 
@@ -101,8 +101,8 @@ function AboutSection() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg" italic={false}>
-                A community of schools
-                <span style={{ fontStyle: "italic", color: BRAND.inkSub }}> across the Gulf.</span>
+                A regional education
+                <span style={{ fontStyle: "italic", color: BRAND.inkSub }}> platform.</span>
               </Display>
             </div>
           </div>
@@ -111,14 +111,16 @@ function AboutSection() {
         <Reveal delay={0.1}>
           <div className="grid grid-cols-12 gap-6 mt-24">
             <div className="col-span-12 md:col-span-3 md:col-start-4">
-              <Meta>The work</Meta>
+              <Meta>Introduction</Meta>
             </div>
             <div className="col-span-12 md:col-span-6">
               <Body size="xl" muted={false}>
-                Madarek operates premium schools in Dubai and Riyadh, with one
-                shared standard: rigour, care, and cultural fluency. We invest
-                patiently. We build for decades, not quarters. And we measure
-                ourselves by student outcomes long before financial ones.
+                MADAREK brings together a growing ecosystem of educational
+                institutions united by a shared commitment to academic
+                excellence, student development, and responsible growth. Through
+                internationally recognized curricula and future-focused learning
+                environments, we aim to empower learners and contribute
+                meaningfully to the communities we serve.
               </Body>
               <div className="mt-12">
                 <TextLink to="#/about" tone="ink">Read the full story</TextLink>
@@ -142,35 +144,35 @@ function FrameworkSection() {
   const pillars = [
     {
       tone: "red",
-      title: "Academic Excellence",
-      lede: "Rigorous international curricula taught by world-class educators.",
+      title: "Educational Excellence",
+      lede: "High-quality learning that develops the whole student.",
       detail:
-        "IB, American Common Core, and IB-PYP framework programmes. 98% acceptance to top global universities. Average class size of 18 students. Continuous teacher development through MADAREK Academy.",
-      meta: ["IB World School", "KHDA / MOE / Cognia accredited", "Pre-K to Grade 12"],
-    },
-    {
-      tone: "lime",
-      title: "Whole Child Development",
-      lede: "Beyond academics — character, creativity, and social-emotional growth.",
-      detail:
-        "Counselling, arts, athletics, leadership programmes and community service. Wellbeing curriculum integrated from Kindergarten through Grade 12. Family partnerships at the centre.",
-      meta: ["Counsellors on every campus", "Arts & athletics K–12", "Family programmes"],
-    },
-    {
-      tone: "cyan",
-      title: "Cultural Fluency",
-      lede: "Rooted in the Gulf, fluent across many cultures.",
-      detail:
-        "Bilingual instruction in English and Arabic. Active engagement with regional heritage, language, and Islamic studies. Students from more than 40 nationalities sit beside students from the neighbourhood.",
-      meta: ["EN / AR bilingual", "40+ nationalities", "Islamic & heritage studies"],
+        "Delivering high-quality learning experiences that foster academic achievement, critical thinking, and holistic development.",
+      meta: ["Academic achievement", "Critical thinking", "Holistic development"],
     },
     {
       tone: "yellow",
-      title: "Future-Ready Skills",
-      lede: "Digital literacy, entrepreneurship, sustainability, adaptability.",
+      title: "Innovation",
+      lede: "Future-ready environments built on creativity and technology.",
       detail:
-        "STEM and maker spaces in every campus. Industry partnerships and internship pathways for upper years. Sustainability integrated into the curriculum and the facilities themselves.",
-      meta: ["Maker spaces K–12", "Industry partners", "Sustainability programme"],
+        "Creating future-ready learning environments that embrace technology, creativity, and new approaches to education.",
+      meta: ["Technology", "Creativity", "New approaches"],
+    },
+    {
+      tone: "cyan",
+      title: "Regional Growth",
+      lede: "A leading education ecosystem across the GCC and beyond.",
+      detail:
+        "Building a leading education ecosystem through strategic expansion, partnerships, and collaboration across the GCC and beyond.",
+      meta: ["Strategic expansion", "Partnerships", "GCC & beyond"],
+    },
+    {
+      tone: "lime",
+      title: "Lasting Impact",
+      lede: "Positive, sustainable outcomes for generations to come.",
+      detail:
+        "Creating positive and sustainable outcomes for students, educators, communities, and future generations.",
+      meta: ["Students & educators", "Communities", "Future generations"],
     },
   ];
 
@@ -181,7 +183,7 @@ function FrameworkSection() {
           <div className="grid grid-cols-12 gap-6 mb-24">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={3} tone="ink" />
-              <div className="mt-3"><Eyebrow>The Madarek Framework</Eyebrow></div>
+              <div className="mt-3"><Eyebrow>Our Four Pillars</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
@@ -366,23 +368,31 @@ function SchoolCard({ school, index }) {
 /* ── 06 · Innovation — numbered editorial list, type-only. */
 function InnovationSection() {
   const items = [
-    { title: "Curriculum innovation",   note: "Evolving programmes integrating emerging fields and pedagogical research." },
-    { title: "EdTech, considered",      note: "Technology used to enhance learning, not replace human connection." },
-    { title: "Strategic partnerships",  note: "Collaborations with leading universities, cultural institutions, and industry." },
-    { title: "Research & development",  note: "Investing in educational research to improve teaching practices and outcomes." },
+    { title: "Student-Centered Learning", note: "Placing students at the heart of the educational journey and fostering environments that encourage curiosity, creativity, and personal growth." },
+    { title: "Innovation in Education",   note: "Embracing technology and modern teaching methodologies to prepare learners for the future." },
+    { title: "Global Standards",         note: "Delivering internationally recognized curricula and best practices that support academic excellence." },
+    { title: "Holistic Development",     note: "Supporting academic, personal, social, and emotional growth to develop well-rounded individuals." },
   ];
   const d = useDensity();
   return (
     <Section id="innovation" bg="paperHi" className={d.sectionY}>
       <Container max="6xl">
         <Reveal>
-          <div className="mb-24">
+          <div className="mb-16">
             <SectionNumber n={6} tone="yellow" />
-            <div className="mt-3 mb-8"><Eyebrow tone="yellow">Innovation</Eyebrow></div>
+            <div className="mt-3 mb-8"><Eyebrow tone="yellow">Educational Excellence</Eyebrow></div>
             <Display size="lg">
-              Pioneering the next
-              <span style={{ display: "block", fontStyle: "italic", color: BRAND.inkSub }}>generation of learning.</span>
+              A commitment to
+              <span style={{ display: "block", fontStyle: "italic", color: BRAND.inkSub }}>lifelong learning.</span>
             </Display>
+            <div className="mt-10 max-w-2xl">
+              <Body size="lg" muted>
+                At MADAREK, we believe exceptional education extends beyond
+                academic achievement. We strive to cultivate well-rounded
+                individuals equipped with the skills, values, and mindset needed
+                to succeed in an evolving world.
+              </Body>
+            </div>
           </div>
         </Reveal>
 
@@ -434,10 +444,10 @@ function FoundationSection() {
           </div>
           <div className="col-span-12 md:col-span-9">
             <Body size="xl" muted={false}>
-              The Madarek Foundation extends our commitment to educational
-              excellence into the wider community — scholarships, teacher
-              development, community outreach, and educational research that
-              ripple out from our schools to the cities they sit in.
+              The MADAREK Foundation reflects our commitment to creating
+              positive and sustainable impact beyond the classroom — empowering
+              communities and expanding opportunities through meaningful
+              educational initiatives and partnerships.
             </Body>
             <div className="mt-12">
               <TextLink to="#/foundation" tone="pink">Explore the Foundation</TextLink>
@@ -464,8 +474,8 @@ function AcademySection() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
-                Investing in
-                <span style={{ display: "block", fontStyle: "italic", color: BRAND.inkSub }}>educator excellence.</span>
+                Learning beyond
+                <span style={{ display: "block", fontStyle: "italic", color: BRAND.inkSub }}>the classroom.</span>
               </Display>
             </div>
           </div>
@@ -482,9 +492,11 @@ function AcademySection() {
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 md:col-span-6 md:col-start-4">
             <Body size="xl">
-              Madarek Academy is our professional development hub — world-class
-              training, certification, and leadership pathways for educators
-              across our schools and the wider GCC education community.
+              MADAREK Academy inspires the next generation through enrichment
+              programs, global experiences, and lifelong learning opportunities —
+              a platform for enrichment, leadership development, and
+              collaborative experiences that empower students to explore new
+              perspectives and unlock their full potential.
             </Body>
             <div className="mt-10">
               <TextLink to="#/academy" tone="yellow">Inside the Academy</TextLink>
@@ -510,13 +522,13 @@ function ContactSection() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg" style={{ color: BRAND.paperHi }}>
-                Let's start<span style={{ fontStyle: "italic" }}> a conversation.</span>
+                Let's shape the future<span style={{ fontStyle: "italic" }}> together.</span>
               </Display>
               <div className="mt-12 max-w-2xl">
                 <Body size="lg" style={{ color: "rgba(244,237,224,0.78)" }}>
-                  Whether you're a parent exploring schools, an educator
-                  joining the work, or a partner looking to collaborate —
-                  we'd love to hear from you.
+                  Whether you are a parent, educator, institution, or strategic
+                  partner, we welcome the opportunity to connect and explore how
+                  we can create meaningful educational experiences together.
                 </Body>
               </div>
               <div className="mt-12 flex flex-wrap items-center gap-8">
