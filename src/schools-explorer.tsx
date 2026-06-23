@@ -6,15 +6,14 @@
    panel that opens per school (from a card or a map marker). */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker as LeafletMarker, Popup, ZoomControl, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
   BRAND, useDensity, withOpacity,
   FoldedMark, Eyebrow, Display, Body, Meta,
-  Section, Container, PillLink, Reveal,
+  Section, Container, Reveal,
 } from './system';
 import type { School } from './data';
 
@@ -37,11 +36,10 @@ const countryOf = (s: School) => (s.location.split(',')[1] || '').trim();
 /* ── presence explorer ─────────────────────────────────────── */
 export function SchoolsExplorer({ schools }: { schools: School[] }) {
   const d = useDensity();
+  const navigate = useNavigate();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);   // hover highlight
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null); // map focus + popup
-  const [viewingSlug, setViewingSlug] = useState<string | null>(null);  // full detail overlay
-
-  const viewing = schools.find((s) => s.slug === viewingSlug) || null;
+  const openSchool = (slug: string) => navigate(`/schools/${slug}`);   // single, shared school page
 
   // Stats — derived from real data, no fabricated figures.
   const cities = new Set(schools.map(cityOf));
@@ -100,7 +98,7 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
             onFocus={(slug) => setSelectedSlug(slug)}
             onClearFocus={(slug) => setSelectedSlug((cur) => (cur === slug ? null : cur))}
             onHover={(slug) => setActiveSlug(slug)}
-            onViewDetails={(slug) => setViewingSlug(slug)} />
+            onViewDetails={openSchool} />
         </Reveal>
 
         {/* Campus cards */}
@@ -119,18 +117,13 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
                 <SchoolCard
                   school={s}
                   active={activeSlug === s.slug}
-                  onOpen={() => setViewingSlug(s.slug)}
+                  onOpen={() => openSchool(s.slug)}
                   onHover={(on) => setActiveSlug(on ? s.slug : null)} />
               </Reveal>
             ))}
           </div>
         </div>
       </Container>
-
-      {/* Slide-up detail overlay */}
-      <AnimatePresence>
-        {viewing && <SchoolDetailOverlay school={viewing} onClose={() => setViewingSlug(null)} />}
-      </AnimatePresence>
     </Section>
   );
 }
@@ -354,167 +347,5 @@ function SchoolCard({
         </div>
       </div>
     </button>
-  );
-}
-
-/* ── slide-up detail overlay ───────────────────────────────── */
-function SchoolDetailOverlay({ school, onClose }: { school: School; onClose: () => void }) {
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [onClose]);
-
-  const facts = [
-    { label: 'Curriculum', value: school.curriculum },
-    ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
-    { label: 'Ages',       value: school.ages },
-    { label: 'Languages',  value: school.languages },
-    { label: 'Capacity',   value: school.capacity },
-  ];
-
-  return (
-    <motion.div
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${school.name} details`}
-      initial={{ opacity: 0, y: reduced ? 0 : '100%' }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: reduced ? 0 : '100%' }}
-      transition={{ type: 'spring', damping: 30, stiffness: 220 }}
-      className="fixed inset-0 z-[950] overflow-y-auto"
-      style={{ background: BRAND.paper }}>
-
-      {/* nav bar */}
-      <div
-        className="sticky top-0 z-10 border-b"
-        style={{ background: withOpacity('paper', 0.85), backdropFilter: 'blur(12px)', borderColor: BRAND.rule }}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
-          <button
-            onClick={onClose}
-            className="inline-flex items-center gap-2 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#27C4FF]"
-            style={{ color: BRAND.ink, fontFamily: 'Inter, sans-serif', fontSize: 13 }}>
-            <span aria-hidden="true">←</span>
-            <Meta>Back to map</Meta>
-          </button>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="text-[26px] leading-none transition-opacity hover:opacity-70"
-            style={{ color: BRAND.inkSub }}>×</button>
-        </div>
-      </div>
-
-      {/* hero image */}
-      <div className="relative w-full h-[42vh] min-h-[300px] overflow-hidden">
-        <img src={school.image} alt={school.name} className="w-full h-full object-cover" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(20,17,15,0.92) 0%, rgba(20,17,15,0.35) 45%, transparent 100%)' }} />
-        <div className="absolute bottom-0 left-0 w-full px-6 md:px-12 pb-10">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-3 mb-3">
-              <FoldedMark size={24} tone="cyan" />
-              <Meta tone="paper">{school.location}</Meta>
-            </div>
-            <Display size="lg" style={{ color: BRAND.paperHi }}>{school.name}</Display>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20">
-        {/* facts */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 pb-12 border-b" style={{ borderColor: BRAND.rule }}>
-          {facts.map((f) => (
-            <div key={f.label}>
-              <Meta>{f.label}</Meta>
-              <div className="mt-3"><Display size="xs" italic={false} style={{ fontWeight: 300 }}>{f.value}</Display></div>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
-          <div className="lg:col-span-2 space-y-12">
-            <div>
-              <Eyebrow tone="cyan">Overview</Eyebrow>
-              <div className="mt-6"><Body size="xl">{school.overview}</Body></div>
-            </div>
-            <div>
-              <Eyebrow tone="cyan">Highlights</Eyebrow>
-              <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                {school.highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-4 py-4 border-t" style={{ borderColor: BRAND.rule }}>
-                    <span className="font-mono tabular-nums pt-1" style={{ fontSize: 11, color: BRAND.cyan, letterSpacing: '0.18em' }}>
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <Body size="md">{h}</Body>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* contact sidebar */}
-          <div className="space-y-8">
-            <div className="p-7 border" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
-              <Eyebrow>Contact</Eyebrow>
-              <div className="mt-6 space-y-5">
-                <div>
-                  <Meta>Address</Meta>
-                  <div className="mt-1"><Body size="md">{school.address}</Body></div>
-                </div>
-                <div>
-                  <Meta>Email</Meta>
-                  <div className="mt-1">
-                    <Body size="md">
-                      <a href={`mailto:${school.email}`} className="border-b border-current pb-0.5">{school.email}</a>
-                    </Body>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-7 flex flex-col items-start gap-4">
-                <PillLink to="/contact" variant="primary" size="md">Contact admissions</PillLink>
-                {school.website && (
-                  <a
-                    href={school.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[15px] font-light border-b pb-1"
-                    style={{ color: BRAND.inkSub, borderColor: withOpacity('ink', 0.3) }}>
-                    Visit campus site →
-                  </a>
-                )}
-                <Link
-                  to={`/schools/${school.slug}`}
-                  onClick={onClose}
-                  className="text-[15px] font-light border-b pb-1"
-                  style={{ color: BRAND.inkSub, borderColor: withOpacity('ink', 0.3) }}>
-                  Open full campus page →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* gallery */}
-        {school.gallery && school.gallery.length > 0 && (
-          <div className="mt-16">
-            <Eyebrow tone="cyan">Campus gallery</Eyebrow>
-            <div className="mt-6 flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
-              {school.gallery.map((g, i) => (
-                <div key={i} className="flex-shrink-0 snap-start w-[280px] md:w-[440px] aspect-[4/3] overflow-hidden">
-                  <img src={g} alt={`${school.name} ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </motion.div>
   );
 }

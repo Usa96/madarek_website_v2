@@ -341,7 +341,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
                 <div className="mt-3"><Eyebrow tone="cyan">Facts</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 items-start">
                   {[
                     { label: 'Curriculum', value: school.curriculum },
                     ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
@@ -351,8 +351,8 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
                   ].map((f) => (
                     <div key={f.label}>
                       <Meta>{f.label}</Meta>
-                      <div className="mt-3">
-                        <Display size="xs" italic={false} style={{ fontWeight: 300 }}>{f.value}</Display>
+                      <div className="mt-3" style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 1.9vw, 1.7rem)', lineHeight: 1.25, letterSpacing: '-0.01em', color: BRAND.ink }}>
+                        {f.value}
                       </div>
                     </div>
                   ))}
@@ -533,56 +533,6 @@ export function FoundationPage() {
         </Container>
       </Section>
 
-      {/* Impact — NEEDS FACTS: add real figures (e.g. "12,000+") into the
-          `value` field for students reached, communities served, and partner
-          organisations once the Madarek team provides them. */}
-      <Section bg="ink" className={d.sectionY}>
-        <Container>
-          <Reveal>
-            <div className="mb-14 max-w-2xl">
-              <Eyebrow tone="pink">Our impact</Eyebrow>
-              <div className="mt-5">
-                <Display size="md" style={{ color: BRAND.paperHi }}>Impact that reaches beyond the classroom.</Display>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ background: withOpacity('paper', 0.14) }}>
-            {[
-              { value: '', label: 'Students reached',     detail: 'Expanding access to quality learning for students across the region.' },
-              { value: '', label: 'Communities served',   detail: 'Strengthening communities through education and engagement.' },
-              { value: '', label: 'Partner organisations', detail: 'Collaborating with institutions that share our vision for change.' },
-            ].map((it) => (
-              <div key={it.label} className="p-8 md:p-10" style={{ background: BRAND.ink }}>
-                {it.value && (
-                  <div style={{ fontFamily: CARD_HEADING, fontWeight: 300, fontSize: 'clamp(2.6rem, 4.5vw, 3.6rem)', lineHeight: 1, color: BRAND.paperHi }}>{it.value}</div>
-                )}
-                <h3 className={it.value ? 'mt-5' : ''} style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.15rem, 1.6vw, 1.45rem)', lineHeight: 1.2, color: BRAND.paperHi }}>
-                  {it.label}
-                </h3>
-                <div className="mt-3"><Body size="md" style={{ color: withOpacity('paper', 0.72) }}>{it.detail}</Body></div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Vision — cinematic image + statement */}
-      <section className="relative w-full h-[70vh] overflow-hidden bg-black">
-        <ScrollImage src="/redesign-assets/4.webp" alt="" overlay="hero" />
-        <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-16">
-          <div className="max-w-3xl">
-            <Eyebrow tone="paper">Our vision</Eyebrow>
-            <div className="mt-6">
-              <Display size="sm" style={{ color: BRAND.paperHi }}>
-                To create lasting social impact by empowering communities and
-                expanding opportunities through education.
-              </Display>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Ways to get involved */}
       <Section bg="paper" className={d.sectionY}>
         <Container>
@@ -743,7 +693,7 @@ export function AcademyPage() {
                 </Body>
               </div>
               <div className="mt-7">
-                <PillLink to="/contact" variant="primary" size="md">Enquire about enrolment</PillLink>
+                <PillLink to="/contact" variant="primary" size="md">Contact admissions</PillLink>
               </div>
             </div>
           </div>
@@ -965,7 +915,7 @@ const LEADERS: Leader[] = [
 type BoardMember = { name: string; title: string; image: string };
 
 const BOARD: BoardMember[] = [
-  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '' },
+  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '/public/redesign-assets/majid_al_hokair.png' },
   { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/Dr. Sulaiman Al Abduljader.png'},
   { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/dr.shukri_ceo_ksa.jpeg' },
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '' },
@@ -1121,31 +1071,13 @@ export function LeadershipPage() {
           <BoardWall members={BOARD} />
         </Container>
       </Section>
-
-      <Section bg="ink" className="py-24 md:py-32">
-        <Container max="6xl">
-          <div className="grid grid-cols-12 gap-6 items-end">
-            <div className="col-span-12 md:col-span-8">
-              <Eyebrow tone="paper">About MADAREK</Eyebrow>
-              <div className="mt-6">
-                <Display size="md" style={{ color: BRAND.paperHi }}>
-                  More on<span style={{ fontStyle: 'normal' }}> who we are.</span>
-                </Display>
-              </div>
-            </div>
-            <div className="col-span-12 md:col-span-4 md:text-right">
-              <PillLink to="/about" variant="invert">Back to About</PillLink>
-            </div>
-          </div>
-        </Container>
-      </Section>
     </>
   );
 }
 
 /* ── Leader detail page ───────────────────────────────────────
-   Individual page for each executive (CEOs, CFO). BOD members do
-   not get detail pages. */
+  Individual page for each executive (CEOs, CFO). BOD members do
+  not get detail pages. */
 export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
   const d = useDensity();
 
@@ -1302,9 +1234,9 @@ export function LeaderDetailRoute() {
 }
 
 /* ── News page ───────────────────────────────────────────────
-   Editorial article index. Lorem Ipsum copy carried over from
-   the original newsData.ts — real editorial content lives
-   separately. */
+  Editorial article index. Lorem Ipsum copy carried over from
+  the original newsData.ts — real editorial content lives
+  separately. */
 type Article = { id: number; title: string; excerpt: string; date: string; category: string; image: string; featured: boolean };
 
 const NEWS_ARTICLES: Article[] = [
@@ -1335,9 +1267,9 @@ export function NewsPage() {
         tone="cyan"
         number={1} />
 
-      <Section bg="paper" className="pt-24 md:pt-32 pb-12">
+      <Section bg="paper" className={d.sectionY}>
         <Container>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-12 md:mb-16">
             {categories.map((c) => {
               const active = c === selected;
               return (
@@ -1360,12 +1292,9 @@ export function NewsPage() {
               );
             })}
           </div>
-        </Container>
-      </Section>
 
-      <Section bg="paper" className={d.sectionY}>
-        <Container>
           <div className="grid grid-cols-12 gap-x-6 gap-y-16 md:gap-y-24">
+
             {filtered.map((article, i) => {
               const colSpan = article.featured ? 'col-span-12 md:col-span-6' : 'col-span-12 md:col-span-4';
               /* Articles are placeholders for now — render as static <article>s
@@ -1438,74 +1367,6 @@ export function CareersPage() {
         lede="We attract, develop, and empower talented people who share our passion for education and innovation."
         tone="yellow"
         number={1} />
-
-      <Section bg="paper" className={d.sectionY}>
-        <Container max="6xl">
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-20">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={2} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">Why Join MADAREK?</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">
-                  Four reasons<span style={{ fontStyle: 'normal', display: 'block' }}>to join the team.</span>
-                </Display>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="border-t" style={{ borderColor: BRAND.rule }}>
-            {CAREER_VALUES.map((v, i) => (
-              <div key={v.title} className="border-b py-12 md:py-16 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
-                <div className="col-span-2 md:col-span-1">
-                  <FoldedMark size={28} tone={v.tone} rotate={-8 + i * 6} />
-                </div>
-                <div className="col-span-10 md:col-span-5">
-                  <Display size="sm">{v.title}</Display>
-                </div>
-                <div className="col-span-12 md:col-span-6">
-                  <Body size="md" muted>{v.detail}</Body>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section bg="paperLo" className={d.sectionY}>
-        <Container>
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-20">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={3} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">Life at MADAREK</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">
-                  Inside<span style={{ fontStyle: 'normal' }}> the schools.</span>
-                </Display>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {LIFE_IMAGES.map((img, i) => (
-              <Reveal key={img.caption} delay={i * 0.06}>
-                <figure className="relative overflow-hidden aspect-[4/3] group">
-                  <img src={img.src} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)' }} />
-                  <figcaption className="absolute bottom-5 left-5 right-5">
-                    <Body size="md" style={{ color: BRAND.paperHi, fontWeight: 300 }}>{img.caption}</Body>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </Section>
 
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">

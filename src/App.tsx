@@ -92,7 +92,7 @@ function Header() {
 
           {/* desktop nav */}
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
-            {links.filter((l) => l.to !== '/contact').map((l) => {
+            {links.map((l) => {
               const active = isActive(l.to);
               return (
                 <Link
@@ -116,19 +116,6 @@ function Header() {
                 </Link>
               );
             })}
-            <Link
-              to="/contact"
-              className="ml-2 px-5 py-2 rounded-full transition-colors"
-              style={{
-                background: BRAND.paperHi,
-                color: BRAND.ink,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                fontWeight: 500,
-              }}>
-              Enquire
-            </Link>
           </nav>
 
           {/* mobile menu toggle */}
