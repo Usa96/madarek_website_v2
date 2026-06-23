@@ -9,6 +9,7 @@ export interface School {
   short: string;
   location: string;
   curriculum: string;
+  grades?: string;
   ages: string;
   languages: string;
   capacity: string;
@@ -26,10 +27,10 @@ export const schools: School[] = [
   {
     slug: 'al-maaref-american-school',
     name: 'Al Maaref American School',
-    short: 'Al Maaref',
+    short: 'Al Maaref American School',
     location: 'Dubai, UAE',
     curriculum: 'International Baccalaureate',
-    ages: '3–18 years old',
+    ages: '3–18',
     languages: 'English · Arabic',
     capacity: '1,200 students',
     image: '/redesign-assets/2.webp',
@@ -53,8 +54,9 @@ export const schools: School[] = [
     name: 'MGIS — Qortuba Campus',
     short: 'MGIS Qortuba',
     location: 'Riyadh, KSA',
-    curriculum: 'American (IB-PYP Framework)',
-    ages: 'KG through Grade 8 (~3–15)',
+    curriculum: 'American (IB-PYP)',
+    grades: 'KG–Grade 8',
+    ages: '3–15',
     languages: 'English · Arabic',
     capacity: '600 students',
     image: '/redesign-assets/6.webp',
@@ -81,7 +83,8 @@ export const schools: School[] = [
     short: 'MGIS Digital City',
     location: 'Riyadh, KSA',
     curriculum: 'American (US Common Core)',
-    ages: 'KG through Grade 6 (~3–12)',
+    grades: 'KG–Grade 6',
+    ages: '3–12',
     languages: 'English · Arabic · French',
     capacity: '500 students',
     image: '/redesign-assets/1.webp',

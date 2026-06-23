@@ -361,8 +361,8 @@ export function ScrollImage({
   const overlayCls: Record<OverlayKind, string> = {
     none:      '',
     editorial: 'after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_50%,rgba(0,0,0,0.35)_100%)]',
-    hero:      'after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.4)_60%,rgba(0,0,0,0.75)_100%)]',
-    cinematic: 'after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(to_right,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.15)_50%,rgba(0,0,0,0)_100%)]',
+    hero:      'after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.42)_40%,rgba(0,0,0,0.72)_72%,rgba(0,0,0,0.9)_100%)]',
+    cinematic: 'after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(to_top,rgba(0,0,0,0.85)_0%,rgba(0,0,0,0.45)_40%,rgba(0,0,0,0.2)_70%,rgba(0,0,0,0.3)_100%)]',
   };
 
   return (

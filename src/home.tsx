@@ -12,7 +12,7 @@ import {
   FoldedMark, Eyebrow, SectionNumber,
   Display, Body, Meta,
   Section, Container,
-  ScrollImage, ScrollMarquee,
+  ScrollImage,
   PillLink, TextLink, Reveal,
 } from './system';
 import type { BrandKey } from './system';
@@ -43,9 +43,8 @@ function HeroSection() {
       </motion.div>
 
       {/* top brand bar */}
-      <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 flex items-center justify-between text-[#F4EDE0]/85">
-        <Meta tone="paper">Madarek · Education · GCC</Meta>
-        <Meta tone="paper">Est. 2023 · GCC</Meta>
+      <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 text-[#F4EDE0]/85">
+        <Meta tone="paper">MADAREK · Education across the GCC · Est. 2026</Meta>
       </div>
 
       {/* main type */}
@@ -60,10 +59,16 @@ function HeroSection() {
             </span>
           </Display>
 
+          <div className="mt-8 max-w-xl">
+            <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>
+              A growing network of international schools across the GCC.
+            </Body>
+          </div>
+
           <div className="mt-10 flex flex-wrap items-center gap-8">
             <PillLink to="#schools" variant="invert">Explore our schools</PillLink>
             <a href="#about" className="text-[#F4EDE0]/80 hover:text-[#F4EDE0] transition-colors text-[15px] font-light border-b border-white/40 hover:border-white pb-1">
-              Discover Madarek →
+              Discover MADAREK →
             </a>
           </div>
         </div>
@@ -93,7 +98,7 @@ function AboutSection() {
           <div className="grid grid-cols-12 gap-6 mb-16">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={1} tone="ink" />
-              <div className="mt-3"><Eyebrow tone="ink">About Madarek</Eyebrow></div>
+              <div className="mt-3"><Eyebrow tone="ink">About MADAREK</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg" italic={false}>
@@ -111,13 +116,17 @@ function AboutSection() {
             </div>
             <div className="col-span-12 md:col-span-6">
               <Body size="xl" muted={false}>
-                MADAREK brings together a growing ecosystem of educational
-                institutions united by a shared commitment to academic
-                excellence, student development, and responsible growth. Through
-                internationally recognized curricula and future-focused learning
-                environments, we aim to empower learners and contribute
-                meaningfully to the communities we serve.
+                MADAREK is a growing network of schools across the GCC, united by
+                one commitment: academic excellence and the full development of
+                every student.
               </Body>
+              <div className="mt-6">
+                <Body size="xl" muted={false}>
+                  Through internationally recognised curricula and modern learning
+                  environments, we help students thrive — and contribute to the
+                  communities we serve.
+                </Body>
+              </div>
               <div className="mt-12">
                 <TextLink to="/about" tone="ink">Read the full story</TextLink>
               </div>
@@ -129,53 +138,23 @@ function AboutSection() {
   );
 }
 
-/* ── 03 · The Framework — interactive expandable pillars */
-type Pillar = { tone: BrandKey; title: string; lede: string; detail: string; meta: string[] };
-
+/* ── 03 · The Four Pillars — tagline + tag chips (full descriptions
+   live on the About page). */
 function FrameworkSection() {
-  const [active, setActive] = useState(0);
   const d = useDensity();
 
-  const pillars: Pillar[] = [
-    {
-      tone: 'red',
-      title: 'Educational Excellence',
-      lede: 'High-quality learning that develops the whole student.',
-      detail:
-        'Delivering high-quality learning experiences that foster academic achievement, critical thinking, and holistic development.',
-      meta: ['Academic achievement', 'Critical thinking', 'Holistic development'],
-    },
-    {
-      tone: 'yellow',
-      title: 'Innovation',
-      lede: 'Future-ready environments built on creativity and technology.',
-      detail:
-        'Creating future-ready learning environments that embrace technology, creativity, and new approaches to education.',
-      meta: ['Technology', 'Creativity', 'New approaches'],
-    },
-    {
-      tone: 'cyan',
-      title: 'Regional Growth',
-      lede: 'A leading education ecosystem across the GCC and beyond.',
-      detail:
-        'Building a leading education ecosystem through strategic expansion, partnerships, and collaboration across the GCC and beyond.',
-      meta: ['Strategic expansion', 'Partnerships', 'GCC & beyond'],
-    },
-    {
-      tone: 'lime',
-      title: 'Lasting Impact',
-      lede: 'Positive, sustainable outcomes for generations to come.',
-      detail:
-        'Creating positive and sustainable outcomes for students, educators, communities, and future generations.',
-      meta: ['Students & educators', 'Communities', 'Future generations'],
-    },
+  const pillars: { tone: BrandKey; title: string; tagline: string; tags: string[] }[] = [
+    { tone: 'red',    title: 'Educational Excellence', tagline: 'High-quality learning that develops the whole student.', tags: ['Academic achievement', 'Critical thinking', 'Holistic development'] },
+    { tone: 'yellow', title: 'Innovation',             tagline: 'Future-ready environments built on creativity and technology.', tags: ['Technology', 'Creativity', 'New approaches'] },
+    { tone: 'cyan',   title: 'Regional Growth',        tagline: 'A leading education ecosystem across the GCC and beyond.', tags: ['Strategic expansion', 'Partnerships', 'GCC & beyond'] },
+    { tone: 'lime',   title: 'Lasting Impact',         tagline: 'Positive, sustainable outcomes for generations to come.', tags: ['Students & educators', 'Communities', 'Future generations'] },
   ];
 
   return (
     <Section id="framework" bg="paperLo" className={d.sectionY}>
       <Container>
         <Reveal>
-          <div className="grid grid-cols-12 gap-6 mb-24">
+          <div className="grid grid-cols-12 gap-6 mb-16">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={2} tone="ink" />
               <div className="mt-3"><Eyebrow>Our Four Pillars</Eyebrow></div>
@@ -183,73 +162,39 @@ function FrameworkSection() {
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
                 <span>Four pillars.</span>
-                <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>One direction.</span>
+                <span style={{ display: 'block', color: BRAND.inkSub }}>One direction.</span>
               </Display>
             </div>
           </div>
         </Reveal>
 
-        <div className="border-t" style={{ borderColor: BRAND.rule }}>
-          {pillars.map((p, i) => {
-            const isOpen = active === i;
-            return (
-              <div
-                key={p.title}
-                className="border-b transition-colors"
-                style={{ borderColor: BRAND.rule, background: isOpen ? BRAND.paper : 'transparent' }}>
-                <button
-                  type="button"
-                  onClick={() => setActive(isOpen ? -1 : i)}
-                  aria-expanded={isOpen}
-                  className="w-full text-left py-10 md:py-14 px-2 md:px-6 grid grid-cols-12 gap-6 items-baseline group">
-                  <div className="col-span-2 md:col-span-1 flex items-center gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
+          {pillars.map((p, i) => (
+            <Reveal key={p.title} delay={(i % 2) * 0.06}>
+              <div className="h-full p-8 md:p-10" style={{ background: BRAND.paper }}>
+                <div className="flex items-center justify-between mb-7">
+                  <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND[p.tone], fontWeight: 600 }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <FoldedMark size={30} tone={p.tone} tilt="rest" />
+                </div>
+                <h3 style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 500, fontSize: 'clamp(1.5rem, 2.4vw, 2rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: BRAND.ink }}>
+                  {p.title}
+                </h3>
+                <div className="mt-3"><Body size="md" muted>{p.tagline}</Body></div>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {p.tags.map((t) => (
                     <span
-                      className="font-mono tabular-nums"
-                      style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND[p.tone], fontWeight: 600 }}>
-                      0{i + 1}
+                      key={t}
+                      className="inline-block rounded-full px-3 py-1"
+                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '0.04em', color: BRAND.inkSub, background: BRAND.paperHi, border: `1px solid ${BRAND.rule}` }}>
+                      {t}
                     </span>
-                  </div>
-                  <div className="col-span-10 md:col-span-7">
-                    <Display
-                      size={isOpen ? 'md' : 'sm'}
-                      italic={isOpen}
-                      style={{
-                        color: BRAND.ink,
-                        transition: 'all 0.5s cubic-bezier(0.22,1,0.36,1)',
-                      }}>
-                      {p.title}
-                    </Display>
-                  </div>
-                  <div className="col-span-12 md:col-span-3 hidden md:block">
-                    <Body size="sm" muted>{p.lede}</Body>
-                  </div>
-                  <div className="col-span-12 md:col-span-1 flex md:justify-end">
-                    <FoldedMark size={isOpen ? 56 : 36} tone={p.tone} tilt={isOpen ? 'active' : 'rest'} />
-                  </div>
-                </button>
-
-                <motion.div
-                  initial={false}
-                  animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ overflow: 'hidden' }}>
-                  <div className="px-2 md:px-6 pb-14 grid grid-cols-12 gap-6">
-                    <div className="col-span-12 md:col-span-7 md:col-start-2">
-                      <Body size="lg">{p.detail}</Body>
-                    </div>
-                    <div className="col-span-12 md:col-span-3 md:col-start-9 flex flex-col gap-3 pt-2">
-                      {p.meta.map((m) => (
-                        <div key={m} className="flex items-center gap-3">
-                          <span className="block w-2 h-2" style={{ background: BRAND[p.tone] }} />
-                          <Body size="sm" muted>{m}</Body>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
+                  ))}
+                </div>
               </div>
-            );
-          })}
+            </Reveal>
+          ))}
         </div>
       </Container>
     </Section>
@@ -270,19 +215,13 @@ function CinematicMoment() {
           <div className="max-w-3xl">
             <Eyebrow tone="cyan" className="text-[#F4EDE0]/80">A school is a place</Eyebrow>
             <div className="mt-6">
-              <Display size="lg" style={{ color: BRAND.paperHi }} italic={false}>
-                where every student is
+              <Display size="md" style={{ color: BRAND.paperHi }} italic={false}>
+                Where every student is
                 <span style={{ fontStyle: 'normal' }}> known.</span>
               </Display>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="relative py-12 md:py-16 overflow-hidden" style={{ background: BRAND.paper }}>
-        <ScrollMarquee tone="ink" size="md" italic>
-          rigour · care · cultural fluency · rigour · care · cultural fluency ·&nbsp;
-        </ScrollMarquee>
       </div>
     </section>
   );
@@ -432,7 +371,7 @@ function CarouselCard({ school, index }: { school: School; index: number }) {
           </h3>
           <div className="overflow-hidden max-h-0 opacity-0 -translate-y-1 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100 group-hover:translate-y-0">
             <div className="mt-3 font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.14em', color: withOpacity('paper', 0.62) }}>
-              {school.curriculum} · {school.ages}
+              {school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}
             </div>
             <div className="mt-3 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
               <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>View campus</span>
@@ -468,141 +407,52 @@ function FutureCampusCard() {
   );
 }
 
-/* ── 06 · Innovation — numbered editorial list, type-only. */
-function InnovationSection() {
-  const items = [
-    { title: 'Student-Centered Learning', note: 'Placing students at the heart of the educational journey and fostering environments that encourage curiosity, creativity, and personal growth.' },
-    { title: 'Innovation in Education',   note: 'Embracing technology and modern teaching methodologies to prepare learners for the future.' },
-    { title: 'Global Standards',         note: 'Delivering internationally recognized curricula and best practices that support academic excellence.' },
-    { title: 'Holistic Development',     note: 'Supporting academic, personal, social, and emotional growth to develop well-rounded individuals.' },
-  ];
+/* ── 06 · Foundation + Academy — two tight one-liners side by side,
+   each linking to its full page. */
+function FoundationAcademySection() {
   const d = useDensity();
+  const headingFont = 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif';
   return (
-    <Section id="innovation" bg="paperHi" className={d.sectionY}>
-      <Container max="6xl">
-        <Reveal>
-          <div className="mb-16">
-            <SectionNumber n={4} tone="yellow" />
-            <div className="mt-3 mb-8"><Eyebrow tone="yellow">Educational Excellence</Eyebrow></div>
-            <Display size="lg">
-              A commitment to
-              <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>lifelong learning.</span>
-            </Display>
-            <div className="mt-10 max-w-2xl">
-              <Body size="lg" muted>
-                At MADAREK, we believe exceptional education extends beyond
-                academic achievement. We strive to cultivate well-rounded
-                individuals equipped with the skills, values, and mindset needed
-                to succeed in an evolving world.
-              </Body>
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="border-t" style={{ borderColor: BRAND.rule }}>
-          {items.map((it, i) => (
-            <div key={it.title} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
-              <div className="col-span-2 md:col-span-1">
-                <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND.yellow, fontWeight: 600 }}>
-                  0{i + 1}
-                </span>
-              </div>
-              <div className="col-span-10 md:col-span-6">
-                <Display size="sm">{it.title}</Display>
-              </div>
-              <div className="col-span-12 md:col-span-5">
-                <Body size="md" muted>{it.note}</Body>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  );
-}
-
-/* ── 07 · Foundation — full-bleed photo + paragraph below. */
-function FoundationSection() {
-  return (
-    <section id="foundation" className="relative w-full" data-screen-label="07 Foundation" style={{ background: BRAND.paper }}>
-      <div className="relative h-[85vh] w-full overflow-hidden">
-        <ScrollImage src="/redesign-assets/transformation.webp" alt="" overlay="hero" />
-        <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <FoldedMark size={36} tone="pink" tilt="back" />
-            <Meta tone="paper">Madarek Foundation</Meta>
-          </div>
-          <Display size="lg" style={{ color: BRAND.paperHi }}>
-            <span>Building futures</span>
-            <span style={{ display: 'block', fontStyle: 'normal' }}>beyond the classroom.</span>
-          </Display>
-        </div>
-      </div>
-
-      <Container max="6xl" className="py-24 md:py-32">
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 md:col-span-3">
-            <SectionNumber n={5} tone="pink" />
-          </div>
-          <div className="col-span-12 md:col-span-9">
-            <Body size="xl" muted={false}>
-              The MADAREK Foundation reflects our commitment to creating
-              positive and sustainable impact beyond the classroom — empowering
-              communities and expanding opportunities through meaningful
-              educational initiatives and partnerships.
-            </Body>
-            <div className="mt-12">
-              <TextLink to="/foundation" tone="pink">Explore the Foundation</TextLink>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ── 08 · Academy — yellow-coded, photo grid below copy. */
-function AcademySection() {
-  const d = useDensity();
-  return (
-    <Section id="academy" bg="paperLo" className={d.sectionY}>
+    <Section bg="paper" className={d.sectionY}>
       <Container>
-        <Reveal>
-          <div className="grid grid-cols-12 gap-6 mb-20">
-            <div className="col-span-12 md:col-span-3">
-              <SectionNumber n={6} tone="yellow" />
-              <div className="mt-3"><Eyebrow tone="yellow">Madarek Academy</Eyebrow></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
+          <Reveal>
+            <div className="h-full p-10 md:p-14" style={{ background: BRAND.paper }}>
+              <div className="flex items-center gap-3 mb-6">
+                <FoldedMark size={32} tone="pink" tilt="back" />
+                <Eyebrow tone="pink">MADAREK Foundation</Eyebrow>
+              </div>
+              <h3 style={{ fontFamily: headingFont, fontWeight: 300, fontSize: 'clamp(1.7rem, 2.8vw, 2.6rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: BRAND.ink }}>
+                Lasting impact beyond the classroom.
+              </h3>
+              <div className="mt-5 max-w-md">
+                <Body size="md" muted>
+                  Empowering communities and expanding opportunities through
+                  education.
+                </Body>
+              </div>
+              <div className="mt-8"><TextLink to="/foundation" tone="pink">Explore the Foundation</TextLink></div>
             </div>
-            <div className="col-span-12 md:col-span-9">
-              <Display size="lg">
-                Learning beyond
-                <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>the classroom.</span>
-              </Display>
-            </div>
-          </div>
-        </Reveal>
+          </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
-          {['3.webp', '4.webp', '5.webp'].map((src, i) => (
-            <div key={src} className="relative aspect-[4/5] overflow-hidden" style={{ marginTop: i === 1 ? '4rem' : 0 }}>
-              <ScrollImage src={`/redesign-assets/${src}`} alt="" overlay="editorial" />
+          <Reveal delay={0.08}>
+            <div className="h-full p-10 md:p-14" style={{ background: BRAND.paper }}>
+              <div className="flex items-center gap-3 mb-6">
+                <FoldedMark size={32} tone="yellow" tilt="lean" />
+                <Eyebrow tone="yellow">MADAREK Academy</Eyebrow>
+              </div>
+              <h3 style={{ fontFamily: headingFont, fontWeight: 300, fontSize: 'clamp(1.7rem, 2.8vw, 2.6rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: BRAND.ink }}>
+                Learning beyond the classroom.
+              </h3>
+              <div className="mt-5 max-w-md">
+                <Body size="md" muted>
+                  Enrichment, global experiences, and leadership programmes for
+                  students.
+                </Body>
+              </div>
+              <div className="mt-8"><TextLink to="/academy" tone="yellow">Inside the Academy</TextLink></div>
             </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 md:col-span-6 md:col-start-4">
-            <Body size="xl">
-              MADAREK Academy inspires the next generation through enrichment
-              programs, global experiences, and lifelong learning opportunities —
-              a platform for enrichment, leadership development, and
-              collaborative experiences that empower students to explore new
-              perspectives and unlock their full potential.
-            </Body>
-            <div className="mt-10">
-              <TextLink to="/academy" tone="yellow">Inside the Academy</TextLink>
-            </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </Section>
@@ -633,7 +483,7 @@ function ContactSection() {
                 </Body>
               </div>
               <div className="mt-12 flex flex-wrap items-center gap-8">
-                <PillLink to="/contact" variant="primary" size="md">Contact Madarek</PillLink>
+                <PillLink to="/contact" variant="primary" size="md">Contact MADAREK</PillLink>
                 <a
                   href="mailto:info@madarek.me"
                   className="transition-colors text-[15px] font-light border-b pb-1 hover:border-current"
@@ -658,9 +508,7 @@ export default function HomePage({ schools }: { schools: School[] }) {
       <FrameworkSection />
       <CinematicMoment />
       <SchoolsSection schools={schools} />
-      <InnovationSection />
-      <FoundationSection />
-      <AcademySection />
+      <FoundationAcademySection />
       <ContactSection />
     </>
   );

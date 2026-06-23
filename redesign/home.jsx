@@ -47,7 +47,7 @@ function HeroSection() {
       {/* top brand bar */}
       <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 flex items-center justify-between text-[#F4EDE0]/85">
         <Meta tone="paper">Madarek · Education · GCC</Meta>
-        <Meta tone="paper">Est. 2023 · GCC</Meta>
+        <Meta tone="paper">Est. 2026 · GCC</Meta>
       </div>
 
       {/* main type */}

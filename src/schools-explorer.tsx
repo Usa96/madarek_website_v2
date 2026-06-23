@@ -71,7 +71,7 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
                 <Body size="lg" muted>
                   We operate three premium campuses across the UAE and Saudi
                   Arabia — each carrying its own character, all sharing the
-                  Madarek framework, with more on the way.
+                  MADAREK framework, with more on the way.
                 </Body>
               </div>
             </div>
@@ -344,7 +344,7 @@ function SchoolCard({
         <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.15, color: BRAND.ink }}>
           {school.name}
         </div>
-        <div className="mt-3"><Meta>{school.curriculum} · {school.ages}</Meta></div>
+        <div className="mt-3"><Meta>{school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}</Meta></div>
         <div className="mt-5 pt-5 border-t flex items-center justify-between" style={{ borderColor: BRAND.rule }}>
           <Meta>{school.capacity}</Meta>
           <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: active ? BRAND.cyan : BRAND.ink }}>
@@ -374,6 +374,7 @@ function SchoolDetailOverlay({ school, onClose }: { school: School; onClose: () 
 
   const facts = [
     { label: 'Curriculum', value: school.curriculum },
+    ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
     { label: 'Ages',       value: school.ages },
     { label: 'Languages',  value: school.languages },
     { label: 'Capacity',   value: school.capacity },

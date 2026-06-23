@@ -50,7 +50,7 @@ function PageHero({
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to bottom, rgba(20,17,15,0.55) 0%, rgba(20,17,15,0.3) 40%, rgba(20,17,15,0.65) 80%, rgba(20,17,15,0.92) 100%)',
+              'linear-gradient(to bottom, rgba(20,17,15,0.5) 0%, rgba(20,17,15,0.38) 28%, rgba(20,17,15,0.62) 58%, rgba(20,17,15,0.88) 82%, rgba(20,17,15,0.96) 100%)',
           }} />
       </motion.div>
 
@@ -68,15 +68,15 @@ function PageHero({
             )}
             <Meta tone="paper">{eyebrow}</Meta>
           </div>
-          <Display size="lg" style={{ color: BRAND.paperHi }}>
+          <Display size="md" style={{ color: BRAND.paperHi }}>
             <span>{title}</span>
             {italicTail && (
               <span style={{ display: 'block', fontStyle: 'normal' }}>{italicTail}</span>
             )}
           </Display>
           {lede && (
-            <div className="mt-8 max-w-2xl">
-              <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>{lede}</Body>
+            <div className="mt-8 max-w-xl">
+              <Body size="lg" style={{ color: withOpacity('paper', 0.92) }}>{lede}</Body>
             </div>
           )}
         </div>
@@ -102,18 +102,46 @@ export function AboutPage() {
       <PageHero
         image="/redesign-assets/institutionalization.webp"
         eyebrow="Who We Are"
-        title="A regional education platform,"
-        italicTail="shaping the future of learning."
-        lede="MADAREK is a regional education platform dedicated to developing and operating high-quality educational institutions. Through a commitment to excellence, innovation, and responsible growth, we aim to create transformative learning experiences that empower students and positively impact communities."
+        title="A regional"
+        italicTail="education platform."
+        lede="A growing network of international schools across the GCC, built on academic excellence and the full development of every student."
         tone="ink" />
 
-      {/* Story */}
+      {/* Our story — NEEDS FACTS: founder / parent company, number of schools &
+          students, and key milestones to enrich this section. */}
+      <Section bg="paperLo" className={d.sectionY}>
+        <Container max="6xl">
+          <Reveal>
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 md:col-span-3">
+                <SectionNumber n={1} tone="ink" />
+                <div className="mt-3"><Eyebrow>Our story</Eyebrow></div>
+              </div>
+              <div className="col-span-12 md:col-span-9">
+                <Display size="md">Founded in 2026.</Display>
+                <div className="mt-10 max-w-2xl">
+                  <Body size="xl">
+                    MADAREK was founded in 2026 to bring together a growing
+                    network of schools across the GCC. From our first campuses in
+                    the UAE and Saudi Arabia, we continue to expand — guided by a
+                    single mission: to deliver internationally recognised
+                    education that develops well-rounded students and strengthens
+                    the communities we serve.
+                  </Body>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* Vision & Mission */}
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
             <div className="grid grid-cols-12 gap-6 mb-20">
               <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={1} tone="ink" />
+                <SectionNumber n={2} tone="ink" />
                 <div className="mt-3"><Eyebrow>Vision &amp; Mission</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
@@ -163,7 +191,7 @@ export function AboutPage() {
           <Reveal>
             <div className="grid grid-cols-12 gap-6 mb-20 items-end">
               <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={2} tone="ink" />
+                <SectionNumber n={3} tone="ink" />
                 <div className="mt-3"><Eyebrow>Our values</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
@@ -190,54 +218,95 @@ export function AboutPage() {
         </Container>
       </Section>
 
-      {/* Mid-page cinematic moment */}
-      <section className="relative w-full h-[80vh] overflow-hidden bg-black">
-        <ScrollImage src="/redesign-assets/7.webp" alt="" overlay="hero" />
-        <div className="absolute inset-0 z-10 flex items-end px-6 md:px-12 pb-16">
-          <div className="max-w-3xl">
-            <Display size="lg" style={{ color: BRAND.paperHi }}>
-              We build for
-              <span style={{ fontStyle: 'normal' }}> decades, not quarters.</span>
-            </Display>
-          </div>
-        </div>
-      </section>
-
-      {/* Governance / Principles */}
+      {/* Four Pillars — full version (descriptions moved from the homepage) */}
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-20">
+            <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={3} tone="ink" />
-                <div className="mt-3"><Eyebrow>Governance</Eyebrow></div>
+                <SectionNumber n={4} tone="ink" />
+                <div className="mt-3"><Eyebrow>Our Four Pillars</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">How we operate.</Display>
+                <Display size="lg">Four pillars,<span style={{ color: BRAND.inkSub }}> one direction.</span></Display>
               </div>
             </div>
           </Reveal>
 
-          {[
-            { title: 'Responsible investing',   body: 'Environmental, social, and governance considerations sit inside every operating decision — not alongside them.' },
-            { title: 'Prudent compliance',      body: "A solid governance framework that mitigates risk and protects the schools' long-term independence." },
-            { title: 'Leadership in education', body: 'Convening educators and partners across the GCC to advance what excellent schooling looks like in the region.' },
-          ].map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.08}>
-              <div className="grid grid-cols-12 gap-6 py-10 border-b items-baseline" style={{ borderColor: BRAND.rule }}>
-                <div className="col-span-12 md:col-span-5">
-                  <Display size="sm" className="break-words" style={{ fontWeight: 300 }}>{p.title}</Display>
+          <div className="border-t" style={{ borderColor: BRAND.rule }}>
+            {([
+              { tone: 'red',    title: 'Educational Excellence', detail: 'Delivering high-quality learning experiences that foster academic achievement, critical thinking, and holistic development.', tags: ['Academic achievement', 'Critical thinking', 'Holistic development'] },
+              { tone: 'yellow', title: 'Innovation',             detail: 'Creating future-ready learning environments that embrace technology, creativity, and new approaches to education.', tags: ['Technology', 'Creativity', 'New approaches'] },
+              { tone: 'cyan',   title: 'Regional Growth',        detail: 'Building a leading education ecosystem through strategic expansion, partnerships, and collaboration across the GCC and beyond.', tags: ['Strategic expansion', 'Partnerships', 'GCC & beyond'] },
+              { tone: 'lime',   title: 'Lasting Impact',         detail: 'Creating positive and sustainable outcomes for students, educators, communities, and future generations.', tags: ['Students & educators', 'Communities', 'Future generations'] },
+            ] as { tone: BrandKey; title: string; detail: string; tags: string[] }[]).map((p, i) => (
+              <div key={p.title} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6" style={{ borderColor: BRAND.rule }}>
+                <div className="col-span-12 md:col-span-1">
+                  <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND[p.tone], fontWeight: 600 }}>{String(i + 1).padStart(2, '0')}</span>
                 </div>
-                <div className="col-span-12 md:col-span-6 md:col-start-7">
-                  <Body size="lg" muted>{p.body}</Body>
+                <div className="col-span-12 md:col-span-4">
+                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.4rem, 2vw, 1.9rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: BRAND.ink }}>{p.title}</h3>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {p.tags.map((t) => (
+                      <span key={t} className="inline-block rounded-full px-3 py-1" style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '0.04em', color: BRAND.inkSub, background: BRAND.paperHi, border: `1px solid ${BRAND.rule}` }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="col-span-12 md:col-span-6 md:col-start-6">
+                  <Body size="lg" muted>{p.detail}</Body>
                 </div>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </div>
         </Container>
       </Section>
 
-      {/* Leadership CTA */}
+      {/* Educational Excellence — relocated from the homepage */}
+      <Section bg="paperLo" className={d.sectionY}>
+        <Container max="6xl">
+          <Reveal>
+            <div className="mb-16">
+              <SectionNumber n={5} tone="cyan" />
+              <div className="mt-3 mb-8"><Eyebrow tone="cyan">Educational Excellence</Eyebrow></div>
+              <Display size="lg">
+                A commitment to
+                <span style={{ display: 'block', color: BRAND.inkSub }}>lifelong learning.</span>
+              </Display>
+              <div className="mt-10 max-w-2xl">
+                <Body size="lg" muted>
+                  At MADAREK, we believe exceptional education extends beyond
+                  academic achievement. We strive to cultivate well-rounded
+                  individuals equipped with the skills, values, and mindset needed
+                  to succeed in an evolving world.
+                </Body>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="border-t" style={{ borderColor: BRAND.rule }}>
+            {[
+              { title: 'Student-Centered Learning', note: 'Placing students at the heart of the educational journey and fostering environments that encourage curiosity, creativity, and personal growth.' },
+              { title: 'Innovation in Education',   note: 'Embracing technology and modern teaching methodologies to prepare learners for the future.' },
+              { title: 'Global Standards',          note: 'Delivering internationally recognised curricula and best practices that support academic excellence.' },
+              { title: 'Holistic Development',      note: 'Supporting academic, personal, social, and emotional growth to develop well-rounded individuals.' },
+            ].map((it, i) => (
+              <div key={it.title} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
+                <div className="col-span-2 md:col-span-1">
+                  <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND.cyan, fontWeight: 600 }}>{String(i + 1).padStart(2, '0')}</span>
+                </div>
+                <div className="col-span-10 md:col-span-5">
+                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.3rem, 1.8vw, 1.7rem)', lineHeight: 1.2, color: BRAND.ink }}>{it.title}</h3>
+                </div>
+                <div className="col-span-12 md:col-span-6">
+                  <Body size="md" muted>{it.note}</Body>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Leadership teaser */}
       <Section bg="ink" className="py-24 md:py-32">
         <Container max="6xl">
           <div className="grid grid-cols-12 gap-6 items-end">
@@ -245,12 +314,30 @@ export function AboutPage() {
               <Eyebrow tone="paper">Leadership</Eyebrow>
               <div className="mt-6">
                 <Display size="md" style={{ color: BRAND.paperHi }}>
-                  Meet the people<span style={{ fontStyle: 'normal' }}> guiding the work.</span>
+                  Meet the people behind MADAREK.
                 </Display>
               </div>
             </div>
             <div className="col-span-12 md:col-span-4 md:text-right">
-              <PillLink to="/about/leadership" variant="invert">View leadership</PillLink>
+              <PillLink to="/about/leadership" variant="invert">Meet our leadership</PillLink>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Call to action */}
+      <Section bg="paper" className="py-24 md:py-32">
+        <Container max="6xl">
+          <div className="grid grid-cols-12 gap-6 items-end">
+            <div className="col-span-12 md:col-span-6">
+              <Eyebrow>Get started</Eyebrow>
+              <div className="mt-6">
+                <Display size="md">Discover MADAREK.</Display>
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-6 md:text-right flex flex-wrap items-center gap-8 md:justify-end">
+              <PillLink to="/schools" variant="primary" size="md">Explore our schools</PillLink>
+              <TextLink to="/contact" tone="ink">Enquire</TextLink>
             </div>
           </div>
         </Container>
@@ -327,6 +414,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                   {[
                     { label: 'Curriculum', value: school.curriculum },
+                    ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
                     { label: 'Ages',       value: school.ages },
                     { label: 'Languages',  value: school.languages },
                     { label: 'Capacity',   value: school.capacity },
@@ -446,7 +534,7 @@ export function FoundationPage() {
     <>
       <PageHero
         image="/redesign-assets/transformation.webp"
-        eyebrow="Madarek Foundation"
+        eyebrow="MADAREK Foundation"
         title="Creating lasting impact"
         italicTail="through education."
         lede="Empowering communities and expanding opportunities through meaningful educational initiatives and partnerships."
@@ -476,19 +564,19 @@ export function FoundationPage() {
         </Container>
       </Section>
 
-      {/* Focus areas — icon card grid */}
+      {/* What we do — focus areas / programmes */}
       <Section bg="paperLo" className={d.sectionY}>
         <Container>
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
               <div>
-                <Eyebrow tone="pink">Focus areas</Eyebrow>
+                <Eyebrow tone="pink">What we do</Eyebrow>
                 <div className="mt-5"><Display size="md">Where we focus.</Display></div>
               </div>
               <div className="max-w-md">
                 <Body size="md" muted>
-                  Five areas where the Foundation concentrates its effort,
-                  funding, and partnerships.
+                  Five areas where the Foundation concentrates its programmes,
+                  initiatives, and partnerships.
                 </Body>
               </div>
             </div>
@@ -515,14 +603,48 @@ export function FoundationPage() {
         </Container>
       </Section>
 
+      {/* Impact — NEEDS FACTS: add real figures (e.g. "12,000+") into the
+          `value` field for students reached, communities served, and partner
+          organisations once the Madarek team provides them. */}
+      <Section bg="ink" className={d.sectionY}>
+        <Container>
+          <Reveal>
+            <div className="mb-14 max-w-2xl">
+              <Eyebrow tone="pink">Our impact</Eyebrow>
+              <div className="mt-5">
+                <Display size="md" style={{ color: BRAND.paperHi }}>Impact that reaches beyond the classroom.</Display>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ background: withOpacity('paper', 0.14) }}>
+            {[
+              { value: '', label: 'Students reached',     detail: 'Expanding access to quality learning for students across the region.' },
+              { value: '', label: 'Communities served',   detail: 'Strengthening communities through education and engagement.' },
+              { value: '', label: 'Partner organisations', detail: 'Collaborating with institutions that share our vision for change.' },
+            ].map((it) => (
+              <div key={it.label} className="p-8 md:p-10" style={{ background: BRAND.ink }}>
+                {it.value && (
+                  <div style={{ fontFamily: CARD_HEADING, fontWeight: 300, fontSize: 'clamp(2.6rem, 4.5vw, 3.6rem)', lineHeight: 1, color: BRAND.paperHi }}>{it.value}</div>
+                )}
+                <h3 className={it.value ? 'mt-5' : ''} style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.15rem, 1.6vw, 1.45rem)', lineHeight: 1.2, color: BRAND.paperHi }}>
+                  {it.label}
+                </h3>
+                <div className="mt-3"><Body size="md" style={{ color: withOpacity('paper', 0.72) }}>{it.detail}</Body></div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
       {/* Vision — cinematic image + statement */}
       <section className="relative w-full h-[70vh] overflow-hidden bg-black">
         <ScrollImage src="/redesign-assets/4.webp" alt="" overlay="hero" />
         <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-16">
-          <div className="max-w-4xl">
+          <div className="max-w-3xl">
             <Eyebrow tone="paper">Our vision</Eyebrow>
             <div className="mt-6">
-              <Display size="md" style={{ color: BRAND.paperHi }}>
+              <Display size="sm" style={{ color: BRAND.paperHi }}>
                 To create lasting social impact by empowering communities and
                 expanding opportunities through education.
               </Display>
@@ -587,7 +709,7 @@ export function AcademyPage() {
     <>
       <PageHero
         image="/redesign-assets/5.webp"
-        eyebrow="Madarek Academy"
+        eyebrow="MADAREK Academy"
         title="Learning beyond"
         italicTail="the classroom."
         lede="Inspiring the next generation through enrichment programs, global experiences, and lifelong learning opportunities."
@@ -708,6 +830,45 @@ export function AcademyPage() {
           </div>
         </div>
       </section>
+
+      {/* Who it's for / How to join — NEEDS FACTS: specific age ranges and the
+          enrolment process / dates from the Madarek team. */}
+      <Section bg="paper" className={d.sectionY}>
+        <Container max="6xl">
+          <Reveal>
+            <div className="mb-14">
+              <Eyebrow tone="yellow">Who it&apos;s for</Eyebrow>
+              <div className="mt-5"><Display size="md">Open to every MADAREK student.</Display></div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
+            <div className="p-8 md:p-10" style={{ background: BRAND.paper }}>
+              <Meta tone="yellow">Who it&apos;s for</Meta>
+              <div className="mt-4">
+                <Body size="lg" muted>
+                  MADAREK Academy is open to students across our schools and the
+                  wider community, with programmes designed for a range of ages
+                  and stages.
+                </Body>
+              </div>
+            </div>
+            <div className="p-8 md:p-10" style={{ background: BRAND.paper }}>
+              <Meta tone="yellow">How to join</Meta>
+              <div className="mt-4">
+                <Body size="lg" muted>
+                  Enrolment opens ahead of each programme. To register interest or
+                  learn more about dates and eligibility, get in touch with our
+                  team.
+                </Body>
+              </div>
+              <div className="mt-7">
+                <PillLink to="/contact" variant="primary" size="md">Enquire about enrolment</PillLink>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
 
       {/* Vision + CTA */}
       <Section bg="ink" className="py-24 md:py-32">
@@ -869,36 +1030,39 @@ export function ContactPage() {
   );
 }
 
-/* ── Leadership page ──────────────────────────────────────────
-   NOTE: portrait `image` URLs are temporary Unsplash placeholders.
-   Replace with real headshots (drop files in /public/redesign-assets
-   and point these fields at them). The components fall back to an
-   initials monogram if an image fails to load. */
+/* ── Leadership page ────────────────────────────────────────── */
 type Leader = {
   slug: string; name: string; eyebrow: string; title: string;
-  preview: string; tone: BrandKey; image: string; email: string; linkedin: string;
+  preview: string; bio?: string[]; tone: BrandKey; image: string; email: string; linkedin: string;
 };
 
 const LEADERS: Leader[] = [
   {
     slug: 'shukri-mansour',
     name: 'Mr. Shukri A. Mansour',
-    eyebrow: 'CEO for Madarek KSA',
+    eyebrow: 'CEO for MADAREK KSA',
     title: 'Chief Executive Officer',
-    preview: 'Leads Madarek KSA across strategy, operations, and organizational direction.',
+    preview: 'Leads MADAREK KSA across strategy, operations, and organizational direction.',
     tone: 'cyan',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80',
+    image: '/redesign-assets/dr.shukri_ceo_ksa.jpeg',
     email: 'shukri.mansour@madarek.me',
     linkedin: '#',
   },
   {
     slug: 'mohamed-hussein-motawea',
     name: 'Mohamed Hussein Motawea',
-    eyebrow: 'CEO for Madarek UAE',
-    title: 'CEO, FEH UAE & School Director',
-    preview: 'Strategic and operational leadership for FEH UAE and Al Maaref American School.',
+    eyebrow: 'CEO for MADAREK UAE',
+    title: 'Chief Executive Officer & Schools Director',
+    preview: 'Strategic and operational leadership for FEH UAE and Al Maaref American School, with 30+ years transforming schools across the region.',
+    bio: [
+      "As Chief Executive Officer and Schools Director at First Education Holding (FEH) in the UAE, Mohamed Hussein Motawea provides strategic and operational leadership for Al Maaref American School in Dubai.",
+      "With over 30 years of experience transforming schools across the UAE and Egypt — including 15 years in senior leadership — he is widely recognised for building high-performing teams, driving measurable school improvement, and embedding a culture of excellence across entire school communities.",
+      "In 2025, he was honoured with the NEASC Commission on International Education Service Award, a prestigious global recognition of his contributions to international education. Among his key achievements, he led Al Zuhour Private School from an 'Acceptable' to a 'Good' rating by SPEA, guiding a community of over 3,000 students and 300 staff through a sustained improvement journey.",
+      "He brings deep expertise in UAE regulatory frameworks, including KHDA and SPEA/MOE inspections, as well as international accreditation through NEASC and Cognia. He has served as a NEASC Visiting Team Member and has chaired accreditation visits for international schools across the Gulf and beyond.",
+      "He holds a Master's degree in Management from the University of Lincoln, UK, and dual bachelor's degrees in Education and Business & Finance from Alexandria University, and is a licensed School Principal by the UAE Ministry of Education.",
+    ],
     tone: 'yellow',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80',
+    image: '/redesign-assets/mohammad_motawea_ceo_uae.jpg',
     email: 'mohamed.motawea@madarek.me',
     linkedin: '#',
   },
@@ -907,9 +1071,13 @@ const LEADERS: Leader[] = [
     name: 'Haris Moideen',
     eyebrow: 'Finance Leadership',
     title: 'Acting CFO & Board Secretary',
-    preview: 'Oversees financial management, compliance, governance, and board secretary responsibilities.',
+    preview: 'A Chartered Accountant with over 25 years in finance and governance, overseeing financial management, compliance, and board affairs.',
+    bio: [
+      "A Chartered Accountant and member of the Institute of Chartered Accountants of India, Haris Moideen brings over 25 years of experience across accounting, finance, and corporate governance.",
+      "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined First Education Holding (FEH) in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance.",
+    ],
     tone: 'pink',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=900&q=80',
+    image: '/redesign-assets/haris_cfo.jpeg',
     email: 'haris.moideen@madarek.me',
     linkedin: '#',
   },
@@ -954,110 +1122,32 @@ function Portrait({ src, alt, name, tone }: { src: string; alt: string; name: st
   );
 }
 
-/* Executives — full-bleed cinematic slider, one at a time. Large
-   portrait beside elegant typography on a light surface; social
-   links, counter, and prev/next arrows. Magazine-spread feel. */
-function ExecutiveSlider({ leaders }: { leaders: Leader[] }) {
-  const reduced = useReducedMotion();
-  const [[index, dir], setState] = useState<[number, number]>([0, 0]);
-  const n = leaders.length;
-  const active = ((index % n) + n) % n;
-  const leader = leaders[active];
-
-  const paginate = (delta: number) => setState(([i]) => [i + delta, delta]);
-
-  const variants = {
-    enter:  (d: number) => ({ x: reduced ? 0 : d >= 0 ? '5%' : '-5%', opacity: 0 }),
-    center: { x: '0%', opacity: 1 },
-    exit:   (d: number) => ({ x: reduced ? 0 : d >= 0 ? '-5%' : '5%', opacity: 0 }),
-  };
-
-  const arrowBtn = 'grid place-items-center h-12 w-12 rounded-full border transition-colors hover:bg-[#1A1714] hover:text-[#F4EDE0]';
-
+/* Executives — portrait cards with name + title overlaid, matching the
+   Board wall layout. Each card links to the leader's detail page. */
+function ExecutiveGrid({ leaders }: { leaders: Leader[] }) {
   return (
-    <div
-      className="relative w-full overflow-hidden mt-10 md:mt-14 focus:outline-none"
-      style={{ background: BRAND.white }}
-      tabIndex={0}
-      role="group"
-      aria-roledescription="carousel"
-      aria-label="Executive leadership"
-      onKeyDown={(e) => {
-        if (e.key === 'ArrowRight') { e.preventDefault(); paginate(1); }
-        if (e.key === 'ArrowLeft')  { e.preventDefault(); paginate(-1); }
-      }}>
-      <div className="relative grid grid-cols-1 lg:grid-cols-[1.1fr_1fr]">
-        <AnimatePresence custom={dir} mode="wait">
-          <motion.div
-            key={leader.slug}
-            custom={dir}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: reduced ? 0.2 : 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="contents">
-            {/* portrait */}
-            <div className="relative overflow-hidden h-[44vh] min-h-[320px] lg:h-[80vh] lg:min-h-[600px]">
-              <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
+      {leaders.map((l, i) => (
+        <Reveal key={l.slug} delay={(i % 3) * 0.06}>
+          <Link
+            to={`/about/leadership/${l.slug}`}
+            className="group relative block aspect-[3/4] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]">
+            <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
+              <Portrait src={l.image} alt={l.name} name={l.name} tone={l.tone} />
             </div>
-
-            {/* text */}
-            <div className="relative flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-12 lg:py-16">
-              <span className="font-mono tabular-nums text-[13px] tracking-[0.18em]" style={{ color: BRAND.inkMute }}>
-                {String(active + 1).padStart(2, '0')} / {String(n).padStart(2, '0')}
-              </span>
-              <h3 className="mt-6" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, color: BRAND.ink, fontSize: 'clamp(2.4rem, 4.6vw, 4.2rem)', lineHeight: 1.0, letterSpacing: '-0.02em' }}>
-                {leader.name}
-              </h3>
-              <div className="mt-5">
-                <span className="font-mono uppercase inline-block pb-1.5"
-                  style={{ fontSize: 12, letterSpacing: '0.18em', color: BRAND.ink, borderBottom: `2px solid ${withOpacity(leader.tone, 0.7)}` }}>
-                  {leader.title}
-                </span>
+            <div className="absolute inset-0 z-20 pointer-events-none"
+              style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.92) 0%, rgba(10,12,28,0.45) 32%, rgba(10,12,28,0) 60%)' }} />
+            <div className="absolute inset-x-0 bottom-0 z-30 p-5 md:p-6">
+              <div style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.15rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: BRAND.paperHi }}>
+                {l.name}
               </div>
-              <div className="mt-7 max-w-md">
-                <Body size="md" muted>{leader.preview}</Body>
-              </div>
-              <div className="mt-9 flex items-center gap-4">
-                <a href={leader.linkedin} aria-label={`${leader.name} on LinkedIn`}
-                  className="grid place-items-center h-10 w-10 rounded-full border transition-colors hover:bg-[#1A1714] hover:text-[#F4EDE0]"
-                  style={{ borderColor: withOpacity('ink', 0.25), color: BRAND.inkSub }}>
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-[18px] w-[18px]" aria-hidden="true">
-                    <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.25 8h4.5v15.5H.25V8zm7.5 0h4.31v2.12h.06c.6-1.07 2.06-2.2 4.24-2.2 4.54 0 5.38 2.86 5.38 6.58V23.5h-4.5v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65v7.02h-4.5V8z" />
-                  </svg>
-                </a>
-                <a href={`mailto:${leader.email}`} aria-label={`Email ${leader.name}`}
-                  className="grid place-items-center h-10 w-10 rounded-full border transition-colors hover:bg-[#1A1714] hover:text-[#F4EDE0]"
-                  style={{ borderColor: withOpacity('ink', 0.25), color: BRAND.inkSub }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-[18px] w-[18px]" aria-hidden="true">
-                    <rect x="2.5" y="4.5" width="19" height="15" rx="2" />
-                    <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
-                  </svg>
-                </a>
-                <Link to={`/about/leadership/${leader.slug}`}
-                  className="group ml-2 inline-flex items-center gap-2 text-[13px] tracking-[0.12em] uppercase font-medium"
-                  style={{ color: BRAND.ink }}>
-                  <span className="border-b pb-1" style={{ borderColor: withOpacity('ink', 0.4) }}>Full profile</span>
-                  <span className="transition-transform group-hover:translate-x-1" style={{ color: leader.tone }}>→</span>
-                </Link>
+              <div className="mt-2 font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72) }}>
+                {l.title}
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* arrows — bottom right */}
-        <div className="absolute right-6 md:right-10 bottom-6 md:bottom-10 z-20 flex gap-3">
-          <button type="button" onClick={() => paginate(-1)} aria-label="Previous executive"
-            className={arrowBtn} style={{ borderColor: withOpacity('ink', 0.3), color: BRAND.ink }}>
-            <span className="-mt-0.5 text-lg">←</span>
-          </button>
-          <button type="button" onClick={() => paginate(1)} aria-label="Next executive"
-            className={arrowBtn} style={{ borderColor: withOpacity('ink', 0.3), color: BRAND.ink }}>
-            <span className="-mt-0.5 text-lg">→</span>
-          </button>
-        </div>
-      </div>
+          </Link>
+        </Reveal>
+      ))}
     </div>
   );
 }
@@ -1100,10 +1190,10 @@ export function LeadershipPage() {
     <>
       <PageHero
         image="/redesign-assets/title_3.webp"
-        eyebrow="About Madarek"
+        eyebrow="About MADAREK"
         title="Leadership"
         italicTail="guiding the work."
-        lede="Governance and executive leadership steering Madarek's growth, school operations, and long-term education platform strategy."
+        lede="Governance and executive leadership steering MADAREK's growth, school operations, and long-term education platform strategy."
         tone="red"
         number={1} />
 
@@ -1123,9 +1213,8 @@ export function LeadershipPage() {
             </div>
           </Reveal>
 
+          <ExecutiveGrid leaders={LEADERS} />
         </Container>
-
-        <ExecutiveSlider leaders={LEADERS} />
       </Section>
 
       <Section bg="navy" className={d.sectionY}>
@@ -1142,7 +1231,7 @@ export function LeadershipPage() {
                 </Display>
                 <div className="mt-8 max-w-2xl">
                   <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
-                    Madarek's Board provides strategic oversight, governance, and
+                    MADAREK's Board provides strategic oversight, governance, and
                     stewardship for the platform's continued growth.
                   </Body>
                 </div>
@@ -1158,7 +1247,7 @@ export function LeadershipPage() {
         <Container max="6xl">
           <div className="grid grid-cols-12 gap-6 items-end">
             <div className="col-span-12 md:col-span-8">
-              <Eyebrow tone="paper">About Madarek</Eyebrow>
+              <Eyebrow tone="paper">About MADAREK</Eyebrow>
               <div className="mt-6">
                 <Display size="md" style={{ color: BRAND.paperHi }}>
                   More on<span style={{ fontStyle: 'normal' }}> who we are.</span>
@@ -1199,29 +1288,15 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
 
   return (
     <>
-      {/* Hero — initials portrait on dark, name and title beside */}
+      {/* Hero — portrait on dark, name and title beside */}
       <section className="relative w-full pt-44 pb-24 md:pt-52 md:pb-32" style={{ background: BRAND.ink }}>
         <Container>
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-center">
             <div className="col-span-12 md:col-span-4">
               <div
-                className="aspect-[4/5] flex items-center justify-center relative overflow-hidden"
-                style={{
-                  background: `linear-gradient(135deg, ${BRAND.ink} 0%, ${BRAND.inkSub} 100%)`,
-                  border: `1px solid ${withOpacity('paper', 0.18)}`,
-                }}>
-                <span
-                  aria-hidden="true"
-                  style={{
-                    fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
-                    fontWeight: 300,
-                    fontStyle: 'normal',
-                    fontSize: 'clamp(5rem, 10vw, 9rem)',
-                    color: withOpacity('paper', 0.92),
-                    letterSpacing: '-0.02em',
-                  }}>
-                  {getInitials(leader.name)}
-                </span>
+                className="aspect-[4/5] relative overflow-hidden"
+                style={{ border: `1px solid ${withOpacity('paper', 0.18)}` }}>
+                <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
               </div>
             </div>
             <div className="col-span-12 md:col-span-8">
@@ -1262,7 +1337,15 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
                 <div className="mt-3"><Eyebrow tone={leader.tone}>About</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Body size="xl">{leader.preview}</Body>
+                {leader.bio ? (
+                  <div className="space-y-6 max-w-3xl">
+                    {leader.bio.map((para, i) => (
+                      <Body key={i} size={i === 0 ? 'xl' : 'lg'} muted={i !== 0}>{para}</Body>
+                    ))}
+                  </div>
+                ) : (
+                  <Body size="xl">{leader.preview}</Body>
+                )}
               </div>
             </div>
           </Reveal>
@@ -1293,20 +1376,8 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
                   to={`/about/leadership/${l.slug}`}
                   className="group block border focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
                   style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
-                  <div
-                    className="aspect-[16/9] flex items-center justify-center relative overflow-hidden"
-                    style={{ background: `linear-gradient(135deg, ${BRAND.ink} 0%, ${BRAND.inkSub} 100%)` }}>
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
-                        fontWeight: 300,
-                        fontStyle: 'normal',
-                        fontSize: 72,
-                        color: withOpacity('paper', 0.9),
-                      }}>
-                      {getInitials(l.name)}
-                    </span>
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <Portrait src={l.image} alt={l.name} name={l.name} tone={l.tone} />
                   </div>
                   <div className="p-6">
                     <Eyebrow tone={l.tone}>{l.eyebrow}</Eyebrow>
@@ -1381,7 +1452,7 @@ export function NewsPage() {
         eyebrow="News & Insights"
         title="Stay"
         italicTail="connected."
-        lede="Stay updated with the latest announcements, achievements, partnerships, and developments across the MADAREK ecosystem. Through our news and insights, we share milestones, thought leadership, and stories that reflect our commitment to shaping the future of learning."
+        lede="The latest announcements, achievements, partnerships, and stories from across the MADAREK ecosystem."
         tone="cyan"
         number={1} />
 
@@ -1482,10 +1553,10 @@ export function CareersPage() {
     <>
       <PageHero
         image="/redesign-assets/growth.webp"
-        eyebrow="Careers at Madarek"
+        eyebrow="Careers at MADAREK"
         title="Join the future"
         italicTail="of education."
-        lede="At MADAREK, we believe people are at the heart of meaningful learning experiences. We are committed to attracting, developing, and empowering talented individuals who share our passion for education and innovation."
+        lede="We attract, develop, and empower talented people who share our passion for education and innovation."
         tone="yellow"
         number={1} />
 
@@ -1529,7 +1600,7 @@ export function CareersPage() {
             <div className="grid grid-cols-12 gap-6 mb-20">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={3} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">Life at Madarek</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="yellow">Life at MADAREK</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">

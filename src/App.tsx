@@ -282,7 +282,7 @@ function Footer() {
 
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-start md:items-center gap-3" style={{ borderColor: withOpacity('paper', 0.12) }}>
           <span style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }}>
-            © {new Date().getFullYear()} Madarek Education
+            © {new Date().getFullYear()} MADAREK Education
           </span>
           <div className="flex gap-6">
             <Link to="/privacy" style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }} className="hover:text-white">Privacy</Link>
