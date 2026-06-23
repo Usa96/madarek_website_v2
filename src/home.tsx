@@ -468,7 +468,7 @@ function ContactSection() {
         <Reveal>
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 md:col-span-3">
-              <SectionNumber n={7} tone="cyan" />
+              <SectionNumber n={4} tone="cyan" />
               <div className="mt-3"><Eyebrow tone="cyan">Get in touch</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
