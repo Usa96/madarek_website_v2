@@ -4,7 +4,7 @@
    photography goes full-bleed alone, text stacks beneath it,
    no side-by-side. */
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import {
@@ -45,7 +45,7 @@ function HeroSection() {
       {/* top brand bar */}
       <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 flex items-center justify-between text-[#F4EDE0]/85">
         <Meta tone="paper">Madarek · Education · GCC</Meta>
-        <Meta tone="paper">Est. 2023 · Doha</Meta>
+        <Meta tone="paper">Est. 2023 · GCC</Meta>
       </div>
 
       {/* main type */}
@@ -53,9 +53,9 @@ function HeroSection() {
         style={{ y: titleY, opacity: titleO }}
         className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-24 md:pb-32">
         <div className="max-w-[1400px]">
-          <Display size="lg" style={{ color: BRAND.paperHi, fontWeight: 200 }}>
+          <Display size="lg" style={{ color: BRAND.paperHi, fontWeight: 300 }}>
             <span style={{ display: 'block' }}>Shaping the future</span>
-            <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.paperHi }}>
+            <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.paperHi }}>
               of learning.
             </span>
           </Display>
@@ -98,7 +98,7 @@ function AboutSection() {
             <div className="col-span-12 md:col-span-9">
               <Display size="lg" italic={false}>
                 A regional education
-                <span style={{ fontStyle: 'italic', color: BRAND.inkSub }}> platform.</span>
+                <span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> platform.</span>
               </Display>
             </div>
           </div>
@@ -183,7 +183,7 @@ function FrameworkSection() {
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
                 <span>Four pillars.</span>
-                <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.inkSub }}>One direction.</span>
+                <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>One direction.</span>
               </Display>
             </div>
           </div>
@@ -272,7 +272,7 @@ function CinematicMoment() {
             <div className="mt-6">
               <Display size="lg" style={{ color: BRAND.paperHi }} italic={false}>
                 where every student is
-                <span style={{ fontStyle: 'italic' }}> known.</span>
+                <span style={{ fontStyle: 'normal' }}> known.</span>
               </Display>
             </div>
           </div>
@@ -312,64 +312,156 @@ function SchoolsSection({ schools }: { schools: School[] }) {
               </Link>
             </div>
             <Display style={{ color: BRAND.paperHi, fontSize: 'clamp(1.85rem, 4vw, 3.4rem)' }}>
-              Three campuses,{' '}
-              <span style={{ fontStyle: 'italic', color: withOpacity('paper', 0.55) }}>and a region in the making.</span>
+              {schools.length} campuses today,{' '}
+              <span style={{ color: withOpacity('paper', 0.55) }}>and a region in the making.</span>
             </Display>
           </div>
         </Reveal>
 
         <Reveal>
-          <SchoolsMosaic schools={schools} />
+          <SchoolsCarousel schools={schools} />
         </Reveal>
       </Container>
     </Section>
   );
 }
 
-function SchoolsMosaic({ schools }: { schools: School[] }) {
-  const [hero, ...rest] = schools;
-  const right = rest.slice(0, 2);
-  if (!hero) return null;
+/* Horizontal snap carousel — scales to any number of campuses. Arrow
+   controls, drag/scroll, and a progress bar; a closing card signals the
+   network is still growing. */
+function SchoolsCarousel({ schools }: { schools: School[] }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const update = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setProgress(max > 0 ? el.scrollLeft / max : 1);
+    setAtStart(el.scrollLeft <= 2);
+    setAtEnd(el.scrollLeft >= max - 2);
+  };
+
+  useEffect(() => {
+    update();
+    const el = trackRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const scrollByCards = (dir: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>('[data-card]');
+    const amount = card ? card.offsetWidth + 16 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * amount, behavior: 'smooth' });
+  };
+
+  const arrowCls = 'grid place-items-center h-11 w-11 rounded-full border transition-colors hover:bg-[#F4EDE0] hover:text-[#0A0E1C] disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-3 md:gap-4 md:h-[82vh] md:min-h-[600px]">
-      <MosaicTile school={hero} hero className="md:row-span-2 aspect-[4/5] md:aspect-auto md:h-full" />
-      {right.map((s) => (
-        <MosaicTile key={s.slug} school={s} className="aspect-[16/10] md:aspect-auto md:h-full" />
-      ))}
+    <div>
+      {/* controls */}
+      <div className="flex items-center justify-between mb-6">
+        <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.18em', color: withOpacity('paper', 0.6) }}>
+          Drag to explore · {String(schools.length).padStart(2, '0')} campuses
+        </span>
+        <div className="flex gap-3">
+          <button type="button" onClick={() => scrollByCards(-1)} disabled={atStart} aria-label="Previous campuses"
+            className={arrowCls} style={{ borderColor: withOpacity('paper', 0.35), color: BRAND.paperHi }}>
+            <span className="-mt-0.5 text-lg">←</span>
+          </button>
+          <button type="button" onClick={() => scrollByCards(1)} disabled={atEnd} aria-label="More campuses"
+            className={arrowCls} style={{ borderColor: withOpacity('paper', 0.35), color: BRAND.paperHi }}>
+            <span className="-mt-0.5 text-lg">→</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        ref={trackRef}
+        onScroll={update}
+        role="group"
+        aria-label="Campuses"
+        className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
+        {schools.map((s, i) => (
+          <CarouselCard key={s.slug} school={s} index={i} />
+        ))}
+        <FutureCampusCard />
+      </div>
+
+      {/* progress */}
+      <div className="mt-8 h-px w-full overflow-hidden" style={{ background: withOpacity('paper', 0.15) }}>
+        <div className="h-full transition-[width] duration-150" style={{ width: `${Math.max(10, progress * 100)}%`, background: BRAND.cyan }} />
+      </div>
     </div>
   );
 }
 
-function MosaicTile({ school, className = '', hero = false }: { school: School; className?: string; hero?: boolean }) {
+const CARD_W = 'flex-none w-[80%] sm:w-[55%] md:w-[40%] lg:w-[31%] xl:w-[27%]';
+
+function CarouselCard({ school, index }: { school: School; index: number }) {
   return (
     <Link
+      data-card
       to={`/schools/${school.slug}`}
-      className={`group relative overflow-hidden block focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF] ${className}`}
+      className={`group relative ${CARD_W} snap-start overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF]`}
       style={{ background: BRAND.navy }}>
-      <img
-        src={school.image}
-        alt={school.name}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]" />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.88) 0%, rgba(10,12,28,0.3) 40%, rgba(10,12,28,0) 65%)' }} />
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'rgba(10,12,28,0.28)' }} />
-
-      <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
-        <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, color: BRAND.paperHi, lineHeight: 1.08, letterSpacing: '-0.01em', fontSize: hero ? 'clamp(1.9rem, 3.4vw, 3rem)' : 'clamp(1.3rem, 2vw, 1.85rem)' }}>
-          {school.short}
-        </h3>
-        <div className="mt-2 font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72) }}>
-          {school.location}
+      <div className="relative aspect-[3/4]">
+        <img
+          src={school.image}
+          alt={school.name}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.9) 0%, rgba(10,12,28,0.3) 45%, rgba(10,12,28,0) 70%)' }} />
+        <div className="absolute top-5 left-5">
+          <span className="font-mono tabular-nums px-2 py-1" style={{ fontSize: 10.5, letterSpacing: '0.18em', color: BRAND.paperHi, background: 'rgba(10,12,28,0.45)', backdropFilter: 'blur(6px)' }}>
+            {String(index + 1).padStart(2, '0')}
+          </span>
         </div>
+        <div className="absolute inset-x-0 bottom-0 p-6">
+          <div className="font-mono uppercase mb-2" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72) }}>
+            {school.location}
+          </div>
+          <h3 style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, color: BRAND.paperHi, lineHeight: 1.1, letterSpacing: '-0.01em', fontSize: 'clamp(1.5rem, 2.2vw, 2rem)' }}>
+            {school.short}
+          </h3>
+          <div className="overflow-hidden max-h-0 opacity-0 -translate-y-1 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100 group-hover:translate-y-0">
+            <div className="mt-3 font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.14em', color: withOpacity('paper', 0.62) }}>
+              {school.curriculum} · {school.ages}
+            </div>
+            <div className="mt-3 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
+              <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>View campus</span>
+              <span style={{ color: BRAND.cyan }}>→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
-        {/* hover-reveal details */}
-        <div className="overflow-hidden max-h-0 opacity-0 -translate-y-1 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100 group-hover:translate-y-0">
-          <div className="mt-4 font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.14em', color: withOpacity('paper', 0.6) }}>
-            {school.curriculum} · {school.ages}
-          </div>
-          <div className="mt-3 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
-            <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>View campus</span>
-            <span style={{ color: BRAND.cyan }}>→</span>
-          </div>
+/* Closing card — communicates the network keeps growing. */
+function FutureCampusCard() {
+  return (
+    <Link
+      to="/schools"
+      aria-label="More campuses joining the network"
+      className={`group relative ${CARD_W} snap-start rounded-xl focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF]`}>
+      <div
+        className="relative aspect-[3/4] flex flex-col items-center justify-center text-center px-8 rounded-xl border border-dashed transition-colors group-hover:border-[color:#27C4FF]"
+        style={{ borderColor: withOpacity('paper', 0.25) }}>
+        <FoldedMark size={44} tone="cyan" tilt="lean" />
+        <div className="mt-6" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, color: BRAND.paperHi, fontSize: 'clamp(1.4rem, 2vw, 1.8rem)', lineHeight: 1.15 }}>
+          More campuses joining the network
+        </div>
+        <div className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
+          <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>Explore all</span>
+          <span style={{ color: BRAND.cyan }}>→</span>
         </div>
       </div>
     </Link>
@@ -394,7 +486,7 @@ function InnovationSection() {
             <div className="mt-3 mb-8"><Eyebrow tone="yellow">Educational Excellence</Eyebrow></div>
             <Display size="lg">
               A commitment to
-              <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.inkSub }}>lifelong learning.</span>
+              <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>lifelong learning.</span>
             </Display>
             <div className="mt-10 max-w-2xl">
               <Body size="lg" muted>
@@ -442,7 +534,7 @@ function FoundationSection() {
           </div>
           <Display size="lg" style={{ color: BRAND.paperHi }}>
             <span>Building futures</span>
-            <span style={{ display: 'block', fontStyle: 'italic' }}>beyond the classroom.</span>
+            <span style={{ display: 'block', fontStyle: 'normal' }}>beyond the classroom.</span>
           </Display>
         </div>
       </div>
@@ -484,7 +576,7 @@ function AcademySection() {
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
                 Learning beyond
-                <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.inkSub }}>the classroom.</span>
+                <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>the classroom.</span>
               </Display>
             </div>
           </div>
@@ -531,7 +623,7 @@ function ContactSection() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
-                Let's shape the future<span style={{ fontStyle: 'italic', color: BRAND.inkSub }}> together.</span>
+                Let's shape the future<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> together.</span>
               </Display>
               <div className="mt-12 max-w-2xl">
                 <Body size="lg" muted>

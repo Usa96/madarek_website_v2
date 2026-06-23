@@ -198,9 +198,9 @@ function Header() {
                   <Link
                     to={l.to}
                     style={{
-                      fontFamily: 'Fraunces, serif',
-                      fontWeight: 200,
-                      fontStyle: 'italic',
+                      fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
+                      fontWeight: 300,
+                      fontStyle: 'normal',
                       fontSize: 'clamp(2.5rem, 8vw, 5rem)',
                       color: BRAND.paperHi,
                       lineHeight: 1,
@@ -282,7 +282,7 @@ function Footer() {
 
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-start md:items-center gap-3" style={{ borderColor: withOpacity('paper', 0.12) }}>
           <span style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }}>
-            © {new Date().getFullYear()} Madarek Education · Doha, Qatar
+            © {new Date().getFullYear()} Madarek Education
           </span>
           <div className="flex gap-6">
             <Link to="/privacy" style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }} className="hover:text-white">Privacy</Link>

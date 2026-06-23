@@ -236,11 +236,11 @@ export function Display({
     <As
       className={className}
       style={{
-        fontFamily: 'Fraunces, ui-serif, Georgia, serif',
-        fontWeight: 200,
-        fontStyle: italic ? 'italic' : 'normal',
+        fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
+        fontWeight: 300,
+        fontStyle: 'normal',
         fontSize: sizes[size],
-        lineHeight: 0.95,
+        lineHeight: 1.04,
         letterSpacing: '-0.02em',
         textWrap: 'balance',
         color: BRAND.ink,
@@ -274,7 +274,7 @@ export function Body({
       className={className}
       style={{
         fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-        fontWeight: 300,
+        fontWeight: 400,
         fontSize: sizes[size],
         lineHeight: 1.55,
         color: muted ? BRAND.inkSub : BRAND.ink,

@@ -71,7 +71,7 @@ function PageHero({
           <Display size="lg" style={{ color: BRAND.paperHi }}>
             <span>{title}</span>
             {italicTail && (
-              <span style={{ display: 'block', fontStyle: 'italic' }}>{italicTail}</span>
+              <span style={{ display: 'block', fontStyle: 'normal' }}>{italicTail}</span>
             )}
           </Display>
           {lede && (
@@ -119,7 +119,7 @@ export function AboutPage() {
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
                   <span>Vision &amp;</span>
-                  <span style={{ display: 'block', fontStyle: 'italic', color: BRAND.inkSub }}>mission.</span>
+                  <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>mission.</span>
                 </Display>
               </div>
             </div>
@@ -197,7 +197,7 @@ export function AboutPage() {
           <div className="max-w-3xl">
             <Display size="lg" style={{ color: BRAND.paperHi }}>
               We build for
-              <span style={{ fontStyle: 'italic' }}> decades, not quarters.</span>
+              <span style={{ fontStyle: 'normal' }}> decades, not quarters.</span>
             </Display>
           </div>
         </div>
@@ -245,7 +245,7 @@ export function AboutPage() {
               <Eyebrow tone="paper">Leadership</Eyebrow>
               <div className="mt-6">
                 <Display size="md" style={{ color: BRAND.paperHi }}>
-                  Meet the people<span style={{ fontStyle: 'italic' }}> guiding the work.</span>
+                  Meet the people<span style={{ fontStyle: 'normal' }}> guiding the work.</span>
                 </Display>
               </div>
             </div>
@@ -401,7 +401,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="md" style={{ color: BRAND.paperHi }}>
-                Interested in<span style={{ fontStyle: 'italic' }}> {school.name}?</span>
+                Interested in<span style={{ fontStyle: 'normal' }}> {school.name}?</span>
               </Display>
               <div className="mt-10 space-y-3" style={{ color: withOpacity('paper', 0.8) }}>
                 <div><Meta tone="paper">Address</Meta><Body style={{ color: withOpacity('paper', 0.85) }}>{school.address}</Body></div>
@@ -423,15 +423,25 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
 }
 
 /* ── Foundation page ──────────────────────────────────────── */
+const CARD_HEADING = 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif';
+
 export function FoundationPage() {
   const d = useDensity();
-  const pillars = [
-    { title: 'Access to Education',           detail: 'Supporting initiatives that promote inclusive and accessible learning opportunities for individuals and communities.' },
-    { title: 'Community Development',         detail: 'Contributing to programs that strengthen communities and create meaningful and lasting social impact.' },
-    { title: 'Student Empowerment',          detail: 'Encouraging leadership, creativity, and lifelong learning by providing opportunities that help students reach their full potential.' },
-    { title: 'Partnerships for Good',        detail: 'Collaborating with institutions and organizations that share our vision of creating positive change through education.' },
-    { title: 'Sustainability & Social Impact', detail: 'Creating long-term value by supporting responsible initiatives that contribute to a better future for generations to come.' },
+
+  const focusAreas: { tone: BrandKey; title: string; detail: string }[] = [
+    { tone: 'pink',   title: 'Access to Education',       detail: 'Supporting initiatives that promote inclusive and accessible learning opportunities for individuals and communities.' },
+    { tone: 'cyan',   title: 'Community Development',     detail: 'Contributing to programs that strengthen communities and create meaningful, lasting social impact.' },
+    { tone: 'yellow', title: 'Student Empowerment',      detail: 'Encouraging leadership, creativity, and lifelong learning so students can reach their full potential.' },
+    { tone: 'lime',   title: 'Partnerships for Good',    detail: 'Collaborating with institutions and organizations that share our vision of positive change through education.' },
+    { tone: 'red',    title: 'Sustainability & Impact',  detail: 'Creating long-term value through responsible initiatives that build a better future for generations to come.' },
   ];
+
+  const involvement = [
+    { title: 'Partner with us', detail: 'For institutions and organizations whose mission aligns with advancing education across the region.' },
+    { title: 'Support a cause', detail: 'Back the initiatives that expand access, strengthen communities, and empower students.' },
+    { title: 'Collaborate',     detail: 'For educators and changemakers bringing programs and ideas to the communities we serve.' },
+  ];
+
   return (
     <>
       <PageHero
@@ -442,101 +452,111 @@ export function FoundationPage() {
         lede="Empowering communities and expanding opportunities through meaningful educational initiatives and partnerships."
         tone="pink" />
 
+      {/* Mission — manifesto */}
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-24">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={1} tone="pink" />
-                <div className="mt-3"><Eyebrow tone="pink">Mission</Eyebrow></div>
+            <div className="max-w-4xl">
+              <Eyebrow tone="pink">Our mission</Eyebrow>
+              <div className="mt-7">
+                <Display size="md">Education transforms lives.</Display>
               </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">Education<span style={{ fontStyle: 'italic' }}> transforms lives.</span></Display>
-                <div className="mt-10 max-w-3xl">
-                  <Body size="xl">
-                    The MADAREK Foundation reflects our commitment to creating
-                    positive and sustainable impact beyond the classroom. Through
-                    educational initiatives, community engagement, and strategic
-                    collaborations, we aim to empower future generations and
-                    contribute to the advancement of the communities we serve.
-                    Guided by the belief that education has the power to transform
-                    lives, the Foundation seeks to create opportunities that
-                    inspire growth, foster inclusion, and promote lifelong
-                    learning.
-                  </Body>
-                </div>
-                <div className="mt-8 max-w-3xl">
-                  <Meta tone="pink">Vision</Meta>
-                  <div className="mt-3">
-                    <Body size="lg" muted>
-                      To create lasting social impact by empowering communities
-                      and expanding opportunities through education.
-                    </Body>
-                  </div>
-                </div>
+              <div className="mt-10">
+                <Body size="xl">
+                  The MADAREK Foundation reflects our commitment to creating
+                  positive and sustainable impact beyond the classroom. Through
+                  educational initiatives, community engagement, and strategic
+                  collaborations, we empower future generations and contribute to
+                  the advancement of the communities we serve — guided by the
+                  belief that education has the power to transform lives.
+                </Body>
               </div>
             </div>
           </Reveal>
         </Container>
       </Section>
 
+      {/* Focus areas — icon card grid */}
       <Section bg="paperLo" className={d.sectionY}>
         <Container>
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-20 items-end">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={2} tone="pink" />
-                <div className="mt-3"><Eyebrow tone="pink">Focus areas</Eyebrow></div>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+              <div>
+                <Eyebrow tone="pink">Focus areas</Eyebrow>
+                <div className="mt-5"><Display size="md">Where we focus.</Display></div>
               </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">Five focus areas,<span style={{ fontStyle: 'italic' }}> one mission.</span></Display>
+              <div className="max-w-md">
+                <Body size="md" muted>
+                  Five areas where the Foundation concentrates its effort,
+                  funding, and partnerships.
+                </Body>
               </div>
             </div>
           </Reveal>
 
-          <div className="border-t" style={{ borderColor: BRAND.rule }}>
-            {pillars.map((p, i) => (
-              <div key={p.title} className="border-b py-12 md:py-16 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
-                <div className="col-span-2 md:col-span-1">
-                  <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND.pink, fontWeight: 600 }}>
-                    0{i + 1}
-                  </span>
-                </div>
-                <div className="col-span-10 md:col-span-6"><Display size="sm">{p.title}</Display></div>
-                <div className="col-span-12 md:col-span-5"><Body size="md" muted>{p.detail}</Body></div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {focusAreas.map((f, i) => (
+              <Reveal key={f.title} delay={(i % 3) * 0.06}>
+                <article className="h-full p-8 border flex flex-col" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
+                  <div className="flex items-center justify-between mb-8">
+                    <FoldedMark size={34} tone={f.tone} tilt="rest" />
+                    <span className="font-mono tabular-nums" style={{ fontSize: 12, letterSpacing: '0.18em', color: BRAND.inkMute, fontWeight: 600 }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.25rem, 1.8vw, 1.6rem)', lineHeight: 1.2, letterSpacing: '-0.01em', color: BRAND.ink }}>
+                    {f.title}
+                  </h3>
+                  <div className="mt-4"><Body size="md" muted>{f.detail}</Body></div>
+                </article>
+              </Reveal>
             ))}
           </div>
         </Container>
       </Section>
 
+      {/* Vision — cinematic image + statement */}
       <section className="relative w-full h-[70vh] overflow-hidden bg-black">
         <ScrollImage src="/redesign-assets/4.webp" alt="" overlay="hero" />
-        <div className="absolute inset-0 z-10 flex items-end px-6 md:px-12 pb-16">
-          <div className="max-w-3xl">
-            <Display size="lg" style={{ color: BRAND.paperHi }}>
-              Every child<span style={{ fontStyle: 'italic' }}> deserves access.</span>
-            </Display>
+        <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-16">
+          <div className="max-w-4xl">
+            <Eyebrow tone="paper">Our vision</Eyebrow>
+            <div className="mt-6">
+              <Display size="md" style={{ color: BRAND.paperHi }}>
+                To create lasting social impact by empowering communities and
+                expanding opportunities through education.
+              </Display>
+            </div>
           </div>
         </div>
       </section>
 
-      <Section bg="ink" className="py-24 md:py-32">
-        <Container max="6xl">
-          <div className="grid grid-cols-12 gap-6 items-end">
-            <div className="col-span-12 md:col-span-8">
-              <Eyebrow tone="paper">Get involved</Eyebrow>
-              <div className="mt-6">
-                <Display size="md" style={{ color: BRAND.paperHi }}>
-                  Partner<span style={{ fontStyle: 'italic' }}> with the work.</span>
-                </Display>
+      {/* Ways to get involved */}
+      <Section bg="paper" className={d.sectionY}>
+        <Container>
+          <Reveal>
+            <div className="mb-14">
+              <Eyebrow tone="pink">Get involved</Eyebrow>
+              <div className="mt-5"><Display size="md">Be part of the work.</Display></div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ background: BRAND.rule }}>
+            {involvement.map((it, i) => (
+              <div key={it.title} className="p-8 md:p-10" style={{ background: BRAND.paper }}>
+                <span className="font-mono tabular-nums" style={{ fontSize: 12, letterSpacing: '0.18em', color: BRAND.pink, fontWeight: 600 }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-5" style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.2rem, 1.6vw, 1.5rem)', lineHeight: 1.2, color: BRAND.ink }}>
+                  {it.title}
+                </h3>
+                <div className="mt-3"><Body size="md" muted>{it.detail}</Body></div>
               </div>
-            </div>
-            <div className="col-span-12 md:col-span-4 md:text-right">
-              <PillLink to="mailto:foundation@madarek.me" variant="invert" size="md">
-                Partner with us
-              </PillLink>
-            </div>
+            ))}
+          </div>
+
+          <div className="mt-12">
+            <PillLink to="mailto:foundation@madarek.me" variant="primary" size="md">Partner with the Foundation</PillLink>
           </div>
         </Container>
       </Section>
@@ -548,13 +568,21 @@ export function FoundationPage() {
 export function AcademyPage() {
   const d = useDensity();
   const programs = [
-    { title: 'Student Exchange Programs',        detail: 'Providing students with opportunities to engage with peers across the MADAREK ecosystem and beyond. These experiences promote cultural understanding, broaden perspectives, and foster global citizenship.' },
-    { title: 'Leadership Development',           detail: 'Preparing future leaders through mentorship programs, workshops, and experiential learning opportunities that cultivate confidence, collaboration, and responsibility.' },
-    { title: 'Innovation & Entrepreneurship',   detail: 'Encouraging creativity, critical thinking, and problem-solving through initiatives designed to inspire the next generation of innovators and changemakers.' },
-    { title: 'Academic Enrichment',             detail: 'Supporting continuous learning through competitions, educational camps, workshops, and specialized programs that complement classroom education.' },
-    { title: 'Cross-School Collaboration',      detail: 'Connecting students and educators across the MADAREK ecosystem through shared initiatives, projects, and experiences that encourage collaboration and knowledge exchange.' },
-    { title: 'Global Partnerships',             detail: 'Collaborating with leading institutions and organizations to provide broader opportunities and exposure to international best practices.' },
+    { title: 'Student Exchange Programs',      detail: 'Opportunities to engage with peers across the MADAREK ecosystem and beyond — promoting cultural understanding, broader perspectives, and global citizenship.' },
+    { title: 'Leadership Development',         detail: 'Mentorship programs, workshops, and experiential learning that cultivate confidence, collaboration, and responsibility in future leaders.' },
+    { title: 'Innovation & Entrepreneurship', detail: 'Initiatives that encourage creativity, critical thinking, and problem-solving to inspire the next generation of innovators and changemakers.' },
+    { title: 'Academic Enrichment',           detail: 'Competitions, educational camps, workshops, and specialized programs that complement and extend classroom education.' },
+    { title: 'Cross-School Collaboration',    detail: 'Shared initiatives, projects, and experiences that connect students and educators across the MADAREK ecosystem.' },
+    { title: 'Global Partnerships',           detail: 'Collaborations with leading institutions and organizations that open broader opportunities and exposure to international best practices.' },
   ];
+
+  const outcomes = [
+    { title: 'Global perspective', detail: 'Exposure to new cultures, peers, and international best practices.' },
+    { title: 'Leadership',         detail: 'Confidence, collaboration, and responsibility built through real experience.' },
+    { title: 'Creativity',         detail: 'Critical thinking and problem-solving that inspire changemakers.' },
+    { title: 'Belonging',          detail: 'Connection across the MADAREK ecosystem through shared work.' },
+  ];
+
   return (
     <>
       <PageHero
@@ -565,50 +593,107 @@ export function AcademyPage() {
         lede="Inspiring the next generation through enrichment programs, global experiences, and lifelong learning opportunities."
         tone="yellow" />
 
+      {/* Overview */}
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-16">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={1} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">Overview</Eyebrow></div>
+            <div className="max-w-4xl">
+              <Eyebrow tone="yellow">Overview</Eyebrow>
+              <div className="mt-7">
+                <Display size="md">A platform for student enrichment.</Display>
               </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">A platform for<span style={{ fontStyle: 'italic' }}> student enrichment.</span></Display>
-                <div className="mt-10 max-w-3xl">
-                  <Body size="xl">
-                    MADAREK Academy serves as a platform for enrichment,
-                    leadership development, and collaborative experiences that
-                    empower students to explore new perspectives and unlock their
-                    full potential. By extending learning beyond traditional
-                    classrooms, MADAREK Academy aims to provide meaningful
-                    experiences that prepare students to thrive in a globally
-                    connected and rapidly evolving world.
-                  </Body>
-                </div>
+              <div className="mt-10">
+                <Body size="xl">
+                  MADAREK Academy is a platform for enrichment, leadership
+                  development, and collaborative experiences that empower students
+                  to explore new perspectives and unlock their full potential. By
+                  extending learning beyond traditional classrooms, we prepare
+                  students to thrive in a globally connected, rapidly evolving
+                  world.
+                </Body>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* Programs — ghost-number card grid */}
+      <Section bg="paperLo" className={d.sectionY}>
+        <Container>
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+              <div>
+                <Eyebrow tone="yellow">Programs</Eyebrow>
+                <div className="mt-5"><Display size="md">Six ways to grow.</Display></div>
+              </div>
+              <div className="max-w-md">
+                <Body size="md" muted>
+                  Enrichment that extends learning beyond the classroom — across
+                  the MADAREK ecosystem and around the world.
+                </Body>
               </div>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {programs.map((p, i) => (
-              <div key={p.title} className="py-14 px-8 md:px-12" style={{ background: BRAND.paper }}>
-                <div className="flex items-baseline gap-4 mb-6">
-                  <span className="font-mono tabular-nums" style={{ fontSize: 11, letterSpacing: '0.18em', color: BRAND.yellow, fontWeight: 600 }}>
-                    0{i + 1}
+              <Reveal key={p.title} delay={(i % 3) * 0.06}>
+                <article className="relative h-full overflow-hidden p-8 border" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-3 right-3 pointer-events-none select-none"
+                    style={{ fontFamily: CARD_HEADING, fontWeight: 700, fontSize: 'clamp(4rem, 7vw, 5.5rem)', lineHeight: 1, color: withOpacity('yellow', 0.18) }}>
+                    {String(i + 1).padStart(2, '0')}
                   </span>
-                  <Meta>Program</Meta>
-                </div>
-                <Display size="sm">{p.title}</Display>
-                <div className="mt-5">
-                  <Body size="md" muted>{p.detail}</Body>
-                </div>
+                  <div className="relative">
+                    <span className="block w-10 h-1 mb-7" style={{ background: BRAND.yellow }} />
+                    <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.25rem, 1.8vw, 1.6rem)', lineHeight: 1.2, letterSpacing: '-0.01em', color: BRAND.ink }}>
+                      {p.title}
+                    </h3>
+                    <div className="mt-4"><Body size="md" muted>{p.detail}</Body></div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Outcomes — what students gain */}
+      <Section bg="paper" className={d.sectionY}>
+        <Container>
+          <Reveal>
+            <div className="grid grid-cols-12 gap-6 mb-14">
+              <div className="col-span-12 md:col-span-5">
+                <Eyebrow tone="yellow">What students gain</Eyebrow>
+                <div className="mt-5"><Display size="md">More than a classroom.</Display></div>
+              </div>
+              <div className="col-span-12 md:col-span-6 md:col-start-7 self-end">
+                <Body size="lg" muted>
+                  Every program is designed around the skills, perspectives, and
+                  relationships students carry with them for life.
+                </Body>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px" style={{ background: BRAND.rule }}>
+            {outcomes.map((o, i) => (
+              <div key={o.title} className="p-8" style={{ background: BRAND.paper }}>
+                <span className="font-mono tabular-nums" style={{ fontSize: 12, letterSpacing: '0.18em', color: BRAND.yellow, fontWeight: 600 }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-5" style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.15rem, 1.5vw, 1.4rem)', lineHeight: 1.2, color: BRAND.ink }}>
+                  {o.title}
+                </h3>
+                <div className="mt-3"><Body size="sm" muted>{o.detail}</Body></div>
               </div>
             ))}
           </div>
         </Container>
       </Section>
 
+      {/* In practice — image strip */}
       <section className="w-full overflow-hidden" style={{ background: BRAND.paperLo }}>
         <div className="py-20 md:py-28 px-6 md:px-12">
           <div className="max-w-7xl mx-auto mb-12">
@@ -617,19 +702,20 @@ export function AcademyPage() {
           <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
             {['3.webp', '4.webp', '6.webp', '7.webp'].map((src) => (
               <div key={src} className="flex-shrink-0 snap-start w-[280px] md:w-[440px] aspect-[3/4] overflow-hidden">
-                <img src={`/redesign-assets/${src}`} alt="" className="w-full h-full object-cover" />
+                <img src={`/redesign-assets/${src}`} alt="" loading="lazy" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Vision + CTA */}
       <Section bg="ink" className="py-24 md:py-32">
         <Container max="6xl">
           <Eyebrow tone="paper">Our vision</Eyebrow>
           <div className="mt-6 max-w-4xl">
             <Display size="md" style={{ color: BRAND.paperHi }}>
-              To inspire lifelong learners<span style={{ fontStyle: 'italic' }}> and future leaders.</span>
+              To inspire lifelong learners and future leaders.
             </Display>
           </div>
           <div className="mt-8 max-w-2xl">
@@ -669,7 +755,7 @@ export function ContactPage() {
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="xl" style={{ color: BRAND.paperHi }}>
-                Let's shape the future<span style={{ fontStyle: 'italic' }}> together.</span>
+                Let's shape the future<span style={{ fontStyle: 'normal' }}> together.</span>
               </Display>
               <div className="mt-10 max-w-2xl">
                 <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>
@@ -760,8 +846,8 @@ export function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <Meta>Office</Meta>
-                  <div className="mt-2"><Body size="lg">Doha, Qatar</Body></div>
+                  <Meta>Locations</Meta>
+                  <div className="mt-2"><Body size="lg">Dubai, UAE · Riyadh, KSA</Body></div>
                 </div>
                 <div>
                   <Meta>Social</Meta>
@@ -852,7 +938,7 @@ function Portrait({ src, alt, name, tone }: { src: string; alt: string; name: st
     <div className="absolute inset-0" style={{ background: `linear-gradient(140deg, ${withOpacity(tone, 0.5)} 0%, ${BRAND.ink} 80%)` }}>
       <div className="absolute inset-0 flex items-center justify-center">
         <span aria-hidden="true" className="select-none leading-none"
-          style={{ fontFamily: 'Fraunces, serif', fontWeight: 200, fontStyle: 'italic', fontSize: 'clamp(3rem, 8vw, 6rem)', color: withOpacity('paper', 0.9), letterSpacing: '-0.02em' }}>
+          style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontStyle: 'normal', fontSize: 'clamp(3rem, 8vw, 6rem)', color: withOpacity('paper', 0.9), letterSpacing: '-0.02em' }}>
           {getInitials(name)}
         </span>
       </div>
@@ -921,7 +1007,7 @@ function ExecutiveSlider({ leaders }: { leaders: Leader[] }) {
               <span className="font-mono tabular-nums text-[13px] tracking-[0.18em]" style={{ color: BRAND.inkMute }}>
                 {String(active + 1).padStart(2, '0')} / {String(n).padStart(2, '0')}
               </span>
-              <h3 className="mt-6" style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, color: BRAND.ink, fontSize: 'clamp(2.4rem, 4.6vw, 4.2rem)', lineHeight: 1.0, letterSpacing: '-0.02em' }}>
+              <h3 className="mt-6" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, color: BRAND.ink, fontSize: 'clamp(2.4rem, 4.6vw, 4.2rem)', lineHeight: 1.0, letterSpacing: '-0.02em' }}>
                 {leader.name}
               </h3>
               <div className="mt-5">
@@ -993,7 +1079,7 @@ function BoardWall({ members }: { members: BoardMember[] }) {
               <div className="absolute inset-0 z-20 pointer-events-none"
                 style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.92) 0%, rgba(10,12,28,0.45) 32%, rgba(10,12,28,0) 60%)' }} />
               <div className="absolute inset-x-0 bottom-0 z-30 p-5 md:p-6">
-                <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: BRAND.paperHi }}>
+                <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: BRAND.paperHi }}>
                   {m.name}
                 </div>
                 <div className="mt-2 font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.7) }}>
@@ -1031,7 +1117,7 @@ export function LeadershipPage() {
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  The people<span style={{ fontStyle: 'italic', display: 'block' }}>behind the schools.</span>
+                  The people<span style={{ fontStyle: 'normal', display: 'block' }}>behind the schools.</span>
                 </Display>
               </div>
             </div>
@@ -1052,7 +1138,7 @@ export function LeadershipPage() {
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg" style={{ color: BRAND.paperHi }}>
-                  Board of<span style={{ fontStyle: 'italic' }}> Directors.</span>
+                  Board of<span style={{ fontStyle: 'normal' }}> Directors.</span>
                 </Display>
                 <div className="mt-8 max-w-2xl">
                   <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
@@ -1075,7 +1161,7 @@ export function LeadershipPage() {
               <Eyebrow tone="paper">About Madarek</Eyebrow>
               <div className="mt-6">
                 <Display size="md" style={{ color: BRAND.paperHi }}>
-                  More on<span style={{ fontStyle: 'italic' }}> who we are.</span>
+                  More on<span style={{ fontStyle: 'normal' }}> who we are.</span>
                 </Display>
               </div>
             </div>
@@ -1127,9 +1213,9 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
                 <span
                   aria-hidden="true"
                   style={{
-                    fontFamily: 'Fraunces, serif',
-                    fontWeight: 200,
-                    fontStyle: 'italic',
+                    fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
+                    fontWeight: 300,
+                    fontStyle: 'normal',
                     fontSize: 'clamp(5rem, 10vw, 9rem)',
                     color: withOpacity('paper', 0.92),
                     letterSpacing: '-0.02em',
@@ -1194,7 +1280,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  Other<span style={{ fontStyle: 'italic' }}> leaders.</span>
+                  Other<span style={{ fontStyle: 'normal' }}> leaders.</span>
                 </Display>
               </div>
             </div>
@@ -1213,9 +1299,9 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
                     <span
                       aria-hidden="true"
                       style={{
-                        fontFamily: 'Fraunces, serif',
-                        fontWeight: 200,
-                        fontStyle: 'italic',
+                        fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
+                        fontWeight: 300,
+                        fontStyle: 'normal',
                         fontSize: 72,
                         color: withOpacity('paper', 0.9),
                       }}>
@@ -1224,7 +1310,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
                   </div>
                   <div className="p-6">
                     <Eyebrow tone={l.tone}>{l.eyebrow}</Eyebrow>
-                    <div className="mt-3" style={{ fontFamily: 'Fraunces, serif', fontWeight: 300, fontSize: 22, lineHeight: 1.25, color: BRAND.ink }}>
+                    <div className="mt-3" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontSize: 22, lineHeight: 1.25, color: BRAND.ink }}>
                       {l.name}
                     </div>
                     <div className="mt-2"><Meta>{l.title}</Meta></div>
@@ -1244,7 +1330,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
               <Eyebrow tone="paper">Leadership</Eyebrow>
               <div className="mt-6">
                 <Display size="md" style={{ color: BRAND.paperHi }}>
-                  Meet the rest<span style={{ fontStyle: 'italic' }}> of the team.</span>
+                  Meet the rest<span style={{ fontStyle: 'normal' }}> of the team.</span>
                 </Display>
               </div>
             </div>
@@ -1382,11 +1468,11 @@ const LIFE_IMAGES = [
 ];
 
 const OPEN_ROLES = [
-  { title: 'Head of Secondary',            location: 'Doha, Qatar',          department: 'Academic Leadership', posted: '2 weeks ago' },
+  { title: 'Head of Secondary',            location: 'Dubai, UAE',           department: 'Academic Leadership', posted: '2 weeks ago' },
   { title: 'Curriculum Lead — Science',    location: 'Riyadh, Saudi Arabia', department: 'Curriculum',          posted: '3 weeks ago' },
   { title: 'IB Coordinator',               location: 'Manama, Bahrain',      department: 'Academic Leadership', posted: '1 month ago' },
   { title: 'Mathematics Teacher',          location: 'Dubai, UAE',           department: 'Teaching',            posted: '2 weeks ago' },
-  { title: 'Director of Admissions',       location: 'Doha, Qatar',          department: 'Operations',          posted: '1 week ago'  },
+  { title: 'Director of Admissions',       location: 'Riyadh, Saudi Arabia', department: 'Operations',          posted: '1 week ago'  },
   { title: 'Academic Operations Manager',  location: 'Riyadh, Saudi Arabia', department: 'Operations',          posted: '3 weeks ago' },
 ];
 
@@ -1413,7 +1499,7 @@ export function CareersPage() {
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  Four reasons<span style={{ fontStyle: 'italic', display: 'block' }}>to join the team.</span>
+                  Four reasons<span style={{ fontStyle: 'normal', display: 'block' }}>to join the team.</span>
                 </Display>
               </div>
             </div>
@@ -1447,7 +1533,7 @@ export function CareersPage() {
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  Inside<span style={{ fontStyle: 'italic' }}> the schools.</span>
+                  Inside<span style={{ fontStyle: 'normal' }}> the schools.</span>
                 </Display>
               </div>
             </div>
@@ -1481,7 +1567,7 @@ export function CareersPage() {
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  Currently<span style={{ fontStyle: 'italic' }}> hiring.</span>
+                  Currently<span style={{ fontStyle: 'normal' }}> hiring.</span>
                 </Display>
               </div>
             </div>
@@ -1522,7 +1608,7 @@ export function CareersPage() {
               <Eyebrow>General application</Eyebrow>
               <div className="mt-6">
                 <Display size="md">
-                  Don't see<span style={{ fontStyle: 'italic' }}> your role?</span>
+                  Don't see<span style={{ fontStyle: 'normal' }}> your role?</span>
                 </Display>
               </div>
               <div className="mt-8 max-w-xl mx-auto">
@@ -1559,7 +1645,7 @@ function FormField({
   required?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
-  const fieldStyle = { fontFamily: 'Fraunces, serif', fontWeight: 300, fontSize: 22, color: BRAND.ink };
+  const fieldStyle = { fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontSize: 22, color: BRAND.ink };
   const fieldClass = 'w-full bg-transparent outline-none py-2';
   const onFocus = () => setFocused(true);
   const onBlur  = () => setFocused(false);

@@ -64,7 +64,7 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
               <Eyebrow tone="cyan">Our presence</Eyebrow>
               <div className="mt-6">
                 <Display size="lg">
-                  Growing across<span style={{ fontStyle: 'italic', color: BRAND.inkSub }}> the Gulf.</span>
+                  Growing across<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> the Gulf.</span>
                 </Display>
               </div>
               <div className="mt-6">
@@ -81,7 +81,7 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
               style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
               {stats.map((s) => (
                 <div key={s.label} className="flex flex-col">
-                  <span style={{ fontFamily: 'Fraunces, serif', fontWeight: 300, fontSize: 34, lineHeight: 1, color: BRAND.ink }}>
+                  <span style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontSize: 34, lineHeight: 1, color: BRAND.ink }}>
                     {s.value}
                   </span>
                   <span className="mt-2"><Meta>{s.label}</Meta></span>
@@ -108,7 +108,7 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
           <Reveal>
             <h3
               className="flex items-center gap-5 mb-10"
-              style={{ fontFamily: 'Fraunces, serif', fontWeight: 300, fontSize: 'clamp(1.5rem, 2.4vw, 2.1rem)', color: BRAND.ink }}>
+              style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontSize: 'clamp(1.5rem, 2.4vw, 2.1rem)', color: BRAND.ink }}>
               Our campuses
               <span className="h-px flex-1" style={{ background: BRAND.rule }} />
             </h3>
@@ -210,7 +210,7 @@ function PresenceMap({
   return (
     <figure
       className="relative w-full overflow-hidden border rounded-2xl"
-      style={{ borderColor: BRAND.rule, height: 'clamp(380px, 56vw, 540px)', zIndex: 0 }}
+      style={{ borderColor: BRAND.rule, height: 'clamp(380px, 56vw, 540px)', zIndex: 0, boxShadow: '0 24px 60px -24px rgba(10,14,28,0.28)' }}
       aria-label={`Map of the Gulf showing ${located.length} Madarek campuses`}>
       <MapContainer
         center={OVERVIEW_CENTER}
@@ -253,7 +253,7 @@ function PresenceMap({
                     <img src={s.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   </div>
                   <div style={{ padding: 14 }}>
-                    <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 18, lineHeight: 1.18, color: BRAND.ink }}>
+                    <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 18, lineHeight: 1.18, color: BRAND.ink }}>
                       {s.name}
                     </div>
                     <div style={{ marginTop: 4, fontFamily: 'Inter, sans-serif', fontSize: 12, color: BRAND.inkSub }}>
@@ -341,7 +341,7 @@ function SchoolCard({
         </div>
       </div>
       <div className="p-6">
-        <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.15, color: BRAND.ink }}>
+        <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.15, color: BRAND.ink }}>
           {school.name}
         </div>
         <div className="mt-3"><Meta>{school.curriculum} · {school.ages}</Meta></div>

@@ -231,7 +231,7 @@ function Footer() {
 
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-start md:items-center gap-3" style={{ borderColor: "rgba(244,237,224,0.12)" }}>
           <span style={{ color: "rgba(244,237,224,0.55)", fontSize: 13, fontWeight: 300 }}>
-            © {new Date().getFullYear()} Madarek Education · Doha, Qatar
+            © {new Date().getFullYear()} Madarek Education
           </span>
           <div className="flex gap-6">
             <a href="#/privacy" style={{ color: "rgba(244,237,224,0.55)", fontSize: 13, fontWeight: 300 }} className="hover:text-white">Privacy</a>

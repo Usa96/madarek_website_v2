@@ -889,7 +889,7 @@ function ContactPage() {
                 </div>
                 <div>
                   <Meta>Office</Meta>
-                  <div className="mt-2"><Body size="lg">Doha, Qatar</Body></div>
+                  <div className="mt-2"><Body size="lg">Dubai, UAE · Riyadh, KSA</Body></div>
                 </div>
                 <div>
                   <Meta>Social</Meta>
