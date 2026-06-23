@@ -185,46 +185,13 @@ export function AboutPage() {
         </Container>
       </Section>
 
-      {/* Values */}
-      <Section bg="paperLo" className={d.sectionY}>
-        <Container>
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-20 items-end">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={3} tone="ink" />
-                <div className="mt-3"><Eyebrow>Our values</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">What we stand for.</Display>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="border-t" style={{ borderColor: BRAND.rule }}>
-            {values.map((v, i) => (
-              <div key={v.title} className="border-b py-12 md:py-16 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
-                <div className="col-span-2 md:col-span-1">
-                  <FoldedMark size={28} tone={v.tone} rotate={-8 + i * 6} />
-                </div>
-                <div className="col-span-10 md:col-span-6">
-                  <Display size="sm" italic={false} style={{ color: BRAND.ink }}>{v.title}</Display>
-                </div>
-                <div className="col-span-12 md:col-span-5">
-                  <Body size="md" muted>{v.detail}</Body>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
       {/* Four Pillars — full version (descriptions moved from the homepage) */}
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={4} tone="ink" />
+                <SectionNumber n={3} tone="ink" />
                 <div className="mt-3"><Eyebrow>Our Four Pillars</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
