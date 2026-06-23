@@ -100,7 +100,7 @@ export function AboutPage() {
   return (
     <>
       <PageHero
-        image="/redesign-assets/institutionalization.webp"
+        image="/redesign-assets/about_us.webp"
         eyebrow="Who We Are"
         title="A regional"
         italicTail="education platform."
