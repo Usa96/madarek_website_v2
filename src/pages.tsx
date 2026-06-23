@@ -781,56 +781,6 @@ export function AcademyPage() {
         </Container>
       </Section>
 
-      {/* Outcomes — what students gain */}
-      <Section bg="paper" className={d.sectionY}>
-        <Container>
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-14">
-              <div className="col-span-12 md:col-span-5">
-                <Eyebrow tone="yellow">What students gain</Eyebrow>
-                <div className="mt-5"><Display size="md">More than a classroom.</Display></div>
-              </div>
-              <div className="col-span-12 md:col-span-6 md:col-start-7 self-end">
-                <Body size="lg" muted>
-                  Every program is designed around the skills, perspectives, and
-                  relationships students carry with them for life.
-                </Body>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px" style={{ background: BRAND.rule }}>
-            {outcomes.map((o, i) => (
-              <div key={o.title} className="p-8" style={{ background: BRAND.paper }}>
-                <span className="font-mono tabular-nums" style={{ fontSize: 12, letterSpacing: '0.18em', color: BRAND.yellow, fontWeight: 600 }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <h3 className="mt-5" style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.15rem, 1.5vw, 1.4rem)', lineHeight: 1.2, color: BRAND.ink }}>
-                  {o.title}
-                </h3>
-                <div className="mt-3"><Body size="sm" muted>{o.detail}</Body></div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* In practice — image strip */}
-      <section className="w-full overflow-hidden" style={{ background: BRAND.paperLo }}>
-        <div className="py-20 md:py-28 px-6 md:px-12">
-          <div className="max-w-7xl mx-auto mb-12">
-            <Eyebrow tone="yellow">In practice</Eyebrow>
-          </div>
-          <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
-            {['3.webp', '4.webp', '6.webp', '7.webp'].map((src) => (
-              <div key={src} className="flex-shrink-0 snap-start w-[280px] md:w-[440px] aspect-[3/4] overflow-hidden">
-                <img src={`/redesign-assets/${src}`} alt="" loading="lazy" className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Who it's for / How to join — NEEDS FACTS: specific age ranges and the
           enrolment process / dates from the Madarek team. */}
       <Section bg="paper" className={d.sectionY}>
@@ -873,7 +823,6 @@ export function AcademyPage() {
       {/* Vision + CTA */}
       <Section bg="ink" className="py-24 md:py-32">
         <Container max="6xl">
-          <Eyebrow tone="paper">Our vision</Eyebrow>
           <div className="mt-6 max-w-4xl">
             <Display size="md" style={{ color: BRAND.paperHi }}>
               To inspire lifelong learners and future leaders.
@@ -1086,13 +1035,13 @@ const LEADERS: Leader[] = [
 type BoardMember = { name: string; title: string; image: string };
 
 const BOARD: BoardMember[] = [
-  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: 'https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: 'https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80' },
+  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '' },
+  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/Dr. Sulaiman Al Abduljader.png'},
+  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/dr.shukri_ceo_ksa.jpeg' },
+  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '' },
+  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '/redesign-assets/omar_al_shayeji.svg' },
+  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '' },
+  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/Monira AlWugayan.png' },
 ];
 
 const getInitials = (name: string) =>

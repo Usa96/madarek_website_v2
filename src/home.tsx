@@ -67,9 +67,6 @@ function HeroSection() {
 
           <div className="mt-10 flex flex-wrap items-center gap-8">
             <PillLink to="#schools" variant="invert">Explore our schools</PillLink>
-            <a href="#about" className="text-[#F4EDE0]/80 hover:text-[#F4EDE0] transition-colors text-[15px] font-light border-b border-white/40 hover:border-white pb-1">
-              Discover MADAREK →
-            </a>
           </div>
         </div>
       </motion.div>
