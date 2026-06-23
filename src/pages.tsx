@@ -272,43 +272,6 @@ export function AboutPage() {
           </div>
         </Container>
       </Section>
-
-      {/* Leadership teaser */}
-      <Section bg="ink" className="py-24 md:py-32">
-        <Container max="6xl">
-          <div className="grid grid-cols-12 gap-6 items-end">
-            <div className="col-span-12 md:col-span-8">
-              <Eyebrow tone="paper">Leadership</Eyebrow>
-              <div className="mt-6">
-                <Display size="md" style={{ color: BRAND.paperHi }}>
-                  Meet the people behind MADAREK.
-                </Display>
-              </div>
-            </div>
-            <div className="col-span-12 md:col-span-4 md:text-right">
-              <PillLink to="/about/leadership" variant="invert">Meet our leadership</PillLink>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Call to action */}
-      <Section bg="paper" className="py-24 md:py-32">
-        <Container max="6xl">
-          <div className="grid grid-cols-12 gap-6 items-end">
-            <div className="col-span-12 md:col-span-6">
-              <Eyebrow>Get started</Eyebrow>
-              <div className="mt-6">
-                <Display size="md">Discover MADAREK.</Display>
-              </div>
-            </div>
-            <div className="col-span-12 md:col-span-6 md:text-right flex flex-wrap items-center gap-8 md:justify-end">
-              <PillLink to="/schools" variant="primary" size="md">Explore our schools</PillLink>
-              <TextLink to="/contact" tone="ink">Enquire</TextLink>
-            </div>
-          </div>
-        </Container>
-      </Section>
     </>
   );
 }
@@ -1006,8 +969,8 @@ const BOARD: BoardMember[] = [
   { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/Dr. Sulaiman Al Abduljader.png'},
   { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/dr.shukri_ceo_ksa.jpeg' },
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '' },
-  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '/redesign-assets/omar_al_shayeji.svg' },
-  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '' },
+  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '' },
+  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '/redesign-assets/omar_al_shayeji.svg' },
   { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/Monira AlWugayan.png' },
 ];
 
