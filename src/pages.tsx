@@ -1,10 +1,10 @@
-/* Madarek redesign — secondary pages
-   --------------------------------------------------------------
-   About, Schools, Foundation, Academy, Contact, SchoolDetail.
-   Each page shares the layout law: photography full-bleed alone,
-   text breathes alone. Page-level colour codes the section. */
+  /* Madarek redesign — secondary pages
+  --------------------------------------------------------------
+  About, Schools, Foundation, Academy, Contact, SchoolDetail.
+  Each page shares the layout law: photography full-bleed alone,
+  text breathes alone. Page-level colour codes the section. */
 
-import { useRef, useState } from 'react';
+import { lazy, Suspense, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
@@ -18,7 +18,10 @@ import {
 } from './system';
 import type { BrandKey } from './system';
 import type { School } from './data';
-import { SchoolsExplorer } from './schools-explorer';
+/* Leaflet + react-leaflet (~150KB) live entirely inside SchoolsExplorer.
+   Lazy-loading it keeps that weight out of every other page's bundle —
+   it only downloads when the /schools page actually renders the map. */
+const SchoolsExplorer = lazy(() => import('./schools-explorer').then((m) => ({ default: m.SchoolsExplorer })));
 
 /* ── page-level cinematic hero — reusable ──────────────────── */
 function PageHero({
@@ -288,7 +291,9 @@ export function SchoolsPage({ schools }: { schools: School[] }) {
         lede="MADAREK's schools provide diverse learning environments designed to nurture academic achievement, creativity, and personal growth."
         tone="cyan" />
 
-      <SchoolsExplorer schools={schools} />
+      <Suspense fallback={<div style={{ minHeight: '80vh' }} />}>
+        <SchoolsExplorer schools={schools} />
+      </Suspense>
     </>
   );
 }
@@ -403,7 +408,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
           </div>
           <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
             {(school.gallery || []).map((g, i) => (
-              <div key={i} className="flex-shrink-0 snap-start w-[300px] md:w-[480px] aspect-[4/3] overflow-hidden">
+              <div key={i} className="flex-shrink-0 snap-start w-[300px] md:w-[480px] aspect-[4/3] overflow-hidden rounded-lg ring-1 ring-black/5">
                 <img src={g} alt={`${school.name} ${i + 1}`} className="w-full h-full object-cover" />
               </div>
             ))}
@@ -515,7 +520,7 @@ export function FoundationPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {focusAreas.map((f, i) => (
               <Reveal key={f.title} delay={(i % 3) * 0.06}>
-                <article className="h-full p-8 border flex flex-col" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
+                <article className="h-full p-8 border rounded-lg flex flex-col" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
                   <div className="flex items-center justify-between mb-8">
                     <FoldedMark size={34} tone={f.tone} tilt="rest" />
                     <span className="font-mono tabular-nums" style={{ fontSize: 12, letterSpacing: '0.18em', color: BRAND.inkMute, fontWeight: 600 }}>
@@ -640,7 +645,7 @@ export function AcademyPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {programs.map((p, i) => (
               <Reveal key={p.title} delay={(i % 3) * 0.06}>
-                <article className="relative h-full overflow-hidden p-8 border" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
+                <article className="relative h-full overflow-hidden p-8 border rounded-lg" style={{ background: BRAND.paperHi, borderColor: BRAND.rule }}>
                   <span
                     aria-hidden="true"
                     className="absolute -top-3 right-3 pointer-events-none select-none"
@@ -761,14 +766,14 @@ export function ContactPage() {
 
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
-          <div className="grid grid-cols-12 gap-12">
+          <div className="flex flex-col md:grid md:grid-cols-12 gap-12">
             <div className="col-span-12 md:col-span-7">
               <Eyebrow>Send us a note</Eyebrow>
               {submitted ? (
                 <div
                   role="status"
                   aria-live="polite"
-                  className="mt-10 border p-8"
+                  className="mt-10 border rounded-lg p-8"
                   style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
                   <Display size="xs" italic>Thank you.</Display>
                   <div className="mt-4">
@@ -873,7 +878,7 @@ const LEADERS: Leader[] = [
     title: 'Chief Executive Officer',
     preview: 'Leads MADAREK KSA across strategy, operations, and organizational direction.',
     tone: 'cyan',
-    image: '/redesign-assets/dr.shukri_ceo_ksa.jpeg',
+    image: '/redesign-assets/dr.shukri_ceo_ksa.webp',
     email: 'shukri.mansour@madarek.me',
     linkedin: '#',
   },
@@ -891,7 +896,7 @@ const LEADERS: Leader[] = [
       "He holds a Master's degree in Management from the University of Lincoln, UK, and dual bachelor's degrees in Education and Business & Finance from Alexandria University, and is a licensed School Principal by the UAE Ministry of Education.",
     ],
     tone: 'yellow',
-    image: '/redesign-assets/mohammad_motawea_ceo_uae.jpg',
+    image: '/redesign-assets/mohammad_motawea_ceo_uae.webp',
     email: 'mohamed.motawea@madarek.me',
     linkedin: '#',
   },
@@ -906,7 +911,7 @@ const LEADERS: Leader[] = [
       "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined First Education Holding (FEH) in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance.",
     ],
     tone: 'pink',
-    image: '/redesign-assets/haris_cfo.jpeg',
+    image: '/redesign-assets/haris_cfo.webp',
     email: 'haris.moideen@madarek.me',
     linkedin: '#',
   },
@@ -915,13 +920,13 @@ const LEADERS: Leader[] = [
 type BoardMember = { name: string; title: string; image: string };
 
 const BOARD: BoardMember[] = [
-  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '/redesign-assets/majid_al_hokair.png' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/Dr. Sulaiman Al Abduljader.png'},
-  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/dr.shukri_ceo_ksa.jpeg' },
+  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '/redesign-assets/majid_al_hokair.webp' },
+  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/Dr. Sulaiman Al Abduljader.webp'},
+  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/dr.shukri_ceo_ksa.webp' },
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '' },
   { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '' },
-  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '/redesign-assets/omar_al_shayeji.svg' },
-  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/Monira AlWugayan.png' },
+  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '/redesign-assets/omar_al_shayeji.webp' },
+  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/Monira AlWugayan.webp' },
 ];
 
 const getInitials = (name: string) =>
@@ -960,7 +965,7 @@ function ExecutiveGrid({ leaders }: { leaders: Leader[] }) {
         <Reveal key={l.slug} delay={(i % 3) * 0.06}>
           <Link
             to={`/about/leadership/${l.slug}`}
-            className="group relative block aspect-[3/4] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]">
+            className="group relative block aspect-[3/4] overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]">
             <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
               <Portrait src={l.image} alt={l.name} name={l.name} tone={l.tone} />
             </div>
@@ -991,7 +996,7 @@ function BoardWall({ members }: { members: BoardMember[] }) {
         const tone = tones[i % tones.length];
         return (
           <Reveal key={m.name} delay={(i % 3) * 0.06}>
-            <article className="group relative aspect-[3/4] overflow-hidden">
+            <article className="group relative aspect-[3/4] overflow-hidden rounded-xl">
               <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
                 <Portrait src={m.image} alt={m.name} name={m.name} tone={tone} />
               </div>
@@ -1105,7 +1110,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-center">
             <div className="col-span-12 md:col-span-4">
               <div
-                className="aspect-[4/5] relative overflow-hidden"
+                className="aspect-[4/5] relative overflow-hidden rounded-xl"
                 style={{ border: `1px solid ${withOpacity('paper', 0.18)}` }}>
                 <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
               </div>
@@ -1185,10 +1190,12 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
               <Reveal key={l.slug} delay={i * 0.06}>
                 <Link
                   to={`/about/leadership/${l.slug}`}
-                  className="group block border focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
+                  className="group block overflow-hidden rounded-xl border focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
                   style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
                   <div className="aspect-[4/3] relative overflow-hidden">
-                    <Portrait src={l.image} alt={l.name} name={l.name} tone={l.tone} />
+                    <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
+                      <Portrait src={l.image} alt={l.name} name={l.name} tone={l.tone} />
+                    </div>
                   </div>
                   <div className="p-6">
                     <Eyebrow tone={l.tone}>{l.eyebrow}</Eyebrow>
@@ -1302,7 +1309,7 @@ export function NewsPage() {
               return (
                 <Reveal key={article.id} delay={Math.min(i * 0.05, 0.3)} className={colSpan}>
                   <article>
-                    <div className="overflow-hidden mb-6 aspect-[4/3]">
+                    <div className="overflow-hidden rounded-lg ring-1 ring-black/5 mb-6 aspect-[4/3]">
                       <img
                         src={article.image}
                         alt=""
@@ -1346,15 +1353,6 @@ const LIFE_IMAGES = [
   { src: '/redesign-assets/6.webp', caption: 'Regional reach across the GCC' },
 ];
 
-const OPEN_ROLES = [
-  { title: 'Head of Secondary',            location: 'Dubai, UAE',           department: 'Academic Leadership', posted: '2 weeks ago' },
-  { title: 'Curriculum Lead — Science',    location: 'Riyadh, Saudi Arabia', department: 'Curriculum',          posted: '3 weeks ago' },
-  { title: 'IB Coordinator',               location: 'Manama, Bahrain',      department: 'Academic Leadership', posted: '1 month ago' },
-  { title: 'Mathematics Teacher',          location: 'Dubai, UAE',           department: 'Teaching',            posted: '2 weeks ago' },
-  { title: 'Director of Admissions',       location: 'Riyadh, Saudi Arabia', department: 'Operations',          posted: '1 week ago'  },
-  { title: 'Academic Operations Manager',  location: 'Riyadh, Saudi Arabia', department: 'Operations',          posted: '3 weeks ago' },
-];
-
 export function CareersPage() {
   const d = useDensity();
   return (
@@ -1371,51 +1369,7 @@ export function CareersPage() {
       <Section bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-16">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={4} tone="yellow" />
-                <div className="mt-3"><Eyebrow tone="yellow">Open roles</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg">
-                  Currently<span style={{ fontStyle: 'normal' }}> hiring.</span>
-                </Display>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="border-t" style={{ borderColor: BRAND.rule }}>
-            {OPEN_ROLES.map((role, i) => {
-              const subject = encodeURIComponent(`Application — ${role.title} (${role.location})`);
-              return (
-                <Reveal key={`${role.title}-${role.location}`} delay={Math.min(i * 0.03, 0.18)}>
-                  <a
-                    href={`mailto:careers@madarek.me?subject=${subject}`}
-                    className="group block border-b py-8 md:py-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]"
-                    style={{ borderColor: BRAND.rule }}>
-                    <div className="grid grid-cols-12 gap-4 items-baseline">
-                      <div className="col-span-12 md:col-span-6">
-                        <Display size="xs" style={{ fontWeight: 300 }}>
-                          {role.title}
-                        </Display>
-                      </div>
-                      <div className="col-span-6 md:col-span-2"><Meta>{role.location}</Meta></div>
-                      <div className="col-span-6 md:col-span-2"><Meta>{role.department}</Meta></div>
-                      <div className="col-span-12 md:col-span-2 md:text-right">
-                        <span className="inline-flex items-baseline gap-2 transition-transform group-hover:translate-x-1"
-                              style={{ color: BRAND.ink, fontFamily: 'Inter, sans-serif', fontSize: 14 }}>
-                          Apply <span>→</span>
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                </Reveal>
-              );
-            })}
-          </div>
-
-          <Reveal delay={0.1}>
-            <div className="mt-20 border-t border-b py-16 md:py-20 text-center" style={{ borderColor: BRAND.rule }}>
+            <div className="border-t border-b py-16 md:py-20 text-center" style={{ borderColor: BRAND.rule }}>
               <Eyebrow>General application</Eyebrow>
               <div className="mt-6">
                 <Display size="md">

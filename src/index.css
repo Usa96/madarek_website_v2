@@ -8,6 +8,11 @@ html, body {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Guard against any section ever forcing a horizontal scrollbar, and
+     let long words break rather than overflow (overflow-wrap inherits,
+     so this cascades to all text — including non-Display headings). */
+  overflow-x: clip;
+  overflow-wrap: break-word;
 }
 
 @media (prefers-reduced-motion: reduce) {

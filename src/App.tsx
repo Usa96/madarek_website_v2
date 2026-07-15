@@ -2,7 +2,7 @@
    Uses react-router-dom v6 with BrowserRouter (clean URLs, no
    hash). Server should serve index.html for unknown paths. */
 
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
@@ -11,12 +11,22 @@ import {
 } from './system';
 import type { DensityKey } from './system';
 import HomePage from './home';
-import {
-  AboutPage, SchoolsPage, SchoolDetailPage,
-  FoundationPage, AcademyPage, ContactPage,
-  NewsPage, CareersPage, LeadershipPage, LeaderDetailRoute,
-} from './pages';
 import { schools } from './data';
+
+/* Route components are code-split: the home page (the common entry
+   point) loads eagerly, everything else — including the Leaflet-heavy
+   schools explorer — loads on demand so it stays out of the initial
+   bundle. All named exports live in ./pages, so Vite emits one shared
+   async chunk for them plus a separate chunk for Leaflet. */
+const AboutPage        = lazy(() => import('./pages').then((m) => ({ default: m.AboutPage })));
+const SchoolsPage      = lazy(() => import('./pages').then((m) => ({ default: m.SchoolsPage })));
+const SchoolDetailPage = lazy(() => import('./pages').then((m) => ({ default: m.SchoolDetailPage })));
+const FoundationPage   = lazy(() => import('./pages').then((m) => ({ default: m.FoundationPage })));
+const AcademyPage      = lazy(() => import('./pages').then((m) => ({ default: m.AcademyPage })));
+const ContactPage      = lazy(() => import('./pages').then((m) => ({ default: m.ContactPage })));
+const CareersPage      = lazy(() => import('./pages').then((m) => ({ default: m.CareersPage })));
+const LeadershipPage   = lazy(() => import('./pages').then((m) => ({ default: m.LeadershipPage })));
+const LeaderDetailRoute = lazy(() => import('./pages').then((m) => ({ default: m.LeaderDetailRoute })));
 
 /* Page transitions use a full-screen "cover wipe" (see AppShell):
    an ink panel sweeps across the viewport — navbar included — the
@@ -58,7 +68,6 @@ function Header() {
     { to: '/schools',           label: 'Schools' },
     { to: '/foundation',        label: 'Foundation' },
     { to: '/academy',           label: 'Academy' },
-    { to: '/news',              label: 'News' },
     { to: '/careers',           label: 'Careers' },
     { to: '/contact',           label: 'Contact' },
   ];
@@ -232,7 +241,6 @@ function Footer() {
                 ['/schools', 'Schools'],
                 ['/foundation', 'Foundation'],
                 ['/academy', 'Academy'],
-                ['/news', 'News'],
                 ['/careers', 'Careers'],
                 ['/contact', 'Contact'],
               ].map(([to, label]) => (
@@ -377,22 +385,23 @@ function AppShell() {
     <DensityCtx.Provider value={density}>
       <Header />
       <main>
-        <Routes location={shownLocation}>
-          <Route path="/"                   element={<HomePage schools={schools} />} />
-          <Route path="/about"                    element={<AboutPage />} />
-          <Route path="/about/leadership"         element={<LeadershipPage />} />
-          <Route path="/about/leadership/:slug"   element={<LeaderDetailRoute />} />
-          <Route path="/schools"            element={<SchoolsPage schools={schools} />} />
-          <Route path="/schools/:slug"      element={<SchoolDetailRoute />} />
-          <Route path="/foundation"         element={<FoundationPage />} />
-          <Route path="/academy"            element={<AcademyPage />} />
-          <Route path="/news"               element={<NewsPage />} />
-          <Route path="/careers"            element={<CareersPage />} />
-          <Route path="/contact"            element={<ContactPage />} />
-          <Route path="/privacy"            element={<StubPage title="Privacy" />} />
-          <Route path="/terms"              element={<StubPage title="Terms" />} />
-          <Route path="*"                   element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: BRAND.ink }} />}>
+          <Routes location={shownLocation}>
+            <Route path="/"                   element={<HomePage schools={schools} />} />
+            <Route path="/about"                    element={<AboutPage />} />
+            <Route path="/about/leadership"         element={<LeadershipPage />} />
+            <Route path="/about/leadership/:slug"   element={<LeaderDetailRoute />} />
+            <Route path="/schools"            element={<SchoolsPage schools={schools} />} />
+            <Route path="/schools/:slug"      element={<SchoolDetailRoute />} />
+            <Route path="/foundation"         element={<FoundationPage />} />
+            <Route path="/academy"            element={<AcademyPage />} />
+            <Route path="/careers"            element={<CareersPage />} />
+            <Route path="/contact"            element={<ContactPage />} />
+            <Route path="/privacy"            element={<StubPage title="Privacy" />} />
+            <Route path="/terms"              element={<StubPage title="Terms" />} />
+            <Route path="*"                   element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
 

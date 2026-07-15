@@ -224,13 +224,16 @@ export function Display({
   className?: string;
   style?: CSSProperties;
 }) {
+  /* Fluid type: min sized so the longest single word still fits on a
+     ~320px phone, preferred scales with the viewport, max holds the
+     desktop size. Mins ascend monotonically (xs→xxl). */
   const sizes: Record<DisplaySize, string> = {
-    xs:  'clamp(2rem, 4vw, 3rem)',
-    sm:  'clamp(2.5rem, 5vw, 4rem)',
-    md:  'clamp(3.5rem, 7vw, 6rem)',
-    lg:  'clamp(4.5rem, 9vw, 8rem)',
-    xl:  'clamp(5.5rem, 11vw, 10.5rem)',
-    xxl: 'clamp(7rem, 14vw, 14rem)',
+    xs:  'clamp(1.9rem, 4vw, 3rem)',
+    sm:  'clamp(2.25rem, 5vw, 4rem)',
+    md:  'clamp(2.75rem, 7vw, 6rem)',
+    lg:  'clamp(3rem, 9vw, 8rem)',
+    xl:  'clamp(3.25rem, 11vw, 10.5rem)',
+    xxl: 'clamp(4rem, 14vw, 14rem)',
   };
   return (
     <As
@@ -243,6 +246,7 @@ export function Display({
         lineHeight: 1.04,
         letterSpacing: '-0.02em',
         textWrap: 'balance',
+        overflowWrap: 'break-word',
         color: BRAND.ink,
         ...style,
       } as CSSProperties}>
@@ -279,6 +283,7 @@ export function Body({
         lineHeight: 1.55,
         color: muted ? BRAND.inkSub : BRAND.ink,
         textWrap: 'pretty',
+        overflowWrap: 'break-word',
         ...style,
       } as CSSProperties}>
       {children}

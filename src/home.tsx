@@ -1,7 +1,7 @@
 /* Madarek redesign — Home
-   --------------------------------------------------------------
-   Eight sections stack vertically; each follows the layout law:
-   photography goes full-bleed alone, text stacks beneath it,
+  --------------------------------------------------------------
+Eight sections stack vertically; each follows the layout law:
+photography goes full-bleed alone, text stacks beneath it,
    no side-by-side. */
 
 import { useEffect, useRef, useState } from 'react';
@@ -33,7 +33,7 @@ function HeroSection() {
         style={{ scale: imgScale }}
         className="absolute inset-0 will-change-transform"
         aria-hidden="true">
-        <img src="/redesign-assets/institutionalization.webp" alt="" className="w-full h-full object-cover" />
+        <img src="/redesign-assets/1.webp" alt="" className="w-full h-full object-cover" />
         <div
           className="absolute inset-0"
           style={{
@@ -233,7 +233,7 @@ function SchoolsSection({ schools }: { schools: School[] }) {
     <Section id="schools" bg="navy" className={d.sectionY}>
       <Container>
         <Reveal>
-          <div className="mb-12 md:mb-16">
+          <div className="mb-16 md:mb-24">
             <div className="flex flex-wrap items-end justify-between gap-6 mb-8 md:mb-10">
               <div>
                 <SectionNumber n={3} tone="cyan" />
@@ -297,22 +297,22 @@ function SchoolsCarousel({ schools }: { schools: School[] }) {
     el.scrollBy({ left: dir * amount, behavior: 'smooth' });
   };
 
-  const arrowCls = 'grid place-items-center h-11 w-11 rounded-full border transition-colors hover:bg-[#F4EDE0] hover:text-[#0A0E1C] disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
+  const arrowCls = 'grid place-items-center h-12 w-12 rounded-full border transition-all duration-300 ease-out hover:bg-[#F4EDE0] hover:text-[#0A0E1C] hover:border-transparent disabled:opacity-20 disabled:hover:bg-transparent disabled:hover:text-current disabled:hover:border-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
 
   return (
     <div>
       {/* controls */}
-      <div className="flex items-center justify-between mb-6">
-        <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.18em', color: withOpacity('paper', 0.6) }}>
-          Drag to explore · {String(schools.length).padStart(2, '0')} campuses
+      <div className="flex items-center justify-between mb-8">
+        <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.2em', color: withOpacity('paper', 0.52) }}>
+          Drag to explore
         </span>
         <div className="flex gap-3">
           <button type="button" onClick={() => scrollByCards(-1)} disabled={atStart} aria-label="Previous campuses"
-            className={arrowCls} style={{ borderColor: withOpacity('paper', 0.35), color: BRAND.paperHi }}>
+            className={arrowCls} style={{ borderColor: withOpacity('paper', 0.28), color: BRAND.paperHi }}>
             <span className="-mt-0.5 text-lg">←</span>
           </button>
           <button type="button" onClick={() => scrollByCards(1)} disabled={atEnd} aria-label="More campuses"
-            className={arrowCls} style={{ borderColor: withOpacity('paper', 0.35), color: BRAND.paperHi }}>
+            className={arrowCls} style={{ borderColor: withOpacity('paper', 0.28), color: BRAND.paperHi }}>
             <span className="-mt-0.5 text-lg">→</span>
           </button>
         </div>
@@ -345,25 +345,25 @@ function CarouselCard({ school, index }: { school: School; index: number }) {
     <Link
       data-card
       to={`/schools/${school.slug}`}
-      className={`group relative ${CARD_W} snap-start overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF]`}
+      className={`group relative ${CARD_W} snap-start overflow-hidden rounded-xl ring-1 ring-white/[0.08] transition-shadow duration-500 hover:ring-white/20 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF]`}
       style={{ background: BRAND.navy }}>
       <div className="relative aspect-[3/4]">
         <img
           src={school.image}
           alt={school.name}
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.9) 0%, rgba(10,12,28,0.3) 45%, rgba(10,12,28,0) 70%)' }} />
-        <div className="absolute top-5 left-5">
-          <span className="font-mono tabular-nums px-2 py-1" style={{ fontSize: 10.5, letterSpacing: '0.18em', color: BRAND.paperHi, background: 'rgba(10,12,28,0.45)', backdropFilter: 'blur(6px)' }}>
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.05]" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.9) 0%, rgba(10,12,28,0.62) 24%, rgba(10,12,28,0.28) 48%, rgba(10,12,28,0.06) 66%, rgba(10,12,28,0) 82%)' }} />
+        <div className="absolute top-4 left-4">
+          <span className="font-mono tabular-nums rounded-md px-2.5 py-1" style={{ fontSize: 10.5, letterSpacing: '0.18em', color: BRAND.paperHi, background: 'rgba(10,12,28,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.1)' }}>
             {String(index + 1).padStart(2, '0')}
           </span>
         </div>
-        <div className="absolute inset-x-0 bottom-0 p-6">
-          <div className="font-mono uppercase mb-2" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72) }}>
+        <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
+          <div className="font-mono uppercase mb-3" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('paper', 0.7) }}>
             {school.location}
           </div>
-          <h3 style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, color: BRAND.paperHi, lineHeight: 1.1, letterSpacing: '-0.01em', fontSize: 'clamp(1.5rem, 2.2vw, 2rem)' }}>
+          <h3 style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 500, color: BRAND.paperHi, lineHeight: 1.12, letterSpacing: '-0.015em', fontSize: 'clamp(1.5rem, 2.2vw, 2rem)' }}>
             {school.short}
           </h3>
           <div className="overflow-hidden max-h-0 opacity-0 -translate-y-1 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100 group-hover:translate-y-0">
@@ -389,14 +389,15 @@ function FutureCampusCard() {
       aria-label="More campuses joining the network"
       className={`group relative ${CARD_W} snap-start rounded-xl focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF]`}>
       <div
-        className="relative aspect-[3/4] flex flex-col items-center justify-center text-center px-8 rounded-xl border border-dashed transition-colors group-hover:border-[color:#27C4FF]"
-        style={{ borderColor: withOpacity('paper', 0.25) }}>
+        className="relative aspect-[3/4] flex flex-col items-center justify-center text-center px-8 rounded-xl border border-white/[0.12] transition-colors duration-300 group-hover:border-[#27C4FF]/40"
+        style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 45%, rgba(255,255,255,0) 100%)' }}>
+        <span className="font-mono uppercase mb-6" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('cyan', 0.9) }}>Coming soon</span>
         <FoldedMark size={44} tone="cyan" tilt="lean" />
-        <div className="mt-6" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, color: BRAND.paperHi, fontSize: 'clamp(1.4rem, 2vw, 1.8rem)', lineHeight: 1.15 }}>
+        <div className="mt-7 max-w-[15rem]" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, color: BRAND.paperHi, fontSize: 'clamp(1.4rem, 2vw, 1.8rem)', lineHeight: 1.18 }}>
           More campuses joining the network
         </div>
-        <div className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
-          <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>Explore all</span>
+        <div className="mt-6 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
+          <span className="border-b pb-0.5 transition-colors group-hover:border-[#27C4FF]" style={{ borderColor: withOpacity('paper', 0.5) }}>Explore all</span>
           <span style={{ color: BRAND.cyan }}>→</span>
         </div>
       </div>
