@@ -17,7 +17,8 @@ import {
   PillLink, TextLink, Reveal,
 } from './system';
 import type { BrandKey } from './system';
-import type { School } from './data';
+import { mediaByNewest, formatMediaDate } from './data';
+import type { School, MediaItem } from './data';
 /* Leaflet + react-leaflet (~150KB) live entirely inside SchoolsExplorer.
    Lazy-loading it keeps that weight out of every other page's bundle —
    it only downloads when the /schools page actually renders the map. */
@@ -1218,34 +1219,50 @@ export function LeaderDetailRoute() {
   return <LeaderDetailPage leader={leader} />;
 }
 
-/* ── News page ───────────────────────────────────────────────
-  Editorial article index. Lorem Ipsum copy carried over from
-  the original newsData.ts — real editorial content lives
-  separately. */
-type Article = { id: number; title: string; excerpt: string; date: string; category: string; image: string; featured: boolean };
+/* ── Media page ───────────────────────────────────────────────
+  Announcements index. Reads the single source of truth in
+  `data.ts` (`mediaByNewest`) — always newest-first, so adding an
+  item there pushes older ones back automatically. Photos are
+  pending: items with an empty `image` render a branded placeholder. */
 
-const NEWS_ARTICLES: Article[] = [
-  { id: 1, title: 'Lorem ipsum dolor sit amet', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula magna at nisi sollicitudin.',  date: 'July 1, 2023',     category: 'Curriculum',           image: '/redesign-assets/2.webp',   featured: true  },
-  { id: 2, title: 'Sed ut perspiciatis unde',  excerpt: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',                date: 'June 18, 2023',    category: 'Expansion',            image: '/redesign-assets/3.webp',   featured: true  },
-  { id: 3, title: 'Ut enim ad minim veniam',   excerpt: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',  date: 'May 5, 2023',      category: 'Student Initiatives',  image: '/redesign-assets/4.webp',   featured: true  },
-  { id: 4, title: 'Quis autem vel eum iure',   excerpt: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum.',       date: 'April 2, 2023',    category: 'Awards',               image: '/redesign-assets/5.webp',   featured: false },
-  { id: 5, title: 'Excepteur sint occaecat',   excerpt: 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod.',          date: 'March 12, 2023',   category: 'Partnerships',         image: '/redesign-assets/6.webp',   featured: false },
-  { id: 6, title: 'Neque porro quisquam est',  excerpt: 'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est.',     date: 'February 1, 2023', category: 'Faculty',              image: '/redesign-assets/7.webp',   featured: false },
-  { id: 7, title: 'Magni dolores eos qui',     excerpt: 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et.',         date: 'January 10, 2023', category: 'Curriculum',           image: '/redesign-assets/1.webp',   featured: false },
-  { id: 8, title: 'Itaque earum rerum hic',    excerpt: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.',             date: 'December 15, 2022', category: 'Student Initiatives', image: '/redesign-assets/1-1.webp', featured: false },
-];
+/* Thumbnail — real photo when present, otherwise an on-brand
+   placeholder so the grid still reads as intentional while images
+   are being sourced. */
+function MediaThumb({ item }: { item: MediaItem }) {
+  return (
+    <div className="relative overflow-hidden rounded-lg ring-1 ring-black/5 aspect-[4/3]">
+      {item.image ? (
+        <img
+          src={item.image}
+          alt=""
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      ) : (
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center gap-4"
+          style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.14)} 0%, ${BRAND.paperLo} 70%)` }}>
+          <FoldedMark size={40} tone="cyan" tilt="lean" opacity={0.85} />
+          <span className="font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: BRAND.inkMute }}>
+            Image coming soon
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
 
-export function NewsPage() {
+export function MediaPage() {
   const d = useDensity();
-  const categories = ['All', ...Array.from(new Set(NEWS_ARTICLES.map((a) => a.category)))];
+  const categories = ['All', ...Array.from(new Set(mediaByNewest.map((m) => m.category)))];
   const [selected, setSelected] = useState<string>('All');
-  const filtered = selected === 'All' ? NEWS_ARTICLES : NEWS_ARTICLES.filter((a) => a.category === selected);
+  // `mediaByNewest` is already sorted newest-first; filtering keeps order.
+  const filtered = selected === 'All' ? mediaByNewest : mediaByNewest.filter((m) => m.category === selected);
 
   return (
     <>
       <PageHero
         image="/redesign-assets/transformation.webp"
-        eyebrow="News & Insights"
+        eyebrow="Media"
         title="Stay"
         italicTail="connected."
         lede="The latest announcements, achievements, partnerships, and stories from across the MADAREK ecosystem."
@@ -1262,7 +1279,7 @@ export function NewsPage() {
                   key={c}
                   type="button"
                   onClick={() => setSelected(c)}
-                  className="px-5 py-2.5 rounded-full transition-colors"
+                  className="px-5 py-2.5 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]"
                   style={{
                     background: active ? BRAND.ink : 'transparent',
                     color:      active ? BRAND.paperHi : BRAND.ink,
@@ -1278,37 +1295,34 @@ export function NewsPage() {
             })}
           </div>
 
-          <div className="grid grid-cols-12 gap-x-6 gap-y-16 md:gap-y-24">
-
-            {filtered.map((article, i) => {
-              const colSpan = article.featured ? 'col-span-12 md:col-span-6' : 'col-span-12 md:col-span-4';
-              /* Articles are placeholders for now — render as static <article>s
-                 rather than dangling `href="#"` links that go nowhere. */
-              return (
-                <Reveal key={article.id} delay={Math.min(i * 0.05, 0.3)} className={colSpan}>
-                  <article>
-                    <div className="overflow-hidden rounded-lg ring-1 ring-black/5 mb-6 aspect-[4/3]">
-                      <img
-                        src={article.image}
-                        alt=""
-                        loading="lazy"
-                        className="w-full h-full object-cover" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 md:gap-y-16">
+            {filtered.map((item, i) => (
+              <Reveal key={item.id} delay={Math.min((i % 3) * 0.06, 0.18)}>
+                <article className="group flex flex-col h-full">
+                  <div className="mb-6"><MediaThumb item={item} /></div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <Meta>{formatMediaDate(item.date)}</Meta>
+                    <span className="block h-px w-6" style={{ background: BRAND.rule }} />
+                    <Meta tone="cyan">{item.category}</Meta>
+                  </div>
+                  <Display size="xs" style={{ fontWeight: 300 }}>{item.title}</Display>
+                  <div className="mt-4 flex-1"><Body size="md" muted>{item.excerpt}</Body></div>
+                  <div className="mt-5"><Meta>{item.source}</Meta></div>
+                  {item.href && (
+                    <div className="mt-4">
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium border-b pb-1"
+                        style={{ color: BRAND.ink, borderColor: withOpacity('ink', 0.3) }}>
+                        Read more <span style={{ color: BRAND.cyan }}>→</span>
+                      </a>
                     </div>
-                    <div className="flex items-center gap-3 mb-4">
-                      <Meta>{article.date}</Meta>
-                      <span className="block h-px w-6" style={{ background: BRAND.rule }} />
-                      <Meta tone="cyan">{article.category}</Meta>
-                    </div>
-                    <Display size={article.featured ? 'sm' : 'xs'} style={{ fontWeight: 300 }}>
-                      {article.title}
-                    </Display>
-                    <div className="mt-4 max-w-xl">
-                      <Body size="md" muted>{article.excerpt}</Body>
-                    </div>
-                  </article>
-                </Reveal>
-              );
-            })}
+                  )}
+                </article>
+              </Reveal>
+            ))}
           </div>
         </Container>
       </Section>

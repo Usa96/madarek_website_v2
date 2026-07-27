@@ -23,6 +23,59 @@ export interface School {
   highlights: string[];
 }
 
+/* ── Media / News ─────────────────────────────────────────────
+   Single source of truth for every announcement shown on the site
+   (the Media page and, later, the homepage media section both read
+   from here — never redefine this list anywhere else).
+
+   Ordering is driven entirely by `date` (ISO `YYYY-MM-DD`): the site
+   always renders newest-first via `mediaByNewest` below, so you can
+   add a new item ANYWHERE in this array and older items are pushed
+   back automatically. To publish, just add an object; to change the
+   order, change its `date`.
+
+   Images are pending — leave `image` empty ('') and the card shows a
+   branded placeholder until the real photo is dropped in. */
+export interface MediaItem {
+  id: string;        // stable, unique, kebab-case
+  date: string;      // ISO 'YYYY-MM-DD' — drives newest-first ordering
+  title: string;
+  excerpt: string;
+  category: string;  // e.g. Announcements, Achievements, Partnerships, Events, Admissions, Community
+  source: string;    // who published it — 'MADAREK' or a school name
+  image?: string;    // optional; '' → branded placeholder (pending photo)
+  href?: string;     // optional external link (leave undefined for none)
+}
+
+export const media: MediaItem[] = [
+  { id: 'placeholder-01', date: '2026-07-20', category: 'Announcements', source: 'MADAREK',                       title: 'Welcoming students back for the new academic year',            excerpt: 'A message to our community as classrooms across the network open their doors for another year of learning.', image: '' },
+  { id: 'placeholder-02', date: '2026-06-12', category: 'Admissions',    source: 'MADAREK',                       title: 'Registration is now open across our campuses',                  excerpt: 'Families can now register their interest for the upcoming intake at our schools in the UAE and Saudi Arabia.', image: '' },
+  { id: 'placeholder-03', date: '2026-05-03', category: 'Achievements',  source: 'Al Maaref American School',     title: 'Celebrating our students’ latest achievements',                 excerpt: 'Highlights from a season of academic, sporting, and creative accomplishments across our student body.', image: '' },
+  { id: 'placeholder-04', date: '2026-04-18', category: 'Partnerships',  source: 'MADAREK',                       title: 'A new partnership to expand learning opportunities',            excerpt: 'We are pleased to announce a collaboration that broadens the experiences available to our students.', image: '' },
+  { id: 'placeholder-05', date: '2026-03-09', category: 'Events',        source: 'MGIS — Qortuba Campus',         title: 'Inside our annual community and family day',                    excerpt: 'A look back at a day that brought together students, parents, and educators across the campus.', image: '' },
+  { id: 'placeholder-06', date: '2026-02-14', category: 'Community',     source: 'MADAREK',                       title: 'Giving back: our students in the community',                    excerpt: 'How learning beyond the classroom is helping our students contribute to the communities we serve.', image: '' },
+  { id: 'placeholder-07', date: '2026-01-22', category: 'Achievements',  source: 'MGIS — Digital City Campus',    title: 'Recognising excellence in the classroom',                       excerpt: 'Spotlighting the educators and learners setting the standard across our youngest campus.', image: '' },
+  { id: 'placeholder-08', date: '2025-12-05', category: 'Events',        source: 'MADAREK',                       title: 'Highlights from our end-of-term celebrations',                  excerpt: 'Scenes from the events that closed out the term across the MADAREK network.', image: '' },
+  { id: 'placeholder-09', date: '2025-11-11', category: 'Announcements', source: 'MADAREK',                       title: 'Growing our network across the Gulf',                           excerpt: 'An update on our continued expansion and what it means for students and families in the region.', image: '' },
+  { id: 'placeholder-10', date: '2025-10-02', category: 'Partnerships',  source: 'Al Maaref American School',     title: 'Bringing global best practice to our classrooms',               excerpt: 'New collaborations that connect our students to internationally recognised programmes and expertise.', image: '' },
+];
+
+/* Derived, always newest-first. Consumers MUST read from this (not the
+   raw `media` array) so ordering is identical everywhere. */
+export const mediaByNewest: MediaItem[] = [...media].sort(
+  (a, b) => b.date.localeCompare(a.date),
+);
+
+/* ISO 'YYYY-MM-DD' → display date. `short` gives '22 Jul 2026', else
+   '22 July 2026'. Parsed as local parts to avoid the UTC day-shift
+   `new Date('2026-07-22')` can introduce. */
+export function formatMediaDate(iso: string, opts?: { short?: boolean }): string {
+  const [y, m, day] = iso.split('-').map(Number);
+  return new Date(y, m - 1, day).toLocaleDateString('en-GB', {
+    day: 'numeric', month: opts?.short ? 'short' : 'long', year: 'numeric',
+  });
+}
+
 export const schools: School[] = [
   {
     slug: 'al-maaref-american-school',

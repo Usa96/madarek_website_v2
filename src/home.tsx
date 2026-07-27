@@ -16,7 +16,8 @@ import {
   PillLink, TextLink, Reveal,
 } from './system';
 import type { BrandKey } from './system';
-import type { School } from './data';
+import { mediaByNewest, formatMediaDate } from './data';
+import type { School, MediaItem } from './data';
 
 /* ── 01 · Hero ─────────────────────────────────────────────── */
 function HeroSection() {
@@ -457,6 +458,154 @@ function FoundationAcademySection() {
   );
 }
 
+/* ── 08 · Media — editorial mosaic (SANAM-style newsroom index).
+   One large featured story, two horizontal cards beside it, and a row
+   of three below. Reads the shared `mediaByNewest` source of truth;
+   photos are pending, so cards use the branded placeholder. */
+
+/* Card image — real photo when present, branded placeholder while
+   images are pending. `className` sets the frame (aspect / min-height). */
+function MediaImage({ item, className = '', markSize = 40 }: { item: MediaItem; className?: string; markSize?: number }) {
+  return (
+    <div className={`relative overflow-hidden ${className}`} style={{ background: BRAND.paperLo }}>
+      {item.image ? (
+        <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      ) : (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3" style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.16)} 0%, ${BRAND.paperLo} 68%)` }}>
+          <FoldedMark size={markSize} tone="cyan" tilt="lean" opacity={0.85} />
+          <span className="font-mono uppercase" style={{ fontSize: 10, letterSpacing: '0.2em', color: BRAND.inkMute }}>
+            Image coming soon
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* Category (left) + date (right) meta row. */
+function MediaMeta({ item }: { item: MediaItem }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.14em', color: BRAND.cyan }}>{item.category}</span>
+      <span className="font-mono" style={{ fontSize: 11, letterSpacing: '0.06em', color: BRAND.inkMute }}>{formatMediaDate(item.date, { short: true })}</span>
+    </div>
+  );
+}
+
+const MEDIA_TITLE_FONT = 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif';
+const mediaCardBase = 'group flex flex-col overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_20px_50px_-24px_rgba(10,14,28,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
+
+function MediaSection() {
+  const d = useDensity();
+  const items = mediaByNewest;
+  if (items.length === 0) return null;
+
+  const featured = items[0];
+  const side = items.slice(1, 3);   // two horizontal cards beside the feature
+  const rest = items.slice(3, 6);   // three cards below
+
+  return (
+    <Section id="media" bg="paper" className={d.sectionY}>
+      <Container>
+        {/* header */}
+        <Reveal>
+          <div className="grid grid-cols-12 gap-6 mb-10 md:mb-14">
+            <div className="col-span-12 md:col-span-3">
+              <SectionNumber n={4} tone="cyan" />
+              <div className="mt-3"><Eyebrow tone="cyan">Media</Eyebrow></div>
+            </div>
+            <div className="col-span-12 md:col-span-9">
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <Display size="lg">
+                  Latest<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> updates.</span>
+                </Display>
+                <Link
+                  to="/media"
+                  className="group inline-flex items-baseline gap-2 border-b pb-1 transition-colors"
+                  style={{ color: BRAND.ink, borderColor: withOpacity('ink', 0.4), fontFamily: 'Inter, sans-serif', fontSize: 15 }}>
+                  View all {items.length} updates
+                  <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
+                </Link>
+              </div>
+              <div className="mt-5 max-w-2xl">
+                <Body size="md" muted>
+                  Announcements, achievements, and stories from across the MADAREK network.
+                </Body>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* top: dominant featured (spans both rows) + a narrow column of
+            two compact cards that fill the same height */}
+        <Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-5 lg:gap-6">
+            {/* featured */}
+            <Link
+              to={featured.href || '/media'}
+              className={`${mediaCardBase} lg:col-span-8 lg:row-span-2`}
+              style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
+              <MediaImage item={featured} className="flex-1 min-h-[200px]" markSize={64} />
+              <div className="p-6 md:p-7 flex flex-col gap-3">
+                <MediaMeta item={featured} />
+                <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.45rem, 2.4vw, 2rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: BRAND.ink }}>
+                  {featured.title}
+                </h3>
+                <Body size="md" muted>{featured.excerpt}</Body>
+                <span className="mt-1 inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.ink }}>
+                  <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.4) }}>Read more</span>
+                  <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
+                </span>
+              </div>
+            </Link>
+
+            {/* two compact horizontal cards, each filling one row */}
+            {side.map((it) => (
+              <Link
+                key={it.id}
+                to={it.href || '/media'}
+                className={`${mediaCardBase} lg:col-span-4 !flex-row`}
+                style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
+                <MediaImage item={it} className="w-[42%] flex-none" markSize={28} />
+                <div className="flex-1 p-5 flex flex-col justify-center gap-2">
+                  <MediaMeta item={it} />
+                  <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1rem, 1.2vw, 1.2rem)', lineHeight: 1.2, letterSpacing: '-0.005em', color: BRAND.ink }}>
+                    {it.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* bottom: three cards */}
+        {rest.length > 0 && (
+          <Reveal delay={0.08}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mt-5 lg:mt-6">
+              {rest.map((it) => (
+                <Link
+                  key={it.id}
+                  to={it.href || '/media'}
+                  className={`${mediaCardBase} h-full`}
+                  style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
+                  <MediaImage item={it} className="aspect-[16/10]" markSize={36} />
+                  <div className="p-6 flex flex-col flex-1 gap-2.5">
+                    <MediaMeta item={it} />
+                    <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', lineHeight: 1.2, letterSpacing: '-0.005em', color: BRAND.ink }}>
+                      {it.title}
+                    </h3>
+                    <div className="mt-1"><Body size="sm" muted>{it.excerpt}</Body></div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </Reveal>
+        )}
+      </Container>
+    </Section>
+  );
+}
+
 /* ── 09 · Contact — large typographic close. Single primary CTA. */
 function ContactSection() {
   const d = useDensity();
@@ -466,7 +615,7 @@ function ContactSection() {
         <Reveal>
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 md:col-span-3">
-              <SectionNumber n={4} tone="cyan" />
+              <SectionNumber n={5} tone="cyan" />
               <div className="mt-3"><Eyebrow tone="cyan">Get in touch</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
@@ -506,7 +655,8 @@ export default function HomePage({ schools }: { schools: School[] }) {
       <FrameworkSection />
       <CinematicMoment />
       <SchoolsSection schools={schools} />
-      {/* Foundation & Academy hidden for now — component retained below. */}
+      {/* Foundation & Academy hidden for now — component retained above. */}
+      <MediaSection />
       <ContactSection />
     </>
   );

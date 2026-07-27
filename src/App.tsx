@@ -25,6 +25,7 @@ const FoundationPage   = lazy(() => import('./pages').then((m) => ({ default: m.
 const AcademyPage      = lazy(() => import('./pages').then((m) => ({ default: m.AcademyPage })));
 const ContactPage      = lazy(() => import('./pages').then((m) => ({ default: m.ContactPage })));
 const CareersPage      = lazy(() => import('./pages').then((m) => ({ default: m.CareersPage })));
+const MediaPage        = lazy(() => import('./pages').then((m) => ({ default: m.MediaPage })));
 const LeadershipPage   = lazy(() => import('./pages').then((m) => ({ default: m.LeadershipPage })));
 const LeaderDetailRoute = lazy(() => import('./pages').then((m) => ({ default: m.LeaderDetailRoute })));
 
@@ -66,6 +67,7 @@ function Header() {
     { to: '/about',             label: 'About' },
     { to: '/about/leadership',  label: 'Leadership' },
     { to: '/schools',           label: 'Schools' },
+    { to: '/media',             label: 'Media' },
     { to: '/careers',           label: 'Careers' },
     { to: '/contact',           label: 'Contact' },
   ];
@@ -237,6 +239,7 @@ function Footer() {
                 ['/about', 'About'],
                 ['/about/leadership', 'Leadership'],
                 ['/schools', 'Schools'],
+                ['/media', 'Media'],
                 ['/careers', 'Careers'],
                 ['/contact', 'Contact'],
               ].map(([to, label]) => (
@@ -392,6 +395,7 @@ function AppShell() {
             <Route path="/foundation"         element={<FoundationPage />} />
             <Route path="/academy"            element={<AcademyPage />} />
             <Route path="/careers"            element={<CareersPage />} />
+            <Route path="/media"              element={<MediaPage />} />
             <Route path="/contact"            element={<ContactPage />} />
             <Route path="/privacy"            element={<StubPage title="Privacy" />} />
             <Route path="/terms"              element={<StubPage title="Terms" />} />
