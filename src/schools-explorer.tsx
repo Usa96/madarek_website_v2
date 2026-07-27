@@ -319,7 +319,7 @@ function SchoolCard({
       onClick={onOpen}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
-      className="group text-left w-full overflow-hidden border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]"
+      className="group flex flex-col text-left w-full h-full overflow-hidden border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]"
       style={{ background: BRAND.paperHi, borderColor: active ? BRAND.cyan : BRAND.rule, boxShadow: active ? `0 0 0 1px ${BRAND.cyan}` : 'none' }}>
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -333,12 +333,12 @@ function SchoolCard({
           <Meta tone="paper">{school.location}</Meta>
         </div>
       </div>
-      <div className="p-6">
+      <div className="flex flex-col flex-1 p-6">
         <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.15, color: BRAND.ink }}>
           {school.name}
         </div>
         <div className="mt-3"><Meta>{school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}</Meta></div>
-        <div className="mt-5 pt-5 border-t flex items-center justify-between" style={{ borderColor: BRAND.rule }}>
+        <div className="mt-auto pt-5 border-t flex items-center justify-between" style={{ borderColor: BRAND.rule }}>
           <Meta>{school.capacity}</Meta>
           <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: active ? BRAND.cyan : BRAND.ink }}>
             Details

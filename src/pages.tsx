@@ -107,7 +107,7 @@ export function AboutPage() {
         eyebrow="Who We Are"
         title="A regional"
         italicTail="education platform."
-        lede="A growing network of international schools across the GCC, built on academic excellence and the full development of every student."
+        lede="A growing network of international schools across the GCC, built on academic excellence and the growth of confident, well-rounded learners."
         tone="ink" />
 
       {/* Our story — NEEDS FACTS: founder / parent company, number of schools &
@@ -121,15 +121,15 @@ export function AboutPage() {
                 <div className="mt-3"><Eyebrow>Our story</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="md">Founded in 2026.</Display>
+                <Display size="md">Bringing schools together across the Gulf.</Display>
                 <div className="mt-10 max-w-2xl">
                   <Body size="xl">
-                    MADAREK was founded in 2026 to bring together a growing
-                    network of schools across the GCC. From our first campuses in
-                    the UAE and Saudi Arabia, we continue to expand — guided by a
-                    single mission: to deliver internationally recognised
-                    education that develops well-rounded students and strengthens
-                    the communities we serve.
+                    MADAREK brings together a growing network of schools across
+                    the GCC. From our first campuses in the UAE and Saudi Arabia,
+                    we continue to expand — guided by a single mission: to deliver
+                    internationally recognised education that develops
+                    well-rounded students and strengthens the communities we
+                    serve.
                   </Body>
                 </div>
               </div>
@@ -887,9 +887,9 @@ const LEADERS: Leader[] = [
     name: 'Mohamed Hussein Motawea',
     eyebrow: 'CEO for MADAREK UAE',
     title: 'Chief Executive Officer & Schools Director',
-    preview: 'Strategic and operational leadership for FEH UAE and Al Maaref American School, with 30+ years transforming schools across the region.',
+    preview: 'Strategic and operational leadership for MADAREK UAE and Al Maaref American School, with 30+ years transforming schools across the region.',
     bio: [
-      "As Chief Executive Officer and Schools Director at First Education Holding (FEH) in the UAE, Mohamed Hussein Motawea provides strategic and operational leadership for Al Maaref American School in Dubai.",
+      "As Chief Executive Officer and Schools Director at MADAREK UAE, Mohamed Hussein Motawea provides strategic and operational leadership for Al Maaref American School in Dubai.",
       "With over 30 years of experience transforming schools across the UAE and Egypt — including 15 years in senior leadership — he is widely recognised for building high-performing teams, driving measurable school improvement, and embedding a culture of excellence across entire school communities.",
       "In 2025, he was honoured with the NEASC Commission on International Education Service Award, a prestigious global recognition of his contributions to international education. Among his key achievements, he led Al Zuhour Private School from an 'Acceptable' to a 'Good' rating by SPEA, guiding a community of over 3,000 students and 300 staff through a sustained improvement journey.",
       "He brings deep expertise in UAE regulatory frameworks, including KHDA and SPEA/MOE inspections, as well as international accreditation through NEASC and Cognia. He has served as a NEASC Visiting Team Member and has chaired accreditation visits for international schools across the Gulf and beyond.",
@@ -908,7 +908,7 @@ const LEADERS: Leader[] = [
     preview: 'A Chartered Accountant with over 25 years in finance and governance, overseeing financial management, compliance, and board affairs.',
     bio: [
       "A Chartered Accountant and member of the Institute of Chartered Accountants of India, Haris Moideen brings over 25 years of experience across accounting, finance, and corporate governance.",
-      "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined First Education Holding (FEH) in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance.",
+      "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined MADAREK in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance.",
     ],
     tone: 'pink',
     image: '/redesign-assets/haris_cfo.webp',
@@ -1051,31 +1051,9 @@ export function LeadershipPage() {
         </Container>
       </Section>
 
-      <Section bg="navy" className={d.sectionY}>
-        <Container>
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-16">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={3} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Governance</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg" style={{ color: BRAND.paperHi }}>
-                  Board of<span style={{ fontStyle: 'normal' }}> Directors.</span>
-                </Display>
-                <div className="mt-8 max-w-2xl">
-                  <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
-                    MADAREK's Board provides strategic oversight, governance, and
-                    stewardship for the platform's continued growth.
-                  </Body>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          <BoardWall members={BOARD} />
-        </Container>
-      </Section>
+      {/* Board of Directors section hidden for now — BOARD data and
+          BoardWall component are retained below for easy restoration
+          once final portraits are confirmed. */}
     </>
   );
 }

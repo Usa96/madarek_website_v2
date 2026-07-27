@@ -66,8 +66,6 @@ function Header() {
     { to: '/about',             label: 'About' },
     { to: '/about/leadership',  label: 'Leadership' },
     { to: '/schools',           label: 'Schools' },
-    { to: '/foundation',        label: 'Foundation' },
-    { to: '/academy',           label: 'Academy' },
     { to: '/careers',           label: 'Careers' },
     { to: '/contact',           label: 'Contact' },
   ];
@@ -227,7 +225,7 @@ function Footer() {
             </div>
             <div className="max-w-sm" style={{ color: withOpacity('paper', 0.7), fontWeight: 300, fontSize: 16, lineHeight: 1.5 }}>
               A community of schools across the Gulf, dedicated to academic
-              excellence, the whole child, and lasting educational impact.
+              excellence and lasting educational impact.
             </div>
           </div>
 
@@ -239,8 +237,6 @@ function Footer() {
                 ['/about', 'About'],
                 ['/about/leadership', 'Leadership'],
                 ['/schools', 'Schools'],
-                ['/foundation', 'Foundation'],
-                ['/academy', 'Academy'],
                 ['/careers', 'Careers'],
                 ['/contact', 'Contact'],
               ].map(([to, label]) => (

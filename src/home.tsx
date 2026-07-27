@@ -114,8 +114,8 @@ function AboutSection() {
             <div className="col-span-12 md:col-span-6">
               <Body size="xl" muted={false}>
                 MADAREK is a growing network of schools across the GCC, united by
-                one commitment: academic excellence and the full development of
-                every student.
+                one commitment: academic excellence and developing confident,
+                well-rounded learners.
               </Body>
               <div className="mt-6">
                 <Body size="xl" muted={false}>
@@ -225,8 +225,8 @@ function CinematicMoment() {
 }
 
 /* ── 05 · Schools — asymmetric photo mosaic on a dark band. One
-   hero tile beside two stacked tiles; hover reveals details; each
-   links to its campus page. */
+    hero tile beside two stacked tiles; hover reveals details; each
+    links to its campus page. */
 function SchoolsSection({ schools }: { schools: School[] }) {
   const d = useDensity();
   return (
@@ -262,9 +262,9 @@ function SchoolsSection({ schools }: { schools: School[] }) {
   );
 }
 
-/* Horizontal snap carousel — scales to any number of campuses. Arrow
-   controls, drag/scroll, and a progress bar; a closing card signals the
-   network is still growing. */
+/*  Horizontal snap carousel — scales to any number of campuses. Arrow
+    controls, drag/scroll, and a progress bar; a closing card signals the
+    network is still growing. */
 function SchoolsCarousel({ schools }: { schools: School[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
@@ -506,7 +506,7 @@ export default function HomePage({ schools }: { schools: School[] }) {
       <FrameworkSection />
       <CinematicMoment />
       <SchoolsSection schools={schools} />
-      <FoundationAcademySection />
+      {/* Foundation & Academy hidden for now — component retained below. */}
       <ContactSection />
     </>
   );
