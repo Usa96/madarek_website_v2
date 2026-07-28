@@ -26,7 +26,6 @@ const AcademyPage      = lazy(() => import('./pages').then((m) => ({ default: m.
 const ContactPage      = lazy(() => import('./pages').then((m) => ({ default: m.ContactPage })));
 const CareersPage      = lazy(() => import('./pages').then((m) => ({ default: m.CareersPage })));
 const MediaPage        = lazy(() => import('./pages').then((m) => ({ default: m.MediaPage })));
-const LeadershipPage   = lazy(() => import('./pages').then((m) => ({ default: m.LeadershipPage })));
 const LeaderDetailRoute = lazy(() => import('./pages').then((m) => ({ default: m.LeaderDetailRoute })));
 
 /* Page transitions use a full-screen "cover wipe" (see AppShell):
@@ -65,15 +64,14 @@ function Header() {
   const links = [
     { to: '/',                  label: 'Home' },
     { to: '/about',             label: 'About' },
-    { to: '/about/leadership',  label: 'Leadership' },
     { to: '/schools',           label: 'Schools' },
     { to: '/media',             label: 'Media' },
     { to: '/careers',           label: 'Careers' },
     { to: '/contact',           label: 'Contact' },
   ];
 
-  // Longest-prefix match — so /about/leadership/* highlights "Leadership"
-  // and not "About".
+  // Longest-prefix match — leadership now lives under /about, so
+  // /about/leadership/* correctly highlights "About".
   const isActive = (to: string) => {
     if (to === '/') return pathname === '/';
     const matches = links
@@ -237,7 +235,6 @@ function Footer() {
               {[
                 ['/', 'Home'],
                 ['/about', 'About'],
-                ['/about/leadership', 'Leadership'],
                 ['/schools', 'Schools'],
                 ['/media', 'Media'],
                 ['/careers', 'Careers'],
@@ -380,6 +377,23 @@ function AppShell() {
     setCovering(false); // trigger the reveal (exit)
   };
 
+  // After a page swaps in, honour a URL hash (e.g. /about#leadership) by
+  // scrolling to that section instead of staying at the top. The target
+  // may mount a frame or two later (lazy routes), so retry briefly.
+  useEffect(() => {
+    const hash = shownLocation.hash;
+    if (!hash) return;
+    let tries = 0;
+    let raf = 0;
+    const tryScroll = () => {
+      const el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ block: 'start' });
+      else if (tries++ < 90) raf = requestAnimationFrame(tryScroll); // ~1.5s, covers lazy-loaded routes
+    };
+    raf = requestAnimationFrame(tryScroll);
+    return () => cancelAnimationFrame(raf);
+  }, [shownLocation]);
+
   return (
     <DensityCtx.Provider value={density}>
       <Header />
@@ -388,7 +402,6 @@ function AppShell() {
           <Routes location={shownLocation}>
             <Route path="/"                   element={<HomePage schools={schools} />} />
             <Route path="/about"                    element={<AboutPage />} />
-            <Route path="/about/leadership"         element={<LeadershipPage />} />
             <Route path="/about/leadership/:slug"   element={<LeaderDetailRoute />} />
             <Route path="/schools"            element={<SchoolsPage schools={schools} />} />
             <Route path="/schools/:slug"      element={<SchoolDetailRoute />} />

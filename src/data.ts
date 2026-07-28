@@ -82,7 +82,8 @@ export const schools: School[] = [
     name: 'Al Maaref American School',
     short: 'Al Maaref American School',
     location: 'Dubai, UAE',
-    curriculum: 'International Baccalaureate',
+    curriculum: 'American',
+    grades: 'KG–Grade 12',
     ages: '3–18',
     languages: 'English · Arabic',
     capacity: '1,200 students',
@@ -92,14 +93,15 @@ export const schools: School[] = [
     email: 'admissions@mas-edu.ae',
     website: 'https://mas-edu.ae/',
     description:
-      'Providing students with a comprehensive educational experience built upon academic excellence and holistic development.',
+      'An American curriculum school in Dubai, established in 1987 — educating students from Early Years to High School through to the US High School Diploma.',
     overview:
-      'Al Maaref American School is an IB World School in the heart of Dubai. The campus brings together students from many nationalities inside a curriculum that values Arabic, Islamic studies, and global readiness equally.',
+      "Established in 1987, Al Maaref American School is one of Dubai's longest-standing American schools. It delivers a US-standards curriculum from Early Years to High School, with an approach built around independent thinking, creativity, and real-world problem-solving — inside a kind, inclusive community that brings together students of many nationalities.",
     highlights: [
-      'IB World School with full PYP, MYP, and DP programmes',
-      'State-of-the-art science labs, maker spaces, sports complexes',
-      'Strong Arabic language and Islamic studies tradition',
-      'University counselling from Grade 9',
+      "Established in 1987 — one of Dubai's longest-standing American schools",
+      'American curriculum aligned to US standards, leading to the US High School Diploma',
+      'Accredited by NEASC and Cognia, with College Board programmes',
+      'Learning built on independent thinking, creativity, and real-world problem-solving',
+      'Modern facilities — science labs, libraries, arts studios, and dedicated play areas',
     ],
   },
   {

@@ -276,6 +276,9 @@ export function AboutPage() {
           </div>
         </Container>
       </Section>
+
+      {/* Leadership — folded in as a subsection of About */}
+      <LeadershipSection />
     </>
   );
 }
@@ -874,12 +877,12 @@ type Leader = {
 const LEADERS: Leader[] = [
   {
     slug: 'shukri-mansour',
-    name: 'Mr. Shukri A. Mansour',
+    name: 'Dr Shukri A. Mansour',
     eyebrow: 'CEO for MADAREK KSA',
     title: 'Chief Executive Officer',
     preview: 'Leads MADAREK KSA across strategy, operations, and organizational direction.',
     tone: 'cyan',
-    image: '/redesign-assets/dr.shukri_ceo_ksa.webp',
+    image: '/redesign-assets/BOD/Dr.Shukri.svg',
     email: 'shukri.mansour@madarek.me',
     linkedin: '#',
   },
@@ -897,7 +900,7 @@ const LEADERS: Leader[] = [
       "He holds a Master's degree in Management from the University of Lincoln, UK, and dual bachelor's degrees in Education and Business & Finance from Alexandria University, and is a licensed School Principal by the UAE Ministry of Education.",
     ],
     tone: 'yellow',
-    image: '/redesign-assets/mohammad_motawea_ceo_uae.webp',
+    image: '/redesign-assets/BOD/Mohammad_al_motawea.svg',
     email: 'mohamed.motawea@madarek.me',
     linkedin: '#',
   },
@@ -912,7 +915,7 @@ const LEADERS: Leader[] = [
       "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined MADAREK in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance.",
     ],
     tone: 'pink',
-    image: '/redesign-assets/haris_cfo.webp',
+    image: '/redesign-assets/BOD/Haris.svg',
     email: 'haris.moideen@madarek.me',
     linkedin: '#',
   },
@@ -921,13 +924,13 @@ const LEADERS: Leader[] = [
 type BoardMember = { name: string; title: string; image: string };
 
 const BOARD: BoardMember[] = [
-  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '/redesign-assets/majid_al_hokair.webp' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/Dr. Sulaiman Al Abduljader.webp'},
-  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/dr.shukri_ceo_ksa.webp' },
-  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '' },
-  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '' },
-  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '/redesign-assets/omar_al_shayeji.webp' },
-  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/Monira AlWugayan.webp' },
+  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
+  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/BOD/Dr.Sulaiman.svg'},
+  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/BOD/Dr.Shukri.svg' },
+  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
+  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '/redesign-assets/BOD/' },
+  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
+  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/BOD/Monira.svg' },
 ];
 
 const getInitials = (name: string) =>
@@ -1019,42 +1022,178 @@ function BoardWall({ members }: { members: BoardMember[] }) {
   );
 }
 
-export function LeadershipPage() {
+/* Featured pair — the two most senior leaders on a dark band: portrait,
+   a bordered role chip, big name, an accent rule, then a short bio with
+   a link to the full profile. */
+function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+      {leaders.map((leader, i) => (
+        <Reveal key={leader.slug} delay={i * 0.12}>
+          <div className="flex flex-col">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-8">
+              <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
+            </div>
+            <span
+              className="inline-block self-start py-1.5 px-3 mb-6 font-mono uppercase"
+              style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72), border: `1px solid ${withOpacity('paper', 0.25)}` }}>
+              {leader.eyebrow}
+            </span>
+            <div style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+              {leader.name}
+            </div>
+            <div className="mt-3"><Meta tone="paper">{leader.title}</Meta></div>
+            <div className="w-24 h-1 my-8" style={{ background: withOpacity('paper', 0.25) }} />
+            <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>{leader.preview}</Body>
+            {leader.bio && (
+              <div className="mt-7">
+                <Link
+                  to={`/about/leadership/${leader.slug}`}
+                  className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
+                  style={{ color: BRAND.paperHi }}>
+                  <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>Read full profile</span>
+                  <span style={{ color: BRAND.cyan }}>→</span>
+                </Link>
+              </div>
+            )}
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
+/* Team card — square portrait that reveals a bio on hover (desktop) or
+   tap / keyboard (touch + a11y). A real role="button" with aria-expanded
+   and Enter/Space handling, per the design guide. */
+function LeadershipCard({ leader, index }: { leader: Leader; index: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Reveal delay={(index % 3) * 0.06}>
+      <div
+        className="group relative flex flex-col h-full"
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}>
+        <div
+          role="button"
+          tabIndex={0}
+          aria-expanded={open}
+          aria-label={`${leader.name} — ${leader.title}`}
+          onClick={() => setOpen((v) => !v)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); } }}
+          className="relative aspect-[4/5] overflow-hidden rounded-xl cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]">
+          <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
+            <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
+          </div>
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0, y: '100%' }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: '100%' }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 p-7 flex flex-col justify-center"
+                style={{ background: withOpacity('ink', 0.95) }}>
+                <Body size="md" style={{ color: withOpacity('paper', 0.9) }}>{leader.preview}</Body>
+                {leader.bio && (
+                  <Link
+                    to={`/about/leadership/${leader.slug}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium"
+                    style={{ color: BRAND.paperHi }}>
+                    <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>Read full profile</span>
+                    <span style={{ color: BRAND.cyan }}>→</span>
+                  </Link>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        <h3 className="mt-5" style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.3rem, 1.8vw, 1.6rem)', lineHeight: 1.2, color: BRAND.ink }}>
+          {leader.name}
+        </h3>
+        <div className="mt-2"><Meta>{leader.title}</Meta></div>
+      </div>
+    </Reveal>
+  );
+}
+
+/* Leadership — a subsection of the About page. The two most senior
+   leaders get the featured treatment on a dark band; everyone else sits
+   in the reveal-on-hover team grid. */
+export function LeadershipSection() {
   const d = useDensity();
+  const featured = LEADERS.slice(0, 2);
+  const rest = LEADERS.slice(2);
   return (
     <>
-      <PageHero
-        image="/redesign-assets/title_3.webp"
-        eyebrow="About MADAREK"
-        title="Leadership"
-        italicTail="guiding the work."
-        lede="Governance and executive leadership steering MADAREK's growth, school operations, and long-term education platform strategy."
-        tone="red"
-        number={1} />
-
-      <Section bg="white" className={d.sectionY}>
+      <Section id="leadership" bg="ink" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={2} tone="red" />
-                <div className="mt-3"><Eyebrow tone="red">Executive</Eyebrow></div>
+                <SectionNumber n={6} tone="cyan" />
+                <div className="mt-3"><Eyebrow tone="cyan">Leadership</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">
+                <Display size="lg" style={{ color: BRAND.paperHi }}>
                   The people<span style={{ fontStyle: 'normal', display: 'block' }}>behind the schools.</span>
                 </Display>
+                <div className="mt-8 max-w-2xl">
+                  <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
+                    Executive leadership steering MADAREK's growth, school operations,
+                    and long-term education platform strategy.
+                  </Body>
+                </div>
               </div>
             </div>
           </Reveal>
 
-          <ExecutiveGrid leaders={LEADERS} />
+          <LeadershipFeature leaders={featured} />
         </Container>
       </Section>
 
-      {/* Board of Directors section hidden for now — BOARD data and
-          BoardWall component are retained below for easy restoration
-          once final portraits are confirmed. */}
+      {rest.length > 0 && (
+        <Section bg="paper" className={d.sectionY}>
+          <Container max="6xl">
+            <Reveal>
+              <div className="mb-12"><Eyebrow>The team</Eyebrow></div>
+            </Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+              {rest.map((l, i) => (
+                <LeadershipCard key={l.slug} leader={l} index={i} />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      {/* Board of Directors — governance wall */}
+      <Section bg="navy" className={d.sectionY}>
+        <Container>
+          <Reveal>
+            <div className="grid grid-cols-12 gap-6 mb-16">
+              <div className="col-span-12 md:col-span-3">
+                <SectionNumber n={7} tone="cyan" />
+                <div className="mt-3"><Eyebrow tone="cyan">Governance</Eyebrow></div>
+              </div>
+              <div className="col-span-12 md:col-span-9">
+                <Display size="lg" style={{ color: BRAND.paperHi }}>
+                  Board of<span style={{ fontStyle: 'normal' }}> Directors.</span>
+                </Display>
+                <div className="mt-8 max-w-2xl">
+                  <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
+                    MADAREK's Board provides strategic oversight, governance, and
+                    stewardship for the platform's continued growth.
+                  </Body>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          <BoardWall members={BOARD} />
+        </Container>
+      </Section>
     </>
   );
 }
@@ -1071,7 +1210,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
         <Container max="5xl">
           <Display size="md">Leader not found.</Display>
           <div className="mt-8">
-            <TextLink to="/about/leadership" tone="ink">Back to leadership</TextLink>
+            <TextLink to="/about#leadership" tone="ink">Back to leadership</TextLink>
           </div>
         </Container>
       </Section>
@@ -1111,7 +1250,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
       <nav aria-label="Breadcrumb" style={{ background: BRAND.paperHi }} className="border-b">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center gap-3" style={{ borderColor: BRAND.rule }}>
           <Link
-            to="/about/leadership"
+            to="/about#leadership"
             className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
             style={{ color: BRAND.ink, fontFamily: 'Inter, sans-serif', fontSize: 13 }}>
             <span aria-hidden="true">←</span>
@@ -1203,7 +1342,7 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
               </div>
             </div>
             <div className="col-span-12 md:col-span-4 md:text-right">
-              <PillLink to="/about/leadership" variant="invert">View all leadership</PillLink>
+              <PillLink to="/about#leadership" variant="invert">View all leadership</PillLink>
             </div>
           </div>
         </Container>
