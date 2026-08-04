@@ -339,7 +339,7 @@ function SchoolCard({
         </div>
         <div className="mt-3"><Meta>{school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}</Meta></div>
         <div className="mt-auto pt-5 border-t flex items-center justify-between" style={{ borderColor: BRAND.rule }}>
-          <Meta>{school.capacity}</Meta>
+          <Meta>{school.students} students</Meta>
           <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: active ? BRAND.cyan : BRAND.ink }}>
             Details
             <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>

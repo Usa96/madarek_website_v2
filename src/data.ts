@@ -12,7 +12,7 @@ export interface School {
   grades?: string;
   ages: string;
   languages: string;
-  capacity: string;
+  students: string;
   image: string;
   gallery: string[];
   address: string;
@@ -86,7 +86,7 @@ export const schools: School[] = [
     grades: 'KG–Grade 12',
     ages: '3–18',
     languages: 'English · Arabic',
-    capacity: '1,200 students',
+    students: '1,439',
     image: '/redesign-assets/Maaref/11.webp',
     gallery: ['/redesign-assets/Maaref/1.webp', '/redesign-assets/Maaref/2.webp', '/redesign-assets/Maaref/3.webp', '/redesign-assets/Maaref/4.webp'],
     address: 'Al Barsha South, Dubai, United Arab Emirates',
@@ -110,19 +110,19 @@ export const schools: School[] = [
     short: 'MGIS Qortuba',
     location: 'Riyadh, KSA',
     curriculum: 'American (IB-PYP)',
-    grades: 'KG–Grade 8',
+    grades: 'Nursery–Grade 9',
     ages: '3–15',
     languages: 'English · Arabic',
-    capacity: '600 students',
+    students: '630',
     image: '/redesign-assets/MGIS_Qortuba/01.webp',
     gallery: ['/redesign-assets/MGIS_Qortuba/3.webp', '/redesign-assets/MGIS_Qortuba/4.webp', '/redesign-assets/MGIS_Qortuba/5.webp', '/redesign-assets/MGIS_Qortuba/6.webp'],
     address: 'Qortuba District, Riyadh, Kingdom of Saudi Arabia',
     email: 'info@mgis-sa.com',
     website: 'https://mgis-sa.com/',
     description:
-      'Delivering internationally recognized education within a dynamic learning environment that prepares students for future success.',
+      'An American curriculum enriched by the IB framework — Nursery to Grade 9, in the heart of Riyadh.',
     overview:
-      "MGIS Qortuba combines the American academic structure with the IB-PYP's inquiry-led pedagogy, in classrooms designed for small group teaching and rigorous individual attention.",
+      'MGIS Qortuba Campus is a leading international school in Riyadh offering an American curriculum enriched by the IB framework. Serving students from Nursery to Grade 9, the campus provides a nurturing learning environment that promotes academic excellence, character development, and global citizenship while preparing students for lifelong success.',
     highlights: [
       'American curriculum structured around IB-PYP framework',
       'Average class size of 18 students, maximum 24',
@@ -141,7 +141,7 @@ export const schools: School[] = [
     grades: 'KG–Grade 6',
     ages: '3–12',
     languages: 'English · Arabic · French',
-    capacity: '500 students',
+    students: '321',
     image: '/redesign-assets/MGIS_DC/1.webp',
     gallery: ['/redesign-assets/MGIS_DC/2.webp', '/redesign-assets/MGIS_DC/3.webp', '/redesign-assets/MGIS_DC/5.webp', '/redesign-assets/MGIS_DC/6.webp'],
     address: 'Digital City, Riyadh, Kingdom of Saudi Arabia',

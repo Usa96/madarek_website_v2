@@ -356,7 +356,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
                     ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
                     { label: 'Ages',       value: school.ages },
                     { label: 'Languages',  value: school.languages },
-                    { label: 'Capacity',   value: school.capacity },
+                    { label: 'Total students', value: school.students },
                   ].map((f) => (
                     <div key={f.label}>
                       <Meta>{f.label}</Meta>
@@ -923,14 +923,20 @@ const LEADERS: Leader[] = [
 
 type BoardMember = { name: string; title: string; image: string };
 
-const BOARD: BoardMember[] = [
-  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board',      image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Vice Chairman of the Board', image: '/redesign-assets/BOD/Dr.Sulaiman.svg'},
-  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',               image: '/redesign-assets/BOD/Dr.Shukri.svg' },
-  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',               image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
-  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',               image: '/redesign-assets/BOD/' },
-  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',               image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
-  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',               image: '/redesign-assets/BOD/Monira.svg' },
+/* The group runs two boards. Order within each array = display order. */
+const BOARD_UNITED: BoardMember[] = [
+  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board', image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
+  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Shukri.svg' },
+  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',          image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
+  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/' },
+  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',          image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
+  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
+];
+
+const BOARD_HOLDINGS: BoardMember[] = [
+  { name: 'Dr. Sulaiman Tareq Al Abduljader', title: 'Vice Chairman of the Board', image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
+  { name: 'Jassem Hassan Zainal',             title: 'Board Member',               image: '/redesign-assets/BOD/Jassem_Zainal.svg' },
+  { name: 'Issah Abdullah Issah Al Muzaini',  title: 'Board Member',               image: '/redesign-assets/BOD/Issah_Al_Muzaini.svg' }, 
 ];
 
 const getInitials = (name: string) =>
@@ -999,16 +1005,16 @@ function BoardWall({ members }: { members: BoardMember[] }) {
       {members.map((m, i) => {
         const tone = tones[i % tones.length];
         return (
-          <Reveal key={m.name} delay={(i % 3) * 0.06}>
+          <Reveal key={m.name || `seat-${i}`} delay={(i % 3) * 0.06}>
             <article className="group relative aspect-[3/4] overflow-hidden rounded-xl">
               <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
-                <Portrait src={m.image} alt={m.name} name={m.name} tone={tone} />
+                <Portrait src={m.image} alt={m.name || 'Board seat to be announced'} name={m.name} tone={tone} />
               </div>
               <div className="absolute inset-0 z-20 pointer-events-none"
                 style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.92) 0%, rgba(10,12,28,0.45) 32%, rgba(10,12,28,0) 60%)' }} />
               <div className="absolute inset-x-0 bottom-0 z-30 p-5 md:p-6">
-                <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: BRAND.paperHi }}>
-                  {m.name}
+                <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: m.name ? BRAND.paperHi : withOpacity('paper', 0.55) }}>
+                  {m.name || 'To be announced'}
                 </div>
                 <div className="mt-2 font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.7) }}>
                   {m.title}
@@ -1022,31 +1028,31 @@ function BoardWall({ members }: { members: BoardMember[] }) {
   );
 }
 
-/* Featured pair — the two most senior leaders on a dark band: portrait,
-   a bordered role chip, big name, an accent rule, then a short bio with
-   a link to the full profile. */
+/* Executive row — the senior leaders on a dark band: portrait, a bordered
+   role chip, big name, an accent rule, then a short bio with a link to the
+   full profile. */
 function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
       {leaders.map((leader, i) => (
-        <Reveal key={leader.slug} delay={i * 0.12}>
-          <div className="flex flex-col">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-8">
+        <Reveal key={leader.slug} delay={i * 0.1}>
+          <div className="flex flex-col h-full">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-7">
               <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
             </div>
             <span
-              className="inline-block self-start py-1.5 px-3 mb-6 font-mono uppercase"
+              className="inline-block self-start py-1.5 px-3 mb-5 font-mono uppercase"
               style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72), border: `1px solid ${withOpacity('paper', 0.25)}` }}>
               {leader.eyebrow}
             </span>
-            <div style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+            <div style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.5rem, 2.2vw, 2rem)', lineHeight: 1.12, letterSpacing: '-0.01em', color: BRAND.paperHi }}>
               {leader.name}
             </div>
             <div className="mt-3"><Meta tone="paper">{leader.title}</Meta></div>
-            <div className="w-24 h-1 my-8" style={{ background: withOpacity('paper', 0.25) }} />
-            <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>{leader.preview}</Body>
+            <div className="w-20 h-1 my-7" style={{ background: withOpacity('paper', 0.25) }} />
+            <Body size="md" style={{ color: withOpacity('paper', 0.72) }}>{leader.preview}</Body>
             {leader.bio && (
-              <div className="mt-7">
+              <div className="mt-6">
                 <Link
                   to={`/about/leadership/${leader.slug}`}
                   className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
@@ -1063,68 +1069,89 @@ function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
   );
 }
 
-/* Team card — square portrait that reveals a bio on hover (desktop) or
-   tap / keyboard (touch + a11y). A real role="button" with aria-expanded
-   and Enter/Space handling, per the design guide. */
-function LeadershipCard({ leader, index }: { leader: Leader; index: number }) {
-  const [open, setOpen] = useState(false);
+/* Shareholders — the group's key institutional shareholders, shown as
+   logo cards with a short summary. Summaries are pending: leave `summary`
+   empty ('') and the card shows a "Summary to be added" placeholder.
+   (The full ownership-percentage register is retained in SHAREHOLDING
+   below for an optional breakdown if we want to show figures too.) */
+const SHAREHOLDERS: { name: string; logo: string; summary: string; tone: BrandKey }[] = [
+  { name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan' },
+  { name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red' },
+  { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE.jpg',             summary: '', tone: 'lime' },
+];
+
+/* Retained for an optional ownership-percentage breakdown (top four from
+   the register; holders 5–18 aggregated). Not currently rendered. */
+const SHAREHOLDING: { name: string; percent: number; tone: BrandKey; note?: string }[] = [
+  { name: 'SANAM Capital Holding',                                       percent: 55.534, tone: 'cyan' },
+  { name: 'Arzan Financial Group for Financing Investment (KSC Public)', percent: 14.698, tone: 'red' },
+  { name: 'Alamana United Holding',                                      percent: 11.572, tone: 'yellow' },
+  { name: 'Jassim Hassan Ali Zainal',                                    percent: 7.42,   tone: 'lime' },
+  { name: 'Other shareholders',                                         percent: 10.776, tone: 'pink', note: '14 holders' },
+];
+
+function ShareholdingSection() {
+  const d = useDensity();
   return (
-    <Reveal delay={(index % 3) * 0.06}>
-      <div
-        className="group relative flex flex-col h-full"
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}>
-        <div
-          role="button"
-          tabIndex={0}
-          aria-expanded={open}
-          aria-label={`${leader.name} — ${leader.title}`}
-          onClick={() => setOpen((v) => !v)}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); } }}
-          className="relative aspect-[4/5] overflow-hidden rounded-xl cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]">
-          <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
-            <Portrait src={leader.image} alt={leader.name} name={leader.name} tone={leader.tone} />
+    <Section id="shareholding" bg="paperLo" className={d.sectionY}>
+      <Container max="6xl">
+        <Reveal>
+          <div className="grid grid-cols-12 gap-6 mb-14">
+            <div className="col-span-12 md:col-span-3">
+              <SectionNumber n={8} tone="cyan" />
+              <div className="mt-3"><Eyebrow tone="cyan">Ownership</Eyebrow></div>
+            </div>
+            <div className="col-span-12 md:col-span-9">
+              <Display size="lg" style={{ overflowWrap: 'normal', wordBreak: 'keep-all' }}>
+                Our <span style={{ color: BRAND.inkSub }}>shareholders.</span>
+              </Display>
+              <div className="mt-8 max-w-2xl">
+                <Body size="lg" muted>
+                  The institutions and partners invested in MADAREK's continued
+                  growth across the region.
+                </Body>
+              </div>
+            </div>
           </div>
-          <AnimatePresence>
-            {open && (
-              <motion.div
-                initial={{ opacity: 0, y: '100%' }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: '100%' }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0 p-7 flex flex-col justify-center"
-                style={{ background: withOpacity('ink', 0.95) }}>
-                <Body size="md" style={{ color: withOpacity('paper', 0.9) }}>{leader.preview}</Body>
-                {leader.bio && (
-                  <Link
-                    to={`/about/leadership/${leader.slug}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium"
-                    style={{ color: BRAND.paperHi }}>
-                    <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>Read full profile</span>
-                    <span style={{ color: BRAND.cyan }}>→</span>
-                  </Link>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {SHAREHOLDERS.map((s, i) => (
+            <Reveal key={s.name} delay={(i % 3) * 0.08}>
+              <article
+                className="group flex flex-col h-full overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_24px_60px_-30px_rgba(10,14,28,0.45)]"
+                style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
+                <span className="block h-1 w-full" style={{ background: BRAND[s.tone] }} />
+                <div className="flex items-center justify-center h-44 md:h-52 px-8 py-8 border-b" style={{ background: '#FFFFFF', borderColor: BRAND.rule }}>
+                  <img
+                    src={s.logo}
+                    alt={s.name}
+                    className="max-h-full max-w-[88%] object-contain transition-transform duration-500 group-hover:scale-[1.04]" />
+                </div>
+                <div className="p-7 flex flex-col flex-1">
+                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.2rem, 1.7vw, 1.5rem)', lineHeight: 1.2, letterSpacing: '-0.01em', color: BRAND.ink }}>
+                    {s.name}
+                  </h3>
+                  {s.summary && (
+                    <div className="mt-4 flex-1">
+                      <Body size="md" muted>{s.summary}</Body>
+                    </div>
+                  )}
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
-        <h3 className="mt-5" style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.3rem, 1.8vw, 1.6rem)', lineHeight: 1.2, color: BRAND.ink }}>
-          {leader.name}
-        </h3>
-        <div className="mt-2"><Meta>{leader.title}</Meta></div>
-      </div>
-    </Reveal>
+      </Container>
+    </Section>
   );
 }
 
-/* Leadership — a subsection of the About page. The two most senior
-   leaders get the featured treatment on a dark band; everyone else sits
-   in the reveal-on-hover team grid. */
+/* Leadership — a subsection of the About page: all executives in one
+   row on a dark band, followed by the two governance boards and the
+   shareholding breakdown. */
 export function LeadershipSection() {
   const d = useDensity();
-  const featured = LEADERS.slice(0, 2);
-  const rest = LEADERS.slice(2);
   return (
     <>
       <Section id="leadership" bg="ink" className={d.sectionY}>
@@ -1149,26 +1176,11 @@ export function LeadershipSection() {
             </div>
           </Reveal>
 
-          <LeadershipFeature leaders={featured} />
+          <LeadershipFeature leaders={LEADERS} />
         </Container>
       </Section>
 
-      {rest.length > 0 && (
-        <Section bg="paper" className={d.sectionY}>
-          <Container max="6xl">
-            <Reveal>
-              <div className="mb-12"><Eyebrow>The team</Eyebrow></div>
-            </Reveal>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
-              {rest.map((l, i) => (
-                <LeadershipCard key={l.slug} leader={l} index={i} />
-              ))}
-            </div>
-          </Container>
-        </Section>
-      )}
-
-      {/* Board of Directors — governance wall */}
+      {/* Board of Directors — governance wall (Holdings, then United) */}
       <Section bg="navy" className={d.sectionY}>
         <Container>
           <Reveal>
@@ -1183,17 +1195,42 @@ export function LeadershipSection() {
                 </Display>
                 <div className="mt-8 max-w-2xl">
                   <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
-                    MADAREK's Board provides strategic oversight, governance, and
-                    stewardship for the platform's continued growth.
+                    Strategic oversight, governance, and stewardship across the group.
                   </Body>
                 </div>
               </div>
             </div>
           </Reveal>
 
-          <BoardWall members={BOARD} />
+          {/* Madarek Holdings */}
+          <div className="mb-16 md:mb-20">
+            <Reveal>
+              <div className="flex items-center gap-5 mb-8">
+                <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+                  Madarek Holdings
+                </h3>
+                <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
+              </div>
+            </Reveal>
+            <BoardWall members={BOARD_HOLDINGS} />
+          </div>
+
+          {/* Madarek United */}
+          <div>
+            <Reveal>
+              <div className="flex items-center gap-5 mb-8">
+                <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+                  Madarek United
+                </h3>
+                <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
+              </div>
+            </Reveal>
+            <BoardWall members={BOARD_UNITED} />
+          </div>
         </Container>
       </Section>
+
+      <ShareholdingSection />
     </>
   );
 }
