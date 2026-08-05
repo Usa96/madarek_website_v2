@@ -47,7 +47,7 @@ function PageHero({
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const imgY = useTransform(scrollYProgress, [0, 1], reduced ? ['0%', '0%'] : ['0%', '20%']);
   return (
-    <section ref={ref} className="relative w-full h-screen overflow-hidden bg-black" data-screen-label="Hero">
+    <section ref={ref} className="relative w-full h-dvh overflow-hidden bg-black" data-screen-label="Hero">
       <motion.div style={reduced ? undefined : { y: imgY }} className="absolute inset-0 will-change-transform" aria-hidden="true">
         <img src={image} alt="" className="w-full h-full object-cover scale-110" />
         <div

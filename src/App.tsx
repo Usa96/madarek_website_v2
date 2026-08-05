@@ -288,7 +288,7 @@ function Footer() {
 /* ── stub page for /privacy and /terms ───────────────────── */
 function StubPage({ title }: { title: string }) {
   return (
-    <Section bg="paper" className="min-h-screen flex items-center justify-center pt-48 pb-32">
+    <Section bg="paper" className="min-h-dvh flex items-center justify-center pt-48 pb-32">
       <Container max="5xl" className="text-center">
         <Meta>Placeholder</Meta>
         <div className="mt-6">
@@ -307,7 +307,7 @@ function StubPage({ title }: { title: string }) {
 /* ── 404 — real not-found, not a silent redirect ───────────── */
 function NotFoundPage() {
   return (
-    <Section bg="ink" className="min-h-screen flex items-center justify-center pt-48 pb-32">
+    <Section bg="ink" className="min-h-dvh flex items-center justify-center pt-48 pb-32">
       <Container max="5xl" className="text-center">
         <Meta tone="paper">404</Meta>
         <div className="mt-8">
@@ -398,7 +398,7 @@ function AppShell() {
     <DensityCtx.Provider value={density}>
       <Header />
       <main>
-        <Suspense fallback={<div style={{ minHeight: '100vh', background: BRAND.ink }} />}>
+        <Suspense fallback={<div style={{ minHeight: '100dvh', background: BRAND.ink }} />}>
           <Routes location={shownLocation}>
             <Route path="/"                   element={<HomePage schools={schools} />} />
             <Route path="/about"                    element={<AboutPage />} />

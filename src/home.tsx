@@ -29,7 +29,7 @@ function HeroSection() {
   const titleO  = useTransform(scrollYProgress, [0, 0.7], reduced ? [1, 1] : [1, 0]);
 
   return (
-    <section ref={ref} className="relative w-full h-screen overflow-hidden bg-black" data-screen-label="01 Hero">
+    <section ref={ref} className="relative w-full h-dvh overflow-hidden bg-black" data-screen-label="01 Hero">
       <motion.div
         style={{ scale: imgScale }}
         className="absolute inset-0 will-change-transform"
@@ -203,7 +203,7 @@ function FrameworkSection() {
 function CinematicMoment() {
   return (
     <section className="relative w-full" data-screen-label="04 Cinematic moment">
-      <div className="relative h-screen w-full overflow-hidden">
+      <div className="relative h-dvh w-full overflow-hidden">
         <ScrollImage
           src="/redesign-assets/2.webp"
           alt=""
@@ -559,19 +559,22 @@ function MediaSection() {
               </div>
             </Link>
 
-            {/* two compact horizontal cards, each filling one row */}
+            {/* side cards: standard vertical boxes on mobile, compact
+                horizontal (image-left) only from lg up */}
             {side.map((it) => (
               <Link
                 key={it.id}
                 to={it.href || '/media'}
-                className={`${mediaCardBase} lg:col-span-4 !flex-row`}
+                className={`${mediaCardBase} lg:col-span-4 lg:flex-row`}
                 style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
-                <MediaImage item={it} className="w-[42%] flex-none" markSize={28} />
-                <div className="flex-1 p-5 flex flex-col justify-center gap-2">
+                <MediaImage item={it} className="w-full aspect-[16/10] flex-none lg:w-[42%] lg:aspect-auto" markSize={30} />
+                <div className="flex flex-col flex-1 p-6 gap-2.5 lg:justify-center lg:p-5">
                   <MediaMeta item={it} />
-                  <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1rem, 1.2vw, 1.2rem)', lineHeight: 1.2, letterSpacing: '-0.005em', color: BRAND.ink }}>
+                  <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)', lineHeight: 1.2, letterSpacing: '-0.005em', color: BRAND.ink }}>
                     {it.title}
                   </h3>
+                  {/* excerpt shows on mobile (standard-box parity), hidden on the compact desktop row */}
+                  <div className="mt-1 lg:hidden"><Body size="sm" muted>{it.excerpt}</Body></div>
                 </div>
               </Link>
             ))}
