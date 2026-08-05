@@ -1077,7 +1077,7 @@ function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
 const SHAREHOLDERS: { name: string; logo: string; summary: string; tone: BrandKey }[] = [
   { name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan' },
   { name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red' },
-  { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE.jpg',             summary: '', tone: 'lime' },
+  { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE_Logo_H.png',      summary: '', tone: 'lime' },
 ];
 
 /* Retained for an optional ownership-percentage breakdown (top four from
