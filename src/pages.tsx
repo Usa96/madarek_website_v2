@@ -928,7 +928,7 @@ const BOARD_UNITED: BoardMember[] = [
   { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board', image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
   { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Shukri.svg' },
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',          image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
-  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/' },
+  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/Fahad_al_Bassam.svg' },
   { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',          image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
   { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
 ];
