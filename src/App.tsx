@@ -38,6 +38,7 @@ function Header() {
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openDrop, setOpenDrop] = useState<string | null>(null);
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 80);
@@ -46,7 +47,14 @@ function Header() {
     return () => window.removeEventListener('scroll', on);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  useEffect(() => { setMenuOpen(false); setOpenDrop(null); }, [pathname]);
+
+  // close any open dropdown on an outside click
+  useEffect(() => {
+    const onDoc = () => setOpenDrop(null);
+    document.addEventListener('click', onDoc);
+    return () => document.removeEventListener('click', onDoc);
+  }, []);
 
   // close mobile menu on Escape; lock body scroll while open
   useEffect(() => {
@@ -61,66 +69,131 @@ function Header() {
     };
   }, [menuOpen]);
 
-  const links = [
-    { to: '/',                  label: 'Home' },
-    { to: '/about',             label: 'About' },
-    { to: '/schools',           label: 'Schools' },
-    { to: '/media',             label: 'Media' },
-    { to: '/careers',           label: 'Careers' },
-    { to: '/contact',           label: 'Contact' },
+  // Dropdowns point at real destinations: About → its on-page sections,
+  // Schools → each campus (from the schools source of truth).
+  const nav: { to: string; label: string; children?: { to: string; label: string }[] }[] = [
+    { to: '/', label: 'Home' },
+    { to: '/about', label: 'About', children: [
+      { to: '/about',                label: 'Overview' },
+      { to: '/about#vision-mission', label: 'Vision & Mission' },
+      { to: '/about#leadership',     label: 'Leadership' },
+      { to: '/about#shareholding',   label: 'Shareholders' },
+    ] },
+    { to: '/schools', label: 'Schools', children: [
+      { to: '/schools', label: 'All schools' },
+      ...schools.map((s) => ({ to: `/schools/${s.slug}`, label: s.short })),
+    ] },
+    { to: '/media', label: 'Media' },
+    { to: '/careers', label: 'Careers' },
+    { to: '/contact', label: 'Contact' },
   ];
 
-  // Longest-prefix match — leadership now lives under /about, so
-  // /about/leadership/* correctly highlights "About".
   const isActive = (to: string) => {
     if (to === '/') return pathname === '/';
-    const matches = links
-      .filter((l) => l.to !== '/' && (pathname === l.to || pathname.startsWith(l.to + '/')))
-      .map((l) => l.to)
-      .sort((a, b) => b.length - a.length);
-    return to === matches[0];
+    return pathname === to || pathname.startsWith(to + '/');
+  };
+
+  // Close menus on nav; when a link targets a section on the page we're
+  // already on, scroll to it directly (a same-path hash change doesn't
+  // re-trigger the router's scroll effect).
+  const handleNavClick = (to: string) => {
+    setOpenDrop(null);
+    setMenuOpen(false);
+    const i = to.indexOf('#');
+    if (i < 0) return;
+    const path = to.slice(0, i) || '/';
+    const id = to.slice(i + 1);
+    if (id && path === pathname) {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ block: 'start' });
+      }, 0);
+    }
   };
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[700] transition-all duration-500 ${scrolled ? 'py-3' : 'py-6'}`}
+        className={`fixed top-3 left-4 right-4 md:left-20 md:right-20 z-[700] transition-all duration-500 ${scrolled ? 'py-3' : 'py-9'}`}
         style={{
-          background: scrolled ? withOpacity('ink', 0.85) : 'transparent',
+          background: scrolled ? BRAND.paperHi : 'transparent',
           backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? `1px solid ${withOpacity('paper', 0.08)}` : '1px solid transparent',
+          borderRadius: scrolled ? 9999 : 0,
+          boxShadow: scrolled ? '0 12px 34px rgba(16,24,40,.16)' : 'none',
+          border: scrolled ? `1px solid ${withOpacity('ink', 0.06)}` : '1px solid transparent',
         }}>
-        <div className="px-6 md:px-12 flex items-center justify-between">
-          <Link to="/" className="flex items-center" aria-label="Madarek home">
+        <div className="relative px-6 md:px-12 flex items-center justify-between">
+          <Link to="/" className="relative z-[10] flex items-center" aria-label="Madarek home">
             <MadarekLogo
               className="h-8 md:h-10 w-auto"
-              style={{ color: BRAND.paperHi }} />
+              style={{ color: scrolled ? BRAND.ink : BRAND.paperHi }} />
           </Link>
 
-          {/* desktop nav */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
-            {links.map((l) => {
-              const active = isActive(l.to);
+          {/* desktop — inline nav, aligned to the right (logo stays left) */}
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
+            {nav.map((item) => {
+              const active = isActive(item.to);
+              const font = { fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontSize: 14.5, fontWeight: 500, letterSpacing: '0.005em' } as const;
+              const tone = (on: boolean) =>
+                on
+                  ? (scrolled ? 'text-[#1A1714]' : 'text-[#FAF6EC]')
+                  : (scrolled ? 'text-[#5C544A] hover:text-[#1A1714]' : 'text-[#F4EDE0]/75 hover:text-[#FAF6EC]');
+              if (!item.children) {
+                return (
+                  <Link key={item.to} to={item.to} onClick={() => handleNavClick(item.to)} className={`relative px-3.5 py-2 transition-colors ${tone(active)}`} style={font}>
+                    {item.label}
+                    {active && <span className="absolute left-3.5 right-3.5 -bottom-0.5 h-px" style={{ background: BRAND.cyan }} />}
+                  </Link>
+                );
+              }
+              const dropOpen = openDrop === item.label;
               return (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  className="relative py-2 transition-colors"
-                  style={{
-                    color: active ? BRAND.paperHi : withOpacity('paper', 0.7),
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: 13,
-                    letterSpacing: '0.04em',
-                    fontWeight: 400,
-                  }}>
-                  {l.label}
-                  {active && (
-                    <motion.span
-                      layoutId="navActive"
-                      className="absolute -bottom-0.5 left-0 right-0 h-px"
-                      style={{ background: BRAND.cyan }} />
-                  )}
-                </Link>
+                <div
+                  key={item.to}
+                  className="relative"
+                  onMouseEnter={() => setOpenDrop(item.label)}
+                  onMouseLeave={() => setOpenDrop(null)}>
+                  <button
+                    type="button"
+                    aria-expanded={dropOpen}
+                    aria-haspopup="true"
+                    onClick={(e) => { e.stopPropagation(); setOpenDrop(dropOpen ? null : item.label); }}
+                    className={`relative flex items-center gap-1 px-3.5 py-2 transition-colors ${tone(active || dropOpen)}`}
+                    style={font}>
+                    {item.label}
+                    <svg width="9" height="6" viewBox="0 0 10 6" aria-hidden="true"
+                      style={{ transform: dropOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s cubic-bezier(.2,0,0,1)', opacity: 0.6 }}>
+                      <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {active && <span className="absolute left-3.5 right-6 -bottom-0.5 h-px" style={{ background: BRAND.cyan }} />}
+                  </button>
+                  <AnimatePresence>
+                    {dropOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
+                        className="absolute top-full left-0 pt-3 z-[60]"
+                        style={{ width: 256 }}>
+                        <div
+                          className="flex flex-col gap-0.5 p-2 rounded-xl"
+                          style={{ background: BRAND.paperHi, boxShadow: '0 2px 4px rgba(16,24,40,.10), 0 18px 40px rgba(16,24,40,.22)' }}>
+                          {item.children.map((c) => (
+                            <Link
+                              key={c.to}
+                              to={c.to}
+                              onClick={() => handleNavClick(c.to)}
+                              className="px-3.5 py-2.5 rounded-lg transition-colors hover:bg-[#EAF6FD]"
+                              style={{ color: BRAND.inkSub, fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400 }}>
+                              {c.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
           </nav>
@@ -130,14 +203,14 @@ function Header() {
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
             className="lg:hidden flex items-center gap-2 py-2 relative z-[10] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
-            style={{ color: BRAND.paperHi }}
+            style={{ color: scrolled ? BRAND.ink : BRAND.paperHi }}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu">
             <span className="font-mono text-[11px] tracking-[0.18em] uppercase">{menuOpen ? 'Close' : 'Menu'}</span>
             <div className="flex flex-col gap-1">
-              <span className="block w-5 h-px" style={{ background: BRAND.paperHi, transform: menuOpen ? 'rotate(45deg) translateY(2px)' : 'none', transition: 'transform 0.3s' }} />
-              <span className="block w-5 h-px" style={{ background: BRAND.paperHi, transform: menuOpen ? 'rotate(-45deg) translateY(-2px)' : 'none', transition: 'transform 0.3s' }} />
+              <span className="block w-5 h-px" style={{ background: scrolled ? BRAND.ink : BRAND.paperHi, transform: menuOpen ? 'rotate(45deg) translateY(2px)' : 'none', transition: 'transform 0.3s' }} />
+              <span className="block w-5 h-px" style={{ background: scrolled ? BRAND.ink : BRAND.paperHi, transform: menuOpen ? 'rotate(-45deg) translateY(-2px)' : 'none', transition: 'transform 0.3s' }} />
             </div>
           </button>
         </div>
@@ -181,26 +254,40 @@ function Header() {
               </button>
             </div>
 
-            {/* nav links — vertically centred in the remaining space */}
-            <div className="flex-1 flex flex-col items-start justify-center px-6 md:px-12 gap-4">
-              {links.map((l, i) => (
+            {/* nav links — top-level items with their sub-links, scrollable */}
+            <div className="flex-1 overflow-y-auto px-6 md:px-12 py-6 flex flex-col gap-7">
+              {nav.map((item, i) => (
                 <motion.div
-                  key={l.to}
+                  key={item.to}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
+                  transition={{ delay: 0.12 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
                   <Link
-                    to={l.to}
+                    to={item.to}
+                    onClick={() => handleNavClick(item.to)}
                     style={{
                       fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
                       fontWeight: 300,
                       fontStyle: 'normal',
-                      fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+                      fontSize: 'clamp(1.9rem, 7vw, 3rem)',
                       color: BRAND.paperHi,
-                      lineHeight: 1,
+                      lineHeight: 1.05,
                     }}>
-                    {l.label}.
+                    {item.label}.
                   </Link>
+                  {item.children && (
+                    <div className="mt-3 pl-1 flex flex-wrap gap-x-5 gap-y-2">
+                      {item.children.map((c) => (
+                        <Link
+                          key={c.to}
+                          to={c.to}
+                          onClick={() => handleNavClick(c.to)}
+                          style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 15, color: withOpacity('paper', 0.6) }}>
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -381,18 +468,18 @@ function AppShell() {
   // scrolling to that section instead of staying at the top. The target
   // may mount a frame or two later (lazy routes), so retry briefly.
   useEffect(() => {
-    const hash = shownLocation.hash;
+    const hash = realLocation.hash;
     if (!hash) return;
     let tries = 0;
-    let raf = 0;
+    let timer = 0 as unknown as ReturnType<typeof setTimeout>;
     const tryScroll = () => {
       const el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ block: 'start' });
-      else if (tries++ < 90) raf = requestAnimationFrame(tryScroll); // ~1.5s, covers lazy-loaded routes
+      if (el) { el.scrollIntoView({ block: 'start' }); return; }
+      if (tries++ < 40) timer = setTimeout(tryScroll, 40); // retry until the (possibly lazy) target mounts
     };
-    raf = requestAnimationFrame(tryScroll);
-    return () => cancelAnimationFrame(raf);
-  }, [shownLocation]);
+    timer = setTimeout(tryScroll, 0);
+    return () => clearTimeout(timer);
+  }, [realLocation.key]);
 
   return (
     <DensityCtx.Provider value={density}>

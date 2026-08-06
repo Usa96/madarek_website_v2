@@ -140,7 +140,7 @@ export function AboutPage() {
       </Section>
 
       {/* Vision & Mission */}
-      <Section bg="paper" className={d.sectionY}>
+      <Section id="vision-mission" bg="paper" className={d.sectionY}>
         <Container max="6xl">
           <Reveal>
             <div className="grid grid-cols-12 gap-6 mb-20">
@@ -930,7 +930,7 @@ const BOARD_UNITED: BoardMember[] = [
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',          image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
   { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/Fahad_al_Bassam.svg' },
   { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',          image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
-  { name: 'Munirah Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
+  { name: 'Monira Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
 ];
 
 const BOARD_HOLDINGS: BoardMember[] = [
