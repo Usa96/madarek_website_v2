@@ -495,13 +495,17 @@ function MediaMeta({ item }: { item: MediaItem }) {
 const MEDIA_TITLE_FONT = 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif';
 const mediaCardBase = 'group flex flex-col overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_20px_50px_-24px_rgba(10,14,28,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
 
+/* Card destination: internal article page when the item carries a full
+   body, else an external link, else the media index. */
+const mediaHref = (it: MediaItem) => (it.body ? `/media/${it.id}` : it.href || '/media');
+
 function MediaSection() {
   const d = useDensity();
   const items = mediaByNewest;
   if (items.length === 0) return null;
 
   const featured = items[0];
-  const side = items.slice(1, 3);   // two horizontal cards beside the feature
+  const side = items.slice(1, 3);   // right-hand column beside the feature
   const rest = items.slice(3, 6);   // three cards below
 
   return (
@@ -536,17 +540,18 @@ function MediaSection() {
           </div>
         </Reveal>
 
-        {/* top: dominant featured (spans both rows) + a narrow column of
-            two compact cards that fill the same height */}
+        {/* top: dominant featured on the left + a right-hand column whose
+            card(s) stretch to the same height as tall image-top posters
+            (so a single side story never collapses into a thin sliver) */}
         <Reveal>
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-5 lg:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
             {/* featured */}
             <Link
-              to={featured.href || '/media'}
-              className={`${mediaCardBase} lg:col-span-8 lg:row-span-2`}
+              to={mediaHref(featured)}
+              className={`${mediaCardBase} lg:col-span-8`}
               style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
-              <MediaImage item={featured} className="flex-1 min-h-[200px]" markSize={64} />
-              <div className="p-6 md:p-7 flex flex-col gap-3">
+              <MediaImage item={featured} className="flex-1 aspect-[16/10] lg:aspect-auto lg:min-h-[440px]" markSize={64} />
+              <div className="p-6 md:p-8 flex flex-col gap-3">
                 <MediaMeta item={featured} />
                 <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.45rem, 2.4vw, 2rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: BRAND.ink }}>
                   {featured.title}
@@ -559,25 +564,24 @@ function MediaSection() {
               </div>
             </Link>
 
-            {/* side cards: standard vertical boxes on mobile, compact
-                horizontal (image-left) only from lg up */}
-            {side.map((it) => (
-              <Link
-                key={it.id}
-                to={it.href || '/media'}
-                className={`${mediaCardBase} lg:col-span-4 lg:flex-row`}
-                style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
-                <MediaImage item={it} className="w-full aspect-[16/10] flex-none lg:w-[42%] lg:aspect-auto" markSize={30} />
-                <div className="flex flex-col flex-1 p-6 gap-2.5 lg:justify-center lg:p-5">
-                  <MediaMeta item={it} />
-                  <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)', lineHeight: 1.2, letterSpacing: '-0.005em', color: BRAND.ink }}>
-                    {it.title}
-                  </h3>
-                  {/* excerpt shows on mobile (standard-box parity), hidden on the compact desktop row */}
-                  <div className="mt-1 lg:hidden"><Body size="sm" muted>{it.excerpt}</Body></div>
-                </div>
-              </Link>
-            ))}
+            {/* right-hand column — vertical poster card(s), image on top */}
+            <div className="lg:col-span-4 flex flex-col gap-5 lg:gap-6">
+              {side.map((it) => (
+                <Link
+                  key={it.id}
+                  to={mediaHref(it)}
+                  className={`${mediaCardBase} flex-1`}
+                  style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
+                  <MediaImage item={it} className="flex-1 aspect-[16/10] lg:aspect-auto lg:min-h-[160px]" markSize={40} />
+                  <div className="p-6 flex flex-col gap-2.5">
+                    <MediaMeta item={it} />
+                    <h3 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)', lineHeight: 1.22, letterSpacing: '-0.005em', color: BRAND.ink }}>
+                      <span className="line-clamp-4">{it.title}</span>
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </Reveal>
 
@@ -588,7 +592,7 @@ function MediaSection() {
               {rest.map((it) => (
                 <Link
                   key={it.id}
-                  to={it.href || '/media'}
+                  to={mediaHref(it)}
                   className={`${mediaCardBase} h-full`}
                   style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
                   <MediaImage item={it} className="aspect-[16/10]" markSize={36} />

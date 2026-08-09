@@ -17,7 +17,7 @@ import {
   PillLink, TextLink, Reveal,
 } from './system';
 import type { BrandKey } from './system';
-import { mediaByNewest, formatMediaDate } from './data';
+import { mediaByNewest, formatMediaDate, findMedia } from './data';
 import type { School, MediaItem } from './data';
 /* Leaflet + react-leaflet (~150KB) live entirely inside SchoolsExplorer.
    Lazy-loading it keeps that weight out of every other page's bundle —
@@ -852,10 +852,10 @@ export function ContactPage() {
                   <Meta>Social</Meta>
                   <div className="mt-2 flex gap-4">
                     <Body size="md">
-                      <a href="https://www.linkedin.com/company/madarek" target="_blank" rel="noopener noreferrer" className="border-b border-current pb-1">LinkedIn</a>
+                      <a href="https://www.linkedin.com/company/madarek1/" target="_blank" rel="noopener noreferrer" className="border-b border-current pb-1">LinkedIn</a>
                     </Body>
                     <Body size="md">
-                      <a href="https://www.instagram.com/madarek" target="_blank" rel="noopener noreferrer" className="border-b border-current pb-1">Instagram</a>
+                      <a href="https://www.instagram.com/madarek.me/" target="_blank" rel="noopener noreferrer" className="border-b border-current pb-1">Instagram</a>
                     </Body>
                   </div>
                 </div>
@@ -928,15 +928,16 @@ const BOARD_UNITED: BoardMember[] = [
   { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board', image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
   { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Shukri.svg' },
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',          image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
+  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
   { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/Fahad_al_Bassam.svg' },
   { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',          image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
   { name: 'Monira Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
 ];
 
 const BOARD_HOLDINGS: BoardMember[] = [
+  { name: 'Jassem Hassan Zainal',             title: 'Chairman of the Board',      image: '/redesign-assets/BOD/Jassem_Zainal.svg' },
   { name: 'Dr. Sulaiman Tareq Al Abduljader', title: 'Vice Chairman of the Board', image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
-  { name: 'Jassem Hassan Zainal',             title: 'Board Member',               image: '/redesign-assets/BOD/Jassem_Zainal.svg' },
-  { name: 'Issah Abdullah Issah Al Muzaini',  title: 'Board Member',               image: '/redesign-assets/BOD/Issah_Al_Muzaini.svg' }, 
+  { name: 'Issah Abdullah Issah Al Muzaini',  title: 'Board Member',               image: '/redesign-assets/BOD/Issah_Al_Muzaini.svg' },
 ];
 
 const getInitials = (name: string) =>
@@ -1147,46 +1148,22 @@ function ShareholdingSection() {
   );
 }
 
-/* Leadership — a subsection of the About page: all executives in one
-   row on a dark band, followed by the two governance boards and the
-   shareholding breakdown. */
+/* Leadership — a subsection of the About page: the two governance boards
+   first, then the executive team split into Leadership (the CEOs) and
+   Management, and finally the shareholding breakdown. */
 export function LeadershipSection() {
   const d = useDensity();
+  const leadership = LEADERS.filter((l) => l.slug !== 'haris-moideen');
+  const management = LEADERS.filter((l) => l.slug === 'haris-moideen');
   return (
     <>
-      <Section id="leadership" bg="ink" className={d.sectionY}>
-        <Container max="6xl">
-          <Reveal>
-            <div className="grid grid-cols-12 gap-6 mb-16">
-              <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={6} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Leadership</Eyebrow></div>
-              </div>
-              <div className="col-span-12 md:col-span-9">
-                <Display size="lg" style={{ color: BRAND.paperHi }}>
-                  The people<span style={{ fontStyle: 'normal', display: 'block' }}>behind the schools.</span>
-                </Display>
-                <div className="mt-8 max-w-2xl">
-                  <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
-                    Executive leadership steering MADAREK's growth, school operations,
-                    and long-term education platform strategy.
-                  </Body>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          <LeadershipFeature leaders={LEADERS} />
-        </Container>
-      </Section>
-
       {/* Board of Directors — governance wall (Holdings, then United) */}
       <Section bg="navy" className={d.sectionY}>
         <Container>
           <Reveal>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
-                <SectionNumber n={7} tone="cyan" />
+                <SectionNumber n={6} tone="cyan" />
                 <div className="mt-3"><Eyebrow tone="cyan">Governance</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
@@ -1226,6 +1203,57 @@ export function LeadershipSection() {
               </div>
             </Reveal>
             <BoardWall members={BOARD_UNITED} />
+          </div>
+        </Container>
+      </Section>
+
+      {/* Leadership & Management — executive team below the boards */}
+      <Section id="leadership" bg="ink" className={d.sectionY}>
+        <Container max="6xl">
+          <Reveal>
+            <div className="grid grid-cols-12 gap-6 mb-16">
+              <div className="col-span-12 md:col-span-3">
+                <SectionNumber n={7} tone="cyan" />
+                <div className="mt-3"><Eyebrow tone="cyan">Leadership &amp; Management</Eyebrow></div>
+              </div>
+              <div className="col-span-12 md:col-span-9">
+                <Display size="lg" style={{ color: BRAND.paperHi }}>
+                  The people<span style={{ fontStyle: 'normal', display: 'block' }}>behind the schools.</span>
+                </Display>
+                <div className="mt-8 max-w-2xl">
+                  <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
+                    Executive leadership steering MADAREK's growth, school operations,
+                    and long-term education platform strategy.
+                  </Body>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Leadership — the CEOs */}
+          <div className="mb-16 md:mb-20">
+            <Reveal>
+              <div className="flex items-center gap-5 mb-10">
+                <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+                  Leadership
+                </h3>
+                <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
+              </div>
+            </Reveal>
+            <LeadershipFeature leaders={leadership} />
+          </div>
+
+          {/* Management */}
+          <div>
+            <Reveal>
+              <div className="flex items-center gap-5 mb-10">
+                <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+                  Management
+                </h3>
+                <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
+              </div>
+            </Reveal>
+            <LeadershipFeature leaders={management} />
           </div>
         </Container>
       </Section>
@@ -1404,20 +1432,25 @@ export function LeaderDetailRoute() {
 /* Thumbnail — real photo when present, otherwise an on-brand
    placeholder so the grid still reads as intentional while images
    are being sourced. */
-function MediaThumb({ item }: { item: MediaItem }) {
+function MediaThumb({ item, aspect = 'aspect-[4/3]', mark = 40 }: { item: MediaItem; aspect?: string; mark?: number }) {
+  // Real photos may not be in the repo yet; fall back to the branded
+  // placeholder if the image path 404s rather than showing a broken icon.
+  const [failed, setFailed] = useState(false);
+  const showImage = item.image && !failed;
   return (
-    <div className="relative overflow-hidden rounded-lg ring-1 ring-black/5 aspect-[4/3]">
-      {item.image ? (
+    <div className={`relative overflow-hidden rounded-xl ring-1 ring-black/5 ${aspect}`}>
+      {showImage ? (
         <img
           src={item.image}
           alt=""
           loading="lazy"
+          onError={() => setFailed(true)}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
       ) : (
         <div
           className="absolute inset-0 flex flex-col items-center justify-center gap-4"
           style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.14)} 0%, ${BRAND.paperLo} 70%)` }}>
-          <FoldedMark size={40} tone="cyan" tilt="lean" opacity={0.85} />
+          <FoldedMark size={mark} tone="cyan" tilt="lean" opacity={0.85} />
           <span className="font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: BRAND.inkMute }}>
             Image coming soon
           </span>
@@ -1425,6 +1458,114 @@ function MediaThumb({ item }: { item: MediaItem }) {
       )}
     </div>
   );
+}
+
+/* Small category chip used over/near thumbnails. */
+function CategoryChip({ label }: { label: string }) {
+  return (
+    <span
+      className="inline-flex items-center font-mono uppercase"
+      style={{ fontSize: 10.5, letterSpacing: '0.18em', color: BRAND.ink, background: BRAND.paperHi, border: `1px solid ${BRAND.rule}`, borderRadius: 999, padding: '5px 11px' }}>
+      {label}
+    </span>
+  );
+}
+
+const MEDIA_TITLE_FONT = "'Plus Jakarta Sans', Inter, ui-sans-serif, sans-serif";
+
+/* The href a card/title should point to: internal article when it has a
+   full body, else an external link, else none. */
+function mediaLink(item: MediaItem): { to?: string; external?: string } {
+  if (item.body) return { to: `/media/${item.id}` };
+  if (item.href) return { external: item.href };
+  return {};
+}
+
+/* Media card — links to an internal article page (/media/:id) when the
+   item carries a full `body`; otherwise to an external `href` when set;
+   otherwise it's a static card. Compact, uniform-height grid card. */
+function MediaCard({ item }: { item: MediaItem }) {
+  const { to, external } = mediaLink(item);
+  const clickable = to ?? external;
+
+  const media = (
+    <div className="relative mb-5 overflow-hidden rounded-xl">
+      <MediaThumb item={item} />
+      <div className="absolute left-3 top-3 z-10"><CategoryChip label={item.category} /></div>
+    </div>
+  );
+
+  const title = (
+    <h3
+      className="transition-colors group-hover:text-[color:#0B7DA6]"
+      style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.02rem, 1.15vw, 1.2rem)', lineHeight: 1.28, letterSpacing: '-0.01em', color: BRAND.ink }}>
+      <span className="line-clamp-3">{item.title}</span>
+    </h3>
+  );
+
+  const inner = (
+    <>
+      {clickable ? (
+        <span className="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#27C4FF]">{media}</span>
+      ) : media}
+      <div className="flex items-center gap-3 mb-3">
+        <Meta>{formatMediaDate(item.date, { short: true })}</Meta>
+        <span className="block h-px w-5" style={{ background: BRAND.rule }} />
+        <Meta>{item.source}</Meta>
+      </div>
+      {title}
+      <p className="mt-3 flex-1" style={{ fontFamily: 'Inter, sans-serif', fontSize: 14.5, lineHeight: 1.6, color: BRAND.inkSub }}>
+        <span className="line-clamp-2">{item.excerpt}</span>
+      </p>
+      <div className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.16em] uppercase font-medium" style={{ color: BRAND.ink }}>
+        <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.28) }}>
+          {external ? 'Read more' : 'Read article'}
+        </span>
+        <span style={{ color: BRAND.cyan }}>→</span>
+      </div>
+    </>
+  );
+
+  const cardClass = 'group flex flex-col h-full';
+  if (to) return <Link to={to} className={cardClass} aria-label={item.title}>{inner}</Link>;
+  if (external) return <a href={external} target="_blank" rel="noopener noreferrer" className={cardClass} aria-label={item.title}>{inner}</a>;
+  return <article className={cardClass}>{inner}</article>;
+}
+
+/* Featured lead — the newest article as a wide, two-column hero card. */
+function FeaturedMedia({ item }: { item: MediaItem }) {
+  const { to, external } = mediaLink(item);
+  const inner = (
+    <div className="group grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+      <div className="relative overflow-hidden rounded-2xl">
+        <MediaThumb item={item} aspect="aspect-[16/10]" mark={56} />
+        <div className="absolute left-4 top-4 z-10"><CategoryChip label={item.category} /></div>
+      </div>
+      <div className="lg:py-4">
+        <div className="flex items-center gap-3 mb-5">
+          <Meta tone="cyan">Latest</Meta>
+          <span className="block h-px w-6" style={{ background: BRAND.rule }} />
+          <Meta>{formatMediaDate(item.date)}</Meta>
+        </div>
+        <h2 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.6rem, 2.4vw, 2.3rem)', lineHeight: 1.14, letterSpacing: '-0.015em', color: BRAND.ink }}>
+          <span className="transition-colors group-hover:text-[color:#0B7DA6]">{item.title}</span>
+        </h2>
+        <div className="mt-5 max-w-xl">
+          <Body size="lg" muted>{item.excerpt}</Body>
+        </div>
+        <div className="mt-7 inline-flex items-center gap-2 text-[13px] tracking-[0.16em] uppercase font-medium" style={{ color: BRAND.ink }}>
+          <span className="border-b pb-1" style={{ borderColor: withOpacity('ink', 0.35) }}>
+            {external ? 'Read more' : 'Read the announcement'}
+          </span>
+          <span style={{ color: BRAND.cyan }}>→</span>
+        </div>
+      </div>
+    </div>
+  );
+  const cls = 'block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#27C4FF] rounded-2xl';
+  if (to) return <Link to={to} className={cls} aria-label={item.title}>{inner}</Link>;
+  if (external) return <a href={external} target="_blank" rel="noopener noreferrer" className={cls} aria-label={item.title}>{inner}</a>;
+  return <div>{inner}</div>;
 }
 
 export function MediaPage() {
@@ -1471,39 +1612,157 @@ export function MediaPage() {
             })}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 md:gap-y-16">
-            {filtered.map((item, i) => (
-              <Reveal key={item.id} delay={Math.min((i % 3) * 0.06, 0.18)}>
-                <article className="group flex flex-col h-full">
-                  <div className="mb-6"><MediaThumb item={item} /></div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <Meta>{formatMediaDate(item.date)}</Meta>
-                    <span className="block h-px w-6" style={{ background: BRAND.rule }} />
-                    <Meta tone="cyan">{item.category}</Meta>
-                  </div>
-                  <Display size="xs" style={{ fontWeight: 300 }}>{item.title}</Display>
-                  <div className="mt-4 flex-1"><Body size="md" muted>{item.excerpt}</Body></div>
-                  <div className="mt-5"><Meta>{item.source}</Meta></div>
-                  {item.href && (
-                    <div className="mt-4">
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium border-b pb-1"
-                        style={{ color: BRAND.ink, borderColor: withOpacity('ink', 0.3) }}>
-                        Read more <span style={{ color: BRAND.cyan }}>→</span>
-                      </a>
-                    </div>
-                  )}
-                </article>
+          {filtered.length > 0 && (
+            <Reveal>
+              <div className="mb-16 md:mb-24"><FeaturedMedia item={filtered[0]} /></div>
+            </Reveal>
+          )}
+
+          {filtered.length > 1 && (
+            <>
+              <Reveal>
+                <div className="flex items-center gap-5 mb-10 md:mb-12">
+                  <Eyebrow>More news</Eyebrow>
+                  <span className="h-px flex-1" style={{ background: BRAND.rule }} />
+                </div>
               </Reveal>
-            ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+                {filtered.slice(1).map((item, i) => (
+                  <Reveal key={item.id} delay={Math.min((i % 3) * 0.06, 0.18)}>
+                    <MediaCard item={item} />
+                  </Reveal>
+                ))}
+              </div>
+            </>
+          )}
+
+          {filtered.length === 0 && (
+            <Body size="lg" muted>No news in this category yet.</Body>
+          )}
+        </Container>
+      </Section>
+    </>
+  );
+}
+
+/* ── Media article page ───────────────────────────────────────
+  Full press-release page rendered from a MediaItem's `body` HTML,
+  with an English / العربية toggle when Arabic content is present. */
+const ARTICLE_CSS = `
+.article-body { font-family: Inter, sans-serif; color: ${BRAND.inkSub}; }
+.article-body > :first-child { margin-top: 0; }
+.article-body p { font-size: 1.0625rem; line-height: 1.8; margin: 0 0 1.3rem; }
+.article-body h3 { font-family: ${MEDIA_TITLE_FONT}; font-weight: 600; font-size: clamp(1.2rem, 1.7vw, 1.45rem); line-height: 1.3; letter-spacing: -0.01em; color: ${BRAND.ink}; margin: 2.4rem 0 0.85rem; }
+.article-body strong { color: ${BRAND.ink}; font-weight: 600; }
+.article-body em { font-style: italic; color: ${BRAND.inkMute}; }
+.article-body hr { border: 0; border-top: 1px solid ${BRAND.rule}; margin: 2.75rem 0; }
+.article-body[dir="rtl"] { font-family: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif; }
+.article-body[dir="rtl"] p { line-height: 2; }
+`;
+
+export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
+  const d = useDensity();
+  const [lang, setLang] = useState<'en' | 'ar'>('en');
+
+  if (!item || !item.body) {
+    return (
+      <Section bg="paper" className="pt-48 pb-32">
+        <Container max="5xl">
+          <Display size="md">Article not found.</Display>
+          <div className="mt-8"><TextLink to="/media" tone="cyan">Back to media</TextLink></div>
+        </Container>
+      </Section>
+    );
+  }
+
+  const hasAr = Boolean(item.bodyAr);
+  const isAr = lang === 'ar' && hasAr;
+  const title = isAr ? (item.titleAr ?? item.title) : item.title;
+  const bodyHtml = (isAr ? item.bodyAr : item.body) ?? '';
+  const dir = isAr ? 'rtl' : 'ltr';
+  const align = isAr ? 'right' : 'left';
+
+  return (
+    <>
+      {/* Hero band — meta + title + language toggle on dark */}
+      <section className="relative w-full pt-40 pb-14 md:pt-48 md:pb-16" style={{ background: BRAND.ink }}>
+        <Container max="5xl">
+          <Link to="/media" className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium mb-9"
+            style={{ color: withOpacity('paper', 0.8) }}>
+            <span style={{ color: BRAND.cyan }}>←</span>
+            <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.4) }}>All news</span>
+          </Link>
+          <div className="flex items-center gap-3 mb-6">
+            <Meta tone="cyan">{item.category}</Meta>
+            <span className="block h-px w-6" style={{ background: withOpacity('paper', 0.3) }} />
+            <Meta tone="paper">{formatMediaDate(item.date)}</Meta>
+          </div>
+          <div dir={dir} style={{ textAlign: align }}>
+            <h1 style={{ fontFamily: MEDIA_TITLE_FONT, fontWeight: 500, fontSize: 'clamp(1.7rem, 3vw, 2.7rem)', lineHeight: 1.14, letterSpacing: '-0.015em', color: BRAND.paperHi }}>
+              {title}
+            </h1>
+          </div>
+          {hasAr && (
+            <div className="mt-9 inline-flex rounded-full p-1" style={{ border: `1px solid ${withOpacity('paper', 0.22)}` }}>
+              {([['en', 'English'], ['ar', 'العربية']] as const).map(([code, label]) => {
+                const active = lang === code;
+                return (
+                  <button key={code} type="button" onClick={() => setLang(code)}
+                    className="px-5 py-2 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]"
+                    style={{
+                      background: active ? BRAND.paperHi : 'transparent',
+                      color: active ? BRAND.ink : withOpacity('paper', 0.8),
+                      fontFamily: 'Inter, sans-serif', fontSize: 13, letterSpacing: '0.04em',
+                    }}>
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </Container>
+      </section>
+
+      {/* Lead image */}
+      <Section bg="paper" className="pt-10 md:pt-14 pb-0">
+        <Container max="5xl">
+          <MediaThumb item={item} aspect="aspect-[16/9]" mark={64} />
+        </Container>
+      </Section>
+
+      {/* Body */}
+      <Section bg="paper" className={d.sectionY}>
+        <Container max="5xl">
+          <style>{ARTICLE_CSS}</style>
+          <div className="mx-auto" style={{ maxWidth: '46rem' }}>
+            <div className="article-body" dir={dir} style={{ textAlign: align }}
+              dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+
+            {item.video && (
+              <div className="mt-10 pt-8" style={{ borderTop: `1px solid ${BRAND.rule}` }}>
+                <a href={item.video} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] tracking-[0.14em] uppercase font-medium transition-colors"
+                  style={{ background: BRAND.ink, color: BRAND.paperHi }}>
+                  ▶ Watch the reel
+                  <span style={{ color: BRAND.cyan }}>→</span>
+                </a>
+              </div>
+            )}
+
+            <div className="mt-12">
+              <PillLink to="/media" variant="ghost">Back to all news</PillLink>
+            </div>
           </div>
         </Container>
       </Section>
     </>
   );
+}
+
+/* Route-bound wrapper — picks the article from the URL id. */
+export function MediaArticleRoute() {
+  const { id } = useParams<{ id: string }>();
+  return <MediaArticlePage item={findMedia(id)} />;
 }
 
 /* ── Careers page ────────────────────────────────────────── */

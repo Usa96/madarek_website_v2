@@ -26,6 +26,7 @@ const AcademyPage      = lazy(() => import('./pages').then((m) => ({ default: m.
 const ContactPage      = lazy(() => import('./pages').then((m) => ({ default: m.ContactPage })));
 const CareersPage      = lazy(() => import('./pages').then((m) => ({ default: m.CareersPage })));
 const MediaPage        = lazy(() => import('./pages').then((m) => ({ default: m.MediaPage })));
+const MediaArticleRoute = lazy(() => import('./pages').then((m) => ({ default: m.MediaArticleRoute })));
 const LeaderDetailRoute = lazy(() => import('./pages').then((m) => ({ default: m.LeaderDetailRoute })));
 
 /* Page transitions use a full-screen "cover wipe" (see AppShell):
@@ -345,12 +346,12 @@ function Footer() {
                    className="hover:text-white">info@madarek.me</a>
               </li>
               <li>
-                <a href="https://www.linkedin.com/company/madarek" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.linkedin.com/company/madarek1/" target="_blank" rel="noopener noreferrer"
                    style={{ color: withOpacity('paper', 0.8), fontWeight: 300, fontSize: 15 }}
                    className="hover:text-white">LinkedIn</a>
               </li>
               <li>
-                <a href="https://www.instagram.com/madarek" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.instagram.com/madarek.me/" target="_blank" rel="noopener noreferrer"
                    style={{ color: withOpacity('paper', 0.8), fontWeight: 300, fontSize: 15 }}
                    className="hover:text-white">Instagram</a>
               </li>
@@ -496,6 +497,7 @@ function AppShell() {
             <Route path="/academy"            element={<AcademyPage />} />
             <Route path="/careers"            element={<CareersPage />} />
             <Route path="/media"              element={<MediaPage />} />
+            <Route path="/media/:id"          element={<MediaArticleRoute />} />
             <Route path="/contact"            element={<ContactPage />} />
             <Route path="/privacy"            element={<StubPage title="Privacy" />} />
             <Route path="/terms"              element={<StubPage title="Terms" />} />
