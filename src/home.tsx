@@ -249,7 +249,7 @@ function SchoolsSection({ schools }: { schools: School[] }) {
               </Link>
             </div>
             <Display style={{ color: BRAND.paperHi, fontSize: 'clamp(1.85rem, 4vw, 3.4rem)' }}>
-              {schools.length} campuses today,{' '}
+              {schools.filter((s) => s.status !== 'upcoming').length} campuses today,{' '}
               <span style={{ color: withOpacity('paper', 0.55) }}>and a region in the making.</span>
             </Display>
           </div>
@@ -360,6 +360,13 @@ function CarouselCard({ school, index }: { school: School; index: number }) {
             {String(index + 1).padStart(2, '0')}
           </span>
         </div>
+        {school.status === 'upcoming' && (
+          <div className="absolute top-4 right-4">
+            <span className="font-mono uppercase rounded-md px-2.5 py-1" style={{ fontSize: 10, letterSpacing: '0.16em', color: BRAND.ink, background: BRAND.cyan, fontWeight: 600 }}>
+              Opening soon
+            </span>
+          </div>
+        )}
         <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
           <div className="font-mono uppercase mb-3" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('paper', 0.7) }}>
             {school.location}

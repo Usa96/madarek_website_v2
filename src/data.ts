@@ -11,8 +11,8 @@ export interface School {
   curriculum: string;
   grades?: string;
   ages: string;
+  students: string;   // enrolment for open schools; planned capacity for upcoming
   languages: string;
-  students: string;
   image: string;
   gallery: string[];
   address: string;
@@ -21,6 +21,7 @@ export interface School {
   description: string;
   overview: string;
   highlights: string[];
+  status?: 'open' | 'upcoming';  // omit/'open' = operating; 'upcoming' = in development
 }
 
 /* ── Media / News ─────────────────────────────────────────────
@@ -264,6 +265,44 @@ export const schools: School[] = [
       'Co-educational with strong parent engagement',
       'Family-oriented culture',
       'Operating hours: Sunday–Thursday, 7:30 AM–2:00 PM',
+    ],
+  },
+  {
+    slug: 'sharjah-sustainable-city',
+    name: 'Sharjah Sustainable City School',
+    short: 'Sharjah Sustainable City',
+    location: 'Sharjah, UAE',
+    curriculum: 'American',
+    grades: 'KG–Grade 12',
+    ages: '4–18',
+    students: '2,435',
+    languages: 'English · Arabic',
+    status: 'upcoming',
+    image: '/redesign-assets/shurooq/aerial.webp',
+    gallery: [
+      '/redesign-assets/shurooq/classroom-courtyard.webp',
+      '/redesign-assets/shurooq/classroom-walkway.webp',
+      '/redesign-assets/shurooq/classrooms.webp',
+      '/redesign-assets/shurooq/admin-01.webp',
+      '/redesign-assets/shurooq/admin-03.webp',
+      '/redesign-assets/shurooq/sports.webp',
+    ],
+    address: 'Sharjah Sustainable City, Um Fanain / Al Ruqa Al Hamra, Sharjah, United Arab Emirates',
+    email: 'info@madarek.me',
+    website: 'https://madarek.me/',
+    description:
+      'An upcoming American curriculum K-12 school in Sharjah Sustainable City — a USD 50 million campus designed for around 2,435 students, developed in partnership with Shurooq.',
+    overview:
+      "An upcoming K-12 school in Sharjah Sustainable City, developed in partnership between MADAREK and the Sharjah Investment and Development Authority (Shurooq). Following the American curriculum, the USD 50 million campus is designed for around 2,435 students from kindergarten to Grade 12 — set within one of the emirate's leading sustainable communities and built around innovation, wellbeing, and collaborative learning.",
+    highlights: [
+      'American curriculum, kindergarten to Grade 12',
+      'USD 50 million campus in Sharjah Sustainable City',
+      'Designed for around 2,435 students on a 29,275 m² site',
+      'Science, IT, robotics, engineering and mathematics labs, with maker and innovation spaces',
+      'Three libraries, arts studios, a black box theatre, and a 500-seat multi-purpose hall',
+      'Learning support centre with therapy and sensory rooms, and dedicated clinics',
+      'Indoor sports hall, main and learner swimming pools, and rooftop recreation',
+      'Green spaces, a botanical garden, and shaded pedestrian walkways',
     ],
   },
 ];

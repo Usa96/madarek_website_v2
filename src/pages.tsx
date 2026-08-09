@@ -338,6 +338,13 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
           </Link>
           <span aria-hidden="true" style={{ color: BRAND.inkMute }}>/</span>
           <span aria-current="page"><Meta tone="cyan">{school.short}</Meta></span>
+          {school.status === 'upcoming' && (
+            <span
+              className="ml-1 font-mono uppercase"
+              style={{ fontSize: 10, letterSpacing: '0.16em', color: BRAND.ink, background: BRAND.cyan, borderRadius: 999, padding: '4px 10px', fontWeight: 600 }}>
+              Opening soon
+            </span>
+          )}
         </div>
       </nav>
 
@@ -356,7 +363,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
                     ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
                     { label: 'Ages',       value: school.ages },
                     { label: 'Languages',  value: school.languages },
-                    { label: 'Total students', value: school.students },
+                    { label: school.status === 'upcoming' ? 'Planned capacity' : 'Total students', value: school.students },
                   ].map((f) => (
                     <div key={f.label}>
                       <Meta>{f.label}</Meta>

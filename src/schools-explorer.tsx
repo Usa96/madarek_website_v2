@@ -24,6 +24,7 @@ const SCHOOL_COORDS: Record<string, [number, number]> = {
   'al-maaref-american-school': [25.07, 55.20],                              // Al Barsha South, Dubai
   'mgis-qortuba-campus':       [24.829437757593478, 46.735842761882715],   // Qortuba, Riyadh
   'mgis-digital-city-campus':  [24.941964504366457, 46.619633675896566],   // Digital City, Riyadh
+  'sharjah-sustainable-city':  [25.303, 55.485],                           // Sharjah Sustainable City
 };
 
 const OVERVIEW_CENTER: [number, number] = [24.8, 50.2];
@@ -67,9 +68,9 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
               </div>
               <div className="mt-6">
                 <Body size="lg" muted>
-                  We operate three premium campuses across the UAE and Saudi
-                  Arabia — each carrying its own character, all sharing the
-                  MADAREK framework, with more on the way.
+                  Premium campuses across the UAE and Saudi Arabia — each
+                  carrying its own character, all sharing the MADAREK
+                  framework, with more on the way.
                 </Body>
               </div>
             </div>
@@ -332,6 +333,13 @@ function SchoolCard({
           <FoldedMark size={20} tone="cyan" />
           <Meta tone="paper">{school.location}</Meta>
         </div>
+        {school.status === 'upcoming' && (
+          <span
+            className="absolute top-4 right-4 font-mono uppercase"
+            style={{ fontSize: 10, letterSpacing: '0.16em', color: BRAND.ink, background: BRAND.cyan, borderRadius: 999, padding: '5px 10px', fontWeight: 600 }}>
+            Opening soon
+          </span>
+        )}
       </div>
       <div className="flex flex-col flex-1 p-6">
         <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.15, color: BRAND.ink }}>
@@ -339,7 +347,7 @@ function SchoolCard({
         </div>
         <div className="mt-3"><Meta>{school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}</Meta></div>
         <div className="mt-auto pt-5 border-t flex items-center justify-between" style={{ borderColor: BRAND.rule }}>
-          <Meta>{school.students} students</Meta>
+          <Meta>{school.status === 'upcoming' ? `Capacity ${school.students}` : `${school.students} students`}</Meta>
           <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: active ? BRAND.cyan : BRAND.ink }}>
             Details
             <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
