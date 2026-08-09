@@ -135,6 +135,34 @@ const BODY_MGIS_AR = `
 
 export const media: MediaItem[] = [
   {
+    id: 'mgis-third-campus-riyadh',
+    date: '2026-07-28',
+    category: 'Announcements',
+    source: 'MADAREK',
+    image: '/redesign-assets/news/mgis-third-campus.webp',
+    title: 'Madarek United signs 25-year agreement to develop a third MGIS campus in Riyadh',
+    excerpt: 'Through its subsidiary Modern MENA Company for Education, Madarek United has signed a 25-year investment agreement to develop the third Modern Global International Schools (MGIS) campus in Riyadh.',
+    body: `
+<p>Madarek United, through its subsidiary Modern MENA Company for Education, has signed a 25-year investment agreement to develop the third MGIS campus in Riyadh.</p>
+<p>The agreement expands Modern Global International Schools' presence in the Saudi capital, building on the network's established campuses in Qurtuba and Digital City. It reflects MADAREK's long-term commitment to widening access to high-quality, internationally recognised education across the Kingdom.</p>
+<p>The new campus adds further capacity to one of Riyadh's leading American-curriculum school networks, supporting continued demand for future-ready learning environments across the GCC.</p>
+`,
+  },
+  {
+    id: 'mas-wellbeing-award-for-schools',
+    date: '2026-06-30',
+    category: 'Achievements',
+    source: 'Al Maaref American School',
+    image: '/redesign-assets/news/mas-wellbeing-award.webp',
+    title: 'Al Maaref American School achieves the Wellbeing Award for Schools',
+    excerpt: "Al Maaref American School has been awarded the Wellbeing Award for Schools (WAS), delivered in partnership with the National Children's Bureau — accredited through 2029.",
+    body: `
+<p>Al Maaref American School has achieved the Wellbeing Award for Schools (WAS), a recognised accreditation delivered in partnership with the National Children's Bureau. The award is held through 2029.</p>
+<p>The Wellbeing Award recognises schools that place emotional wellbeing and mental health at the heart of school life — for students and staff alike — through a whole-school approach embedded across culture, curriculum, and community.</p>
+<p>The recognition reflects Al Maaref American School's commitment to nurturing confident, well-rounded learners in a supportive and inclusive environment, as part of the wider MADAREK framework across the network.</p>
+`,
+  },
+  {
     id: 'shurooq-madarek-sharjah-k12',
     date: '2026-05-24',
     category: 'Press Release',

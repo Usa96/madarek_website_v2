@@ -1668,7 +1668,6 @@ const ARTICLE_CSS = `
 `;
 
 export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
-  const d = useDensity();
   const [lang, setLang] = useState<'en' | 'ar'>('en');
 
   if (!item || !item.body) {
@@ -1730,16 +1729,13 @@ export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
         </Container>
       </section>
 
-      {/* Lead image */}
-      <Section bg="paper" className="pt-10 md:pt-14 pb-0">
+      {/* Lead image + body — one paper band so the image sits close to
+          the copy (small gap), with generous space below the article. */}
+      <Section bg="paper" className="pt-10 md:pt-14 pb-24 md:pb-32">
         <Container max="5xl">
           <MediaThumb item={item} aspect="aspect-[16/9]" mark={64} />
         </Container>
-      </Section>
-
-      {/* Body */}
-      <Section bg="paper" className={d.sectionY}>
-        <Container max="5xl">
+        <Container max="5xl" className="mt-10 md:mt-12">
           <style>{ARTICLE_CSS}</style>
           <div className="mx-auto" style={{ maxWidth: '46rem' }}>
             <div className="article-body" dir={dir} style={{ textAlign: align }}
