@@ -1083,9 +1083,9 @@ function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
   (The full ownership-percentage register is retained in SHAREHOLDING
    below for an optional breakdown if we want to show figures too.) */
 const SHAREHOLDERS: { name: string; logo: string; summary: string; tone: BrandKey; href?: string }[] = [
-  { name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan' },
-  { name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red' },
-  { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE_Logo_H.png',      summary: '', tone: 'lime' },
+  { name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan',   href: 'https://www.sanam.com/' },
+  { name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red',    href: 'http://www.alhokair.com/index.html' },
+  { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE_Logo_H.png',      summary: '', tone: 'lime',   href: 'https://www.gee-edu.com/' },
   { name: 'Al Jasser Holding',             logo: '/redesign-assets/shareholders/aljasser.png',        summary: '', tone: 'yellow', href: 'https://careers.aljasser-holding.com/' },
 ];
 
@@ -1114,14 +1114,14 @@ function ShareholdingSection() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
           {SHAREHOLDERS.map((s, i) => {
             const cardClass = 'group flex flex-col h-full overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_24px_60px_-30px_rgba(10,14,28,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
             const cardStyle = { borderColor: BRAND.rule, background: BRAND.paperHi } as const;
             const inner = (
               <>
                 <span className="block h-1 w-full" style={{ background: BRAND[s.tone] }} />
-                <div className="flex items-center justify-center h-44 md:h-52 px-8 py-8 border-b" style={{ background: '#FFFFFF', borderColor: BRAND.rule }}>
+                <div className="flex items-center justify-center h-48 md:h-56 px-8 py-10 border-b" style={{ background: '#FFFFFF', borderColor: BRAND.rule }}>
                   <img
                     src={s.logo}
                     alt={s.name}
