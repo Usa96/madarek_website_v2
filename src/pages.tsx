@@ -933,9 +933,9 @@ type BoardMember = { name: string; title: string; image: string };
 /* The group runs two boards. Order within each array = display order. */
 const BOARD_UNITED: BoardMember[] = [
   { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board', image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
+  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
   { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Shukri.svg' },
   { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',          image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
   { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/Fahad_al_Bassam.svg' },
   { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',          image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
   { name: 'Monira Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
@@ -1078,31 +1078,22 @@ function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
 }
 
 /* Shareholders — the group's key institutional shareholders, shown as
-   logo cards with a short summary. Summaries are pending: leave `summary`
-   empty ('') and the card shows a "Summary to be added" placeholder.
-   (The full ownership-percentage register is retained in SHAREHOLDING
+  logo cards with a short summary. Summaries are pending: leave `summary`
+  empty ('') and the card shows a "Summary to be added" placeholder.
+  (The full ownership-percentage register is retained in SHAREHOLDING
    below for an optional breakdown if we want to show figures too.) */
-const SHAREHOLDERS: { name: string; logo: string; summary: string; tone: BrandKey }[] = [
+const SHAREHOLDERS: { name: string; logo: string; summary: string; tone: BrandKey; href?: string }[] = [
   { name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan' },
   { name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red' },
   { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE_Logo_H.png',      summary: '', tone: 'lime' },
-];
-
-/* Retained for an optional ownership-percentage breakdown (top four from
-   the register; holders 5–18 aggregated). Not currently rendered. */
-const SHAREHOLDING: { name: string; percent: number; tone: BrandKey; note?: string }[] = [
-  { name: 'SANAM Capital Holding',                                       percent: 55.534, tone: 'cyan' },
-  { name: 'Arzan Financial Group for Financing Investment (KSC Public)', percent: 14.698, tone: 'red' },
-  { name: 'Alamana United Holding',                                      percent: 11.572, tone: 'yellow' },
-  { name: 'Jassim Hassan Ali Zainal',                                    percent: 7.42,   tone: 'lime' },
-  { name: 'Other shareholders',                                         percent: 10.776, tone: 'pink', note: '14 holders' },
+  { name: 'Al Jasser Holding',             logo: '/redesign-assets/shareholders/aljasser.png',        summary: '', tone: 'yellow', href: 'https://careers.aljasser-holding.com/' },
 ];
 
 function ShareholdingSection() {
   const d = useDensity();
   return (
     <Section id="shareholding" bg="paperLo" className={d.sectionY}>
-      <Container max="6xl">
+      <Container max="7xl">
         <Reveal>
           <div className="grid grid-cols-12 gap-6 mb-14">
             <div className="col-span-12 md:col-span-3">
@@ -1123,12 +1114,12 @@ function ShareholdingSection() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {SHAREHOLDERS.map((s, i) => (
-            <Reveal key={s.name} delay={(i % 3) * 0.08}>
-              <article
-                className="group flex flex-col h-full overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_24px_60px_-30px_rgba(10,14,28,0.45)]"
-                style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {SHAREHOLDERS.map((s, i) => {
+            const cardClass = 'group flex flex-col h-full overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_24px_60px_-30px_rgba(10,14,28,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
+            const cardStyle = { borderColor: BRAND.rule, background: BRAND.paperHi } as const;
+            const inner = (
+              <>
                 <span className="block h-1 w-full" style={{ background: BRAND[s.tone] }} />
                 <div className="flex items-center justify-center h-44 md:h-52 px-8 py-8 border-b" style={{ background: '#FFFFFF', borderColor: BRAND.rule }}>
                   <img
@@ -1145,10 +1136,27 @@ function ShareholdingSection() {
                       <Body size="md" muted>{s.summary}</Body>
                     </div>
                   )}
+                  {s.href && (
+                    <div className="mt-auto pt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.16em] uppercase font-medium" style={{ color: BRAND.ink }}>
+                      <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.3) }}>Visit website</span>
+                      <span style={{ color: BRAND.cyan }}>→</span>
+                    </div>
+                  )}
                 </div>
-              </article>
-            </Reveal>
-          ))}
+              </>
+            );
+            return (
+              <Reveal key={s.name} delay={(i % 4) * 0.08}>
+                {s.href ? (
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className={cardClass} style={cardStyle} aria-label={`${s.name} — visit website`}>
+                    {inner}
+                  </a>
+                ) : (
+                  <article className={cardClass} style={cardStyle}>{inner}</article>
+                )}
+              </Reveal>
+            );
+          })}
         </div>
       </Container>
     </Section>
@@ -1186,30 +1194,30 @@ export function LeadershipSection() {
             </div>
           </Reveal>
 
-          {/* Madarek Holdings */}
+          {/* Madarek United */}
           <div className="mb-16 md:mb-20">
             <Reveal>
               <div className="flex items-center gap-5 mb-8">
                 <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-                  Madarek Holdings
-                </h3>
-                <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
-              </div>
-            </Reveal>
-            <BoardWall members={BOARD_HOLDINGS} />
-          </div>
-
-          {/* Madarek United */}
-          <div>
-            <Reveal>
-              <div className="flex items-center gap-5 mb-8">
-                <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-                  Madarek United
+                  MADAREK United
                 </h3>
                 <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
               </div>
             </Reveal>
             <BoardWall members={BOARD_UNITED} />
+          </div>
+
+          {/* Madarek Holdings */}
+          <div>
+            <Reveal>
+              <div className="flex items-center gap-5 mb-8">
+                <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
+                  MADAREK Holdings
+                </h3>
+                <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
+              </div>
+            </Reveal>
+            <BoardWall members={BOARD_HOLDINGS} />
           </div>
         </Container>
       </Section>

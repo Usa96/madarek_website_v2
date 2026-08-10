@@ -61,7 +61,7 @@ export interface MediaItem {
    it is named explicitly where the platform is referred to. */
 const BODY_SHUROOQ_EN = `
 <p><em>For immediate release — Sharjah, 24 May 2026</em></p>
-<p>The Sharjah Investment and Development Authority (Shurooq) has signed an agreement with Madarek, SANAM Group's education platform, to develop a new K-12 school in Sharjah Sustainable City.</p>
+<p>The Sharjah Investment and Development Authority (Shurooq) has signed an agreement with MADAREK, SANAM Group's education platform, to develop a new K-12 school in Sharjah Sustainable City.</p>
 <p>The project, with an investment value expected to reach up to USD 50 million over the coming years, will be developed on a 29,275-square-metre plot owned by Shurooq in Sharjah Sustainable City, located in Um Fanain / Al Ruqa Al Hamra. The school will follow the American curriculum and serve around 2,435 students from kindergarten to Grade 12 under a 35-year agreement.</p>
 <p>The signing took place at Al Bait Al Westi and was signed by Yousif Al Mutawa, Chief Real Estate Officer of Shurooq, and Dr. Sulaiman Tareq Al Abduljader, Vice Chairman and CEO of SANAM Group Holding Company.</p>
 <h3>Strengthening education infrastructure in Sharjah's growing communities</h3>
@@ -69,7 +69,7 @@ const BODY_SHUROOQ_EN = `
 <p>The project supports Shurooq's efforts to activate strategic land assets through long-term partnerships that respond to the needs of Sharjah's growing communities. By bringing a full K-12 school into Sharjah Sustainable City, the development will provide families in the area and surrounding neighbourhoods with access to quality education close to home.</p>
 <h3>Yousif Al Mutawa: "A project that supports families and creates long-term value"</h3>
 <p>Yousif Al Mutawa said: "This agreement reflects Shurooq's commitment to developing projects that respond to the practical needs of Sharjah's communities while creating long-term value from strategic land assets. Education is one of the most important components of a complete residential community, and this school will support families, enhance quality of life and contribute to the development of a more connected and liveable environment in Sharjah Sustainable City."</p>
-<p>He added: "Our partnership with Madarek reflects the importance of working with specialised private sector partners that bring long-term vision and operational expertise. The project also reinforces Sharjah's ability to attract serious investment into sectors that support human development, community growth and sustainable urban planning."</p>
+<p>He added: "Our partnership with MADAREK reflects the importance of working with specialised private sector partners that bring long-term vision and operational expertise. The project also reinforces Sharjah's ability to attract serious investment into sectors that support human development, community growth and sustainable urban planning."</p>
 <h3>A modern campus for future-ready learning</h3>
 <p>The school will be designed as a modern, student-centred learning environment that integrates advanced technologies, sustainability, wellbeing and collaborative learning across all academic stages.</p>
 <p>The campus will include modern classrooms, science laboratories, information technology facilities, robotics, engineering and mathematics labs, maker and innovation spaces, and three libraries serving kindergarten, primary and upper school stages.</p>
@@ -140,10 +140,10 @@ export const media: MediaItem[] = [
     category: 'Announcements',
     source: 'MADAREK',
     image: '/redesign-assets/news/mgis-third-campus.webp',
-    title: 'Madarek United signs 25-year agreement to develop a third MGIS campus in Riyadh',
-    excerpt: 'Through its subsidiary Modern MENA Company for Education, Madarek United has signed a 25-year investment agreement to develop the third Modern Global International Schools (MGIS) campus in Riyadh.',
+    title: 'MADAREK United signs 25-year agreement to develop a third MGIS campus in Riyadh',
+    excerpt: 'Through its subsidiary Modern MENA Company for Education, MADAREK United has signed a 25-year investment agreement to develop the third Modern Global International Schools (MGIS) campus in Riyadh.',
     body: `
-<p>Madarek United, through its subsidiary Modern MENA Company for Education, has signed a 25-year investment agreement to develop the third MGIS campus in Riyadh.</p>
+<p>MADAREK United, through its subsidiary Modern MENA Company for Education, has signed a 25-year investment agreement to develop the third MGIS campus in Riyadh.</p>
 <p>The agreement expands Modern Global International Schools' presence in the Saudi capital, building on the network's established campuses in Qurtuba and Digital City. It reflects MADAREK's long-term commitment to widening access to high-quality, internationally recognised education across the Kingdom.</p>
 <p>The new campus adds further capacity to one of Riyadh's leading American-curriculum school networks, supporting continued demand for future-ready learning environments across the GCC.</p>
 `,
@@ -170,7 +170,7 @@ export const media: MediaItem[] = [
     image: '/redesign-assets/news/mashrooq_signing.jpg',
     video: 'https://www.instagram.com/reels/DYrFrd1iBWX/',
     title: 'Shurooq and SANAM Group sign agreement to develop USD 50 million K-12 school in Sharjah Sustainable City',
-    excerpt: "The new American curriculum school, developed in partnership with Madarek, SANAM Group's education platform, will serve around 2,435 students from kindergarten to Grade 12.",
+    excerpt: "The new American curriculum school, developed in partnership with MADAREK, SANAM Group's education platform, will serve around 2,435 students from kindergarten to Grade 12.",
     body: BODY_SHUROOQ_EN,
     titleAr: 'شراكة استراتيجية بين مجموعة سنام القابضة وهيئة الشارقة للاستثمار والتطوير «شروق» لتأسيس مدرسة دولية بقيمة استثمار تصل إلى 50 مليون دولار',
     excerptAr: 'المشروع يعزز رؤية سنام طويلة الأمد للاستثمار في البنية التحتية التعليمية المبتكرة والمستدامة في دول الخليج والإسهام في تطوير قطاع التعليم بالمنطقة',
