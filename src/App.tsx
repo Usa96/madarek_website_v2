@@ -46,6 +46,8 @@ function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDrop, setOpenDrop] = useState<string | null>(null);
+  const [openMobileItem, setOpenMobileItem] = useState<string | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 80);
@@ -54,7 +56,8 @@ function Header() {
     return () => window.removeEventListener('scroll', on);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); setOpenDrop(null); }, [pathname]);
+  useEffect(() => { setMenuOpen(false); setOpenDrop(null); setOpenMobileItem(null); }, [pathname]);
+  useEffect(() => { if (!menuOpen) setOpenMobileItem(null); }, [menuOpen]);
 
   // close any open dropdown on an outside click
   useEffect(() => {
@@ -74,6 +77,13 @@ function Header() {
       document.body.style.overflow = prev;
       window.removeEventListener('keydown', onKey);
     };
+  }, [menuOpen]);
+
+  // The mobile menu stays mounted (so it can animate via CSS), so mark it
+  // `inert` when closed to keep it out of tab order and off pointer/AT.
+  useEffect(() => {
+    const el = mobileMenuRef.current;
+    if (el) el.inert = !menuOpen;
   }, [menuOpen]);
 
   // Dropdowns point at real destinations: About → its on-page sections,
@@ -235,24 +245,17 @@ function Header() {
           in via transform/opacity (compositor-driven, no JS rAF needed). */}
       <div
         id="mobile-menu"
+        ref={mobileMenuRef}
         role="dialog"
         aria-modal="true"
         aria-label={t('header.siteNavigation')}
         aria-hidden={!menuOpen}
-        className="fixed inset-0 z-[900] flex flex-col"
+        className="fixed inset-0 z-[900] flex flex-col transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{
           background: BRAND.ink,
           transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)',
           opacity: menuOpen ? 1 : 0,
-          // `visibility: hidden` when closed removes it from tab order; the
-          // 500ms delay on the visibility change keeps it visible while the
-          // close animation runs, then hides it.
-          visibility: menuOpen ? 'visible' : 'hidden',
           pointerEvents: menuOpen ? 'auto' : 'none',
-          transitionProperty: 'transform, opacity, visibility',
-          transitionDuration: '500ms, 500ms, 0ms',
-          transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-          transitionDelay: menuOpen ? '0ms' : '0ms, 0ms, 500ms',
         }}>
 
             {/* top bar — mirrors the site header */}
@@ -280,43 +283,68 @@ function Header() {
 
             {/* nav links — top-level items with their sub-links, scrollable */}
             <div className="flex-1 overflow-y-auto px-6 md:px-12 py-6 flex flex-col gap-7">
-              {nav.map((item, i) => (
-                <div
-                  key={item.to}
-                  className="transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                  style={{
-                    transitionDelay: menuOpen ? `${0.12 + i * 0.05}s` : '0s',
-                    opacity: menuOpen ? 1 : 0,
-                    transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',
-                  }}>
-                  <Link
-                    to={item.to}
-                    onClick={() => handleNavClick(item.to)}
+              {nav.map((item, i) => {
+                const expanded = openMobileItem === item.label;
+                const labelStyle = {
+                  fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
+                  fontWeight: 300,
+                  fontStyle: 'normal',
+                  fontSize: 'clamp(1.9rem, 7vw, 3rem)',
+                  color: BRAND.paperHi,
+                  lineHeight: 1.05,
+                } as const;
+                return (
+                  <div
+                    key={item.to}
+                    className="transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                     style={{
-                      fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
-                      fontWeight: 300,
-                      fontStyle: 'normal',
-                      fontSize: 'clamp(1.9rem, 7vw, 3rem)',
-                      color: BRAND.paperHi,
-                      lineHeight: 1.05,
+                      transitionDelay: menuOpen ? `${0.12 + i * 0.05}s` : '0s',
+                      opacity: menuOpen ? 1 : 0,
+                      transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',
                     }}>
-                    {item.label}.
-                  </Link>
-                  {item.children && (
-                    <div className="mt-3 pl-1 flex flex-wrap gap-x-5 gap-y-2">
-                      {item.children.map((c) => (
-                        <Link
-                          key={c.to}
-                          to={c.to}
-                          onClick={() => handleNavClick(c.to)}
-                          style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 15, color: withOpacity('paper', 0.6) }}>
-                          {c.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                    {item.children ? (
+                      /* Parent with children → tap to expand its accordion
+                         (matches the desktop dropdown). The first child links
+                         to the section's own page. */
+                      <button
+                        type="button"
+                        onClick={() => setOpenMobileItem(expanded ? null : item.label)}
+                        aria-expanded={expanded}
+                        className="flex items-center gap-3 w-full text-start"
+                        style={labelStyle}>
+                        <span>{item.label}.</span>
+                        <svg width="20" height="12" viewBox="0 0 10 6" aria-hidden="true"
+                          style={{ flexShrink: 0, opacity: 0.65, transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform .3s cubic-bezier(.2,0,0,1)' }}>
+                          <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    ) : (
+                      <Link to={item.to} onClick={() => handleNavClick(item.to)} style={labelStyle}>
+                        {item.label}.
+                      </Link>
+                    )}
+                    {item.children && (
+                      <div
+                        className="grid transition-[grid-template-rows] duration-300 ease-out"
+                        style={{ gridTemplateRows: expanded ? '1fr' : '0fr' }}>
+                        <div style={{ overflow: 'hidden' }}>
+                          <div className="mt-3 ps-1 pb-1 flex flex-wrap gap-x-5 gap-y-2.5">
+                            {item.children.map((c) => (
+                              <Link
+                                key={c.to}
+                                to={c.to}
+                                onClick={() => handleNavClick(c.to)}
+                                style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 16, color: withOpacity('paper', 0.65) }}>
+                                {c.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
       </div>
     </>

@@ -16,12 +16,16 @@ html, body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Disable looping/decorative keyframe animations and smooth-scroll, but
+     KEEP short UI transitions (menu, dropdowns, hover) — they're essential
+     affordances and this site's owner wants them. (Killing transition
+     durations here is what made the mobile menu / dropdowns appear with no
+     animation on systems that have "reduce motion" enabled.) */
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
