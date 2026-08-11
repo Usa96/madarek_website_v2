@@ -174,32 +174,34 @@ function Header() {
                     </svg>
                     {active && <span className="absolute left-3.5 right-6 -bottom-0.5 h-px" style={{ background: BRAND.cyan }} />}
                   </button>
-                  <AnimatePresence>
-                    {dropOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
-                        className="absolute top-full left-0 pt-3 z-[60]"
-                        style={{ width: 256 }}>
-                        <div
-                          className="flex flex-col gap-0.5 p-2 rounded-xl"
-                          style={{ background: BRAND.paperHi, boxShadow: '0 2px 4px rgba(16,24,40,.10), 0 18px 40px rgba(16,24,40,.22)' }}>
-                          {item.children.map((c) => (
-                            <Link
-                              key={c.to}
-                              to={c.to}
-                              onClick={() => handleNavClick(c.to)}
-                              className="px-3.5 py-2.5 rounded-lg transition-colors hover:bg-[#EAF6FD]"
-                              style={{ color: BRAND.inkSub, fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400 }}>
-                              {c.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* CSS-transitioned dropdown (compositor-driven, so it
+                      animates in any environment). Kept mounted; visibility
+                      is opacity + translate + pointer-events. `start-0` keeps
+                      it on the correct side in both LTR and RTL. */}
+                  <div
+                    className="absolute top-full ltr:left-0 rtl:right-0 pt-3 z-[60] transition-[opacity,transform] duration-200 ease-[cubic-bezier(.2,0,0,1)]"
+                    style={{
+                      width: 256,
+                      opacity: dropOpen ? 1 : 0,
+                      transform: dropOpen ? 'translateY(0)' : 'translateY(-8px)',
+                      pointerEvents: dropOpen ? 'auto' : 'none',
+                    }}
+                    aria-hidden={!dropOpen}>
+                    <div
+                      className="flex flex-col gap-0.5 p-2 rounded-xl"
+                      style={{ background: BRAND.paperHi, boxShadow: '0 2px 4px rgba(16,24,40,.10), 0 18px 40px rgba(16,24,40,.22)' }}>
+                      {item.children.map((c) => (
+                        <Link
+                          key={c.to}
+                          to={c.to}
+                          onClick={() => handleNavClick(c.to)}
+                          className="px-3.5 py-2.5 rounded-lg transition-colors hover:bg-[#EAF6FD]"
+                          style={{ color: BRAND.inkSub, fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400 }}>
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -229,20 +231,29 @@ function Header() {
         </div>
       </header>
 
-      {/* mobile menu — must sit above header */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label={t('header.siteNavigation')}
-            initial={{ opacity: 0, y: '-100%' }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: '-100%' }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[900] flex flex-col"
-            style={{ background: BRAND.ink }}>
+      {/* mobile menu — CSS-transitioned overlay, always mounted so it slides
+          in via transform/opacity (compositor-driven, no JS rAF needed). */}
+      <div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('header.siteNavigation')}
+        aria-hidden={!menuOpen}
+        className="fixed inset-0 z-[900] flex flex-col"
+        style={{
+          background: BRAND.ink,
+          transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)',
+          opacity: menuOpen ? 1 : 0,
+          // `visibility: hidden` when closed removes it from tab order; the
+          // 500ms delay on the visibility change keeps it visible while the
+          // close animation runs, then hides it.
+          visibility: menuOpen ? 'visible' : 'hidden',
+          pointerEvents: menuOpen ? 'auto' : 'none',
+          transitionProperty: 'transform, opacity, visibility',
+          transitionDuration: '500ms, 500ms, 0ms',
+          transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          transitionDelay: menuOpen ? '0ms' : '0ms, 0ms, 500ms',
+        }}>
 
             {/* top bar — mirrors the site header */}
             <div className="px-6 md:px-12 pt-6 pb-6 flex items-center justify-between">
@@ -270,11 +281,14 @@ function Header() {
             {/* nav links — top-level items with their sub-links, scrollable */}
             <div className="flex-1 overflow-y-auto px-6 md:px-12 py-6 flex flex-col gap-7">
               {nav.map((item, i) => (
-                <motion.div
+                <div
                   key={item.to}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.12 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
+                  className="transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  style={{
+                    transitionDelay: menuOpen ? `${0.12 + i * 0.05}s` : '0s',
+                    opacity: menuOpen ? 1 : 0,
+                    transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',
+                  }}>
                   <Link
                     to={item.to}
                     onClick={() => handleNavClick(item.to)}
@@ -301,12 +315,10 @@ function Header() {
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </>
   );
 }
