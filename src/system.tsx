@@ -237,7 +237,7 @@ export function Display({
   };
   return (
     <As
-      className={className}
+      className={`display ${className}`}
       style={{
         fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif',
         fontWeight: 300,

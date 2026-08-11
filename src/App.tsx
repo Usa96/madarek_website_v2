@@ -203,7 +203,7 @@ function Header() {
                 </div>
               );
             })}
-            <span className="ml-2 pl-3 border-l" style={{ borderColor: withOpacity(scrolled ? 'ink' : 'paper', 0.2) }}>
+            <span className="ms-2 ps-3 border-s" style={{ borderColor: withOpacity(scrolled ? 'ink' : 'paper', 0.2) }}>
               <LanguageToggle color={scrolled ? BRAND.ink : BRAND.paperHi} />
             </span>
           </nav>

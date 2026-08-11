@@ -26,6 +26,42 @@ html, body {
   }
 }
 
+/* ── RTL / Arabic ────────────────────────────────────────────────
+   The components set Latin font stacks (Plus Jakarta Sans, Inter,
+   ui-monospace) and letter-spacing inline. For Arabic that means:
+   (1) letters render in a non-Arabic or monospace fallback, and
+   (2) letter-spacing pulls apart Arabic's cursive joins — both make
+   the text look "broken". In RTL we force an Arabic-capable font and
+   remove letter-tracking. !important is required to beat inline styles. */
+[dir="rtl"] body,
+[dir="rtl"] body * {
+  font-family: 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif !important;
+  letter-spacing: 0 !important;
+}
+/* Long-form article prose reads better in a Naskh face. */
+[dir="rtl"] .article-body,
+[dir="rtl"] .article-body * {
+  font-family: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif !important;
+}
+/* Keep Latin-script UI (the EN language toggle) in a Latin font. */
+[dir="rtl"] [data-latin],
+[dir="rtl"] [data-latin] * {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+}
+/* Arabic stacks vowel marks (hamza, shadda, damma) above the letters, so
+   the Latin-tuned tight leading makes them collide across lines. Give
+   headings extra line-height in RTL. (Body copy already has ample leading.) */
+[dir="rtl"] .display,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  line-height: 1.4 !important;
+}
+/* The hero's decorative folded mark stays pinned top-right. In LTR the
+   left-aligned eyebrow clears it; in RTL the right-aligned eyebrow would run
+   underneath, so pad its start (right) edge to leave the mark room. */
+[dir="rtl"] .hero-eyebrow { padding-inline-start: 6rem; }
+
 /* scroll cue used in the hero — a falling bar that loops */
 @keyframes fall {
   0%   { transform: scaleY(0); transform-origin: top; }

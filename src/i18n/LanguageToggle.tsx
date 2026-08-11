@@ -15,6 +15,7 @@ export function LanguageToggle({ color }: { color: string }) {
     <button
       type="button"
       onClick={toggleLanguage}
+      data-latin={language === 'ar' ? '' : undefined}
       className="font-mono text-[11px] tracking-[0.18em] uppercase transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
       style={{ color }}
       aria-label={t('language.switchTo', { language: next })}>

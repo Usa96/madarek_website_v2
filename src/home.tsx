@@ -19,7 +19,7 @@ import {
 import type { BrandKey } from './system';
 import { mediaByNewest, formatMediaDate } from './data';
 import type { School, MediaItem } from './data';
-import { useLocalizedSchool, useLocalizedMediaList } from './i18n/localize';
+import { useArabic, useLocalizedSchool, useLocalizedMediaList } from './i18n/localize';
 
 /* ── 01 · Hero ─────────────────────────────────────────────── */
 function HeroSection() {
@@ -47,7 +47,7 @@ function HeroSection() {
       </motion.div>
 
       {/* top brand bar */}
-      <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 text-[#F4EDE0]/85">
+      <div className="hero-eyebrow absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 text-[#F4EDE0]/85">
         <Meta tone="paper">{t('home.hero.eyebrow')}</Meta>
       </div>
 
@@ -273,18 +273,28 @@ function SchoolsSection({ schools }: { schools: School[] }) {
     network is still growing. */
 function SchoolsCarousel({ schools }: { schools: School[] }) {
   const { t } = useTranslation();
+  const isRtl = useArabic();
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
+  // Distance from the start edge, normalised to 0..max regardless of how
+  // the browser reports scrollLeft in RTL (Chrome/FF: 0..-max, Safari:
+  // max..0). Lets the same start/end/progress logic serve both directions.
+  const startDistance = (el: HTMLElement, max: number) => {
+    if (!isRtl) return el.scrollLeft;
+    return el.scrollLeft <= 0 ? -el.scrollLeft : max - el.scrollLeft;
+  };
+
   const update = () => {
     const el = trackRef.current;
     if (!el) return;
     const max = el.scrollWidth - el.clientWidth;
-    setProgress(max > 0 ? el.scrollLeft / max : 1);
-    setAtStart(el.scrollLeft <= 2);
-    setAtEnd(el.scrollLeft >= max - 2);
+    const pos = startDistance(el, max);
+    setProgress(max > 0 ? pos / max : 1);
+    setAtStart(pos <= 2);
+    setAtEnd(pos >= max - 2);
   };
 
   useEffect(() => {
@@ -294,14 +304,17 @@ function SchoolsCarousel({ schools }: { schools: School[] }) {
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRtl]);
 
+  // dir = +1 advances toward the end, -1 back toward the start. `scrollBy`
+  // uses physical x, so flip the sign in RTL where "forward" is leftward.
   const scrollByCards = (dir: number) => {
     const el = trackRef.current;
     if (!el) return;
     const card = el.querySelector<HTMLElement>('[data-card]');
     const amount = card ? card.offsetWidth + 16 : el.clientWidth * 0.8;
-    el.scrollBy({ left: dir * amount, behavior: 'smooth' });
+    el.scrollBy({ left: (isRtl ? -1 : 1) * dir * amount, behavior: 'smooth' });
   };
 
   const arrowCls = 'grid place-items-center h-12 w-12 rounded-full border transition-all duration-300 ease-out hover:bg-[#F4EDE0] hover:text-[#0A0E1C] hover:border-transparent disabled:opacity-20 disabled:hover:bg-transparent disabled:hover:text-current disabled:hover:border-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
@@ -316,11 +329,11 @@ function SchoolsCarousel({ schools }: { schools: School[] }) {
         <div className="flex gap-3">
           <button type="button" onClick={() => scrollByCards(-1)} disabled={atStart} aria-label={t('home.schools.prevCampuses')}
             className={arrowCls} style={{ borderColor: withOpacity('paper', 0.28), color: BRAND.paperHi }}>
-            <span className="-mt-0.5 text-lg">←</span>
+            <span className="-mt-0.5 text-lg">{isRtl ? '→' : '←'}</span>
           </button>
           <button type="button" onClick={() => scrollByCards(1)} disabled={atEnd} aria-label={t('home.schools.moreCampuses')}
             className={arrowCls} style={{ borderColor: withOpacity('paper', 0.28), color: BRAND.paperHi }}>
-            <span className="-mt-0.5 text-lg">→</span>
+            <span className="-mt-0.5 text-lg">{isRtl ? '←' : '→'}</span>
           </button>
         </div>
       </div>
