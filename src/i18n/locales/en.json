@@ -1,0 +1,513 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "overview": "Overview",
+    "visionMission": "Vision & Mission",
+    "leadership": "Leadership",
+    "shareholders": "Shareholders",
+    "schools": "Schools",
+    "allSchools": "All schools",
+    "media": "Media",
+    "careers": "Careers",
+    "contact": "Contact"
+  },
+  "header": {
+    "menu": "Menu",
+    "close": "Close",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "madarekHome": "Madarek home",
+    "primary": "Primary",
+    "siteNavigation": "Site navigation"
+  },
+  "footer": {
+    "tagline": "A community of schools across the Gulf, dedicated to academic excellence and lasting educational impact.",
+    "explore": "Explore",
+    "getInTouch": "Get in touch",
+    "copyright": "© {{year}} MADAREK Education",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "stub": {
+    "eyebrow": "Placeholder",
+    "body": "This page exists in the structure but isn't a redesign focus area."
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Page not found.",
+    "body": "The page you're looking for isn't here — it may have moved, or the link may be out of date.",
+    "backHome": "Back to home",
+    "exploreSchools": "Explore the schools →"
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "arabic": "العربية",
+    "switchTo": "Switch to {{language}}"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "MADAREK · Education across the GCC · Est. 2026",
+      "titleLine1": "Shaping the future",
+      "titleLine2": "of learning.",
+      "subtitle": "A growing network of international schools across the GCC.",
+      "cta": "Explore our schools",
+      "scroll": "Scroll"
+    },
+    "about": {
+      "eyebrow": "About MADAREK",
+      "title": "A regional education",
+      "titleAccent": "platform.",
+      "introLabel": "Introduction",
+      "body1": "MADAREK is a growing network of schools across the GCC, united by one commitment: academic excellence and developing confident, well-rounded learners.",
+      "body2": "Through internationally recognised curricula and modern learning environments, we help students thrive — and contribute to the communities we serve.",
+      "link": "Read the full story"
+    },
+    "framework": {
+      "eyebrow": "Our Four Pillars",
+      "titleLine1": "Four pillars.",
+      "titleLine2": "One direction.",
+      "pillars": {
+        "excellence": {
+          "title": "Educational Excellence",
+          "tagline": "High-quality learning that develops the whole student.",
+          "tags": ["Academic achievement", "Critical thinking", "Holistic development"]
+        },
+        "innovation": {
+          "title": "Innovation",
+          "tagline": "Future-ready environments built on creativity and technology.",
+          "tags": ["Technology", "Creativity", "New approaches"]
+        },
+        "growth": {
+          "title": "Regional Growth",
+          "tagline": "A leading education ecosystem across the GCC and beyond.",
+          "tags": ["Strategic expansion", "Partnerships", "GCC & beyond"]
+        },
+        "impact": {
+          "title": "Lasting Impact",
+          "tagline": "Positive, sustainable outcomes for generations to come.",
+          "tags": ["Students & educators", "Communities", "Future generations"]
+        }
+      }
+    },
+    "cinematic": {
+      "eyebrow": "A school is a place",
+      "titleLine1": "Where every student is",
+      "titleAccent": "known."
+    },
+    "schools": {
+      "eyebrow": "Our Schools",
+      "headlineCount": "{{count}} campuses today,",
+      "headlineAccent": "and a region in the making.",
+      "dragToExplore": "Drag to explore",
+      "prevCampuses": "Previous campuses",
+      "moreCampuses": "More campuses",
+      "campuses": "Campuses",
+      "openingSoon": "Opening soon",
+      "ages": "Ages",
+      "viewCampus": "View campus",
+      "futureAria": "More campuses joining the network",
+      "comingSoon": "Coming soon",
+      "futureTitle": "More campuses joining the network",
+      "exploreAll": "Explore all"
+    },
+    "foundationAcademy": {
+      "foundationEyebrow": "MADAREK Foundation",
+      "foundationTitle": "Lasting impact beyond the classroom.",
+      "foundationBody": "Empowering communities and expanding opportunities through education.",
+      "foundationLink": "Explore the Foundation",
+      "academyEyebrow": "MADAREK Academy",
+      "academyTitle": "Learning beyond the classroom.",
+      "academyBody": "Enrichment, global experiences, and leadership programmes for students.",
+      "academyLink": "Inside the Academy"
+    },
+    "media": {
+      "imageComingSoon": "Image coming soon",
+      "eyebrow": "Media",
+      "titleLine": "Latest",
+      "titleAccent": "updates.",
+      "viewAll": "View all {{count}} updates",
+      "subtitle": "Announcements, achievements, and stories from across the MADAREK network.",
+      "readMore": "Read more"
+    },
+    "contact": {
+      "eyebrow": "Get in touch",
+      "titleLine": "Let's shape the future",
+      "titleAccent": "together.",
+      "body": "Whether you are a parent, educator, institution, or strategic partner, we welcome the opportunity to connect and explore how we can create meaningful educational experiences together.",
+      "cta": "Contact MADAREK"
+    }
+  },
+  "common": {
+    "openingSoon": "Opening soon",
+    "imageComingSoon": "Image coming soon"
+  },
+  "about": {
+    "hero": {
+      "eyebrow": "Who We Are",
+      "title": "A regional",
+      "italicTail": "education platform.",
+      "lede": "A growing network of international schools across the GCC, built on academic excellence and the growth of confident, well-rounded learners."
+    },
+    "story": {
+      "eyebrow": "Our story",
+      "title": "Bringing schools together across the Gulf.",
+      "body": "MADAREK brings together a growing network of schools across the GCC. From our first campuses in the UAE and Saudi Arabia, we continue to expand — guided by a single mission: to deliver internationally recognised education that develops well-rounded students and strengthens the communities we serve."
+    },
+    "visionMission": {
+      "eyebrow": "Vision & Mission",
+      "titleLine1": "Vision &",
+      "titleLine2": "mission.",
+      "visionLabel": "Vision",
+      "vision": "To become a leading education platform recognized for delivering exceptional learning experiences and creating lasting value across the region.",
+      "missionLabel": "Mission",
+      "mission": "To nurture future generations through accessible, high-quality education that combines academic excellence with innovation and global best practices."
+    },
+    "pillars": {
+      "eyebrow": "Our Four Pillars",
+      "titleLine1": "Four pillars,",
+      "titleLine2": "one direction.",
+      "items": {
+        "excellence": {
+          "title": "Educational Excellence",
+          "detail": "Delivering high-quality learning experiences that foster academic achievement, critical thinking, and holistic development.",
+          "tags": ["Academic achievement", "Critical thinking", "Holistic development"]
+        },
+        "innovation": {
+          "title": "Innovation",
+          "detail": "Creating future-ready learning environments that embrace technology, creativity, and new approaches to education.",
+          "tags": ["Technology", "Creativity", "New approaches"]
+        },
+        "growth": {
+          "title": "Regional Growth",
+          "detail": "Building a leading education ecosystem through strategic expansion, partnerships, and collaboration across the GCC and beyond.",
+          "tags": ["Strategic expansion", "Partnerships", "GCC & beyond"]
+        },
+        "impact": {
+          "title": "Lasting Impact",
+          "detail": "Creating positive and sustainable outcomes for students, educators, communities, and future generations.",
+          "tags": ["Students & educators", "Communities", "Future generations"]
+        }
+      }
+    },
+    "excellence": {
+      "eyebrow": "Educational Excellence",
+      "titleLine1": "A commitment to",
+      "titleLine2": "lifelong learning.",
+      "body": "At MADAREK, we believe exceptional education extends beyond academic achievement. We strive to cultivate well-rounded individuals equipped with the skills, values, and mindset needed to succeed in an evolving world.",
+      "items": {
+        "studentCentered": {
+          "title": "Student-Centered Learning",
+          "note": "Placing students at the heart of the educational journey and fostering environments that encourage curiosity, creativity, and personal growth."
+        },
+        "innovation": {
+          "title": "Innovation in Education",
+          "note": "Embracing technology and modern teaching methodologies to prepare learners for the future."
+        },
+        "globalStandards": {
+          "title": "Global Standards",
+          "note": "Delivering internationally recognised curricula and best practices that support academic excellence."
+        },
+        "holistic": {
+          "title": "Holistic Development",
+          "note": "Supporting academic, personal, social, and emotional growth to develop well-rounded individuals."
+        }
+      }
+    }
+  },
+  "schoolsPage": {
+    "hero": {
+      "eyebrow": "Our Schools",
+      "title": "Investing in",
+      "italicTail": "educational excellence.",
+      "lede": "MADAREK's schools provide diverse learning environments designed to nurture academic achievement, creativity, and personal growth."
+    }
+  },
+  "schoolDetail": {
+    "notFound": "School not found.",
+    "backToAll": "Back to all schools",
+    "breadcrumb": "Breadcrumb",
+    "facts": "Facts",
+    "curriculum": "Curriculum",
+    "grades": "Grades",
+    "ages": "Ages",
+    "languages": "Languages",
+    "plannedCapacity": "Planned capacity",
+    "totalStudents": "Total students",
+    "overview": "Overview",
+    "highlights": "Highlights",
+    "gallery": "Campus gallery",
+    "contact": "Contact",
+    "interestedIn": "Interested in",
+    "address": "Address",
+    "email": "Email",
+    "contactAdmissions": "Contact admissions"
+  },
+  "foundation": {
+    "hero": {
+      "eyebrow": "MADAREK Foundation",
+      "title": "Creating lasting impact",
+      "italicTail": "through education.",
+      "lede": "Empowering communities and expanding opportunities through meaningful educational initiatives and partnerships."
+    },
+    "mission": {
+      "eyebrow": "Our mission",
+      "title": "Education transforms lives.",
+      "body": "The MADAREK Foundation reflects our commitment to creating positive and sustainable impact beyond the classroom. Through educational initiatives, community engagement, and strategic collaborations, we empower future generations and contribute to the advancement of the communities we serve — guided by the belief that education has the power to transform lives."
+    },
+    "focusAreas": {
+      "eyebrow": "What we do",
+      "title": "Where we focus.",
+      "intro": "Five areas where the Foundation concentrates its programmes, initiatives, and partnerships.",
+      "items": {
+        "access": { "title": "Access to Education", "detail": "Supporting initiatives that promote inclusive and accessible learning opportunities for individuals and communities." },
+        "community": { "title": "Community Development", "detail": "Contributing to programs that strengthen communities and create meaningful, lasting social impact." },
+        "empowerment": { "title": "Student Empowerment", "detail": "Encouraging leadership, creativity, and lifelong learning so students can reach their full potential." },
+        "partnerships": { "title": "Partnerships for Good", "detail": "Collaborating with institutions and organizations that share our vision of positive change through education." },
+        "sustainability": { "title": "Sustainability & Impact", "detail": "Creating long-term value through responsible initiatives that build a better future for generations to come." }
+      }
+    },
+    "involvement": {
+      "eyebrow": "Get involved",
+      "title": "Be part of the work.",
+      "items": {
+        "partner": { "title": "Partner with us", "detail": "For institutions and organizations whose mission aligns with advancing education across the region." },
+        "support": { "title": "Support a cause", "detail": "Back the initiatives that expand access, strengthen communities, and empower students." },
+        "collaborate": { "title": "Collaborate", "detail": "For educators and changemakers bringing programs and ideas to the communities we serve." }
+      },
+      "cta": "Partner with the Foundation"
+    }
+  },
+  "academy": {
+    "hero": {
+      "eyebrow": "MADAREK Academy",
+      "title": "Learning beyond",
+      "italicTail": "the classroom.",
+      "lede": "Inspiring the next generation through enrichment programs, global experiences, and lifelong learning opportunities."
+    },
+    "overview": {
+      "eyebrow": "Overview",
+      "title": "A platform for student enrichment.",
+      "body": "MADAREK Academy is a platform for enrichment, leadership development, and collaborative experiences that empower students to explore new perspectives and unlock their full potential. By extending learning beyond traditional classrooms, we prepare students to thrive in a globally connected, rapidly evolving world."
+    },
+    "programs": {
+      "eyebrow": "Programs",
+      "title": "Six ways to grow.",
+      "intro": "Enrichment that extends learning beyond the classroom — across the MADAREK ecosystem and around the world.",
+      "items": {
+        "exchange": { "title": "Student Exchange Programs", "detail": "Opportunities to engage with peers across the MADAREK ecosystem and beyond — promoting cultural understanding, broader perspectives, and global citizenship." },
+        "leadership": { "title": "Leadership Development", "detail": "Mentorship programs, workshops, and experiential learning that cultivate confidence, collaboration, and responsibility in future leaders." },
+        "innovation": { "title": "Innovation & Entrepreneurship", "detail": "Initiatives that encourage creativity, critical thinking, and problem-solving to inspire the next generation of innovators and changemakers." },
+        "enrichment": { "title": "Academic Enrichment", "detail": "Competitions, educational camps, workshops, and specialized programs that complement and extend classroom education." },
+        "collaboration": { "title": "Cross-School Collaboration", "detail": "Shared initiatives, projects, and experiences that connect students and educators across the MADAREK ecosystem." },
+        "partnerships": { "title": "Global Partnerships", "detail": "Collaborations with leading institutions and organizations that open broader opportunities and exposure to international best practices." }
+      }
+    },
+    "whoFor": {
+      "eyebrow": "Who it's for",
+      "title": "Open to every MADAREK student.",
+      "whoLabel": "Who it's for",
+      "who": "MADAREK Academy is open to students across our schools and the wider community, with programmes designed for a range of ages and stages.",
+      "joinLabel": "How to join",
+      "join": "Enrolment opens ahead of each programme. To register interest or learn more about dates and eligibility, get in touch with our team."
+    },
+    "vision": {
+      "title": "To inspire lifelong learners and future leaders.",
+      "body": "By creating experiences that extend beyond the classroom and prepare students to succeed in an interconnected world.",
+      "cta": "Express interest"
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "titleLine": "Let's shape the future",
+    "titleAccent": "together.",
+    "intro": "Whether you are a parent, educator, institution, or strategic partner, we welcome the opportunity to connect and explore how we can create meaningful educational experiences together.",
+    "form": {
+      "eyebrow": "Send us a note",
+      "thankYou": "Thank you.",
+      "thankYouBody": "Your note is on its way. Someone from our team will reply within two working days. In the meantime, you can also reach us at",
+      "name": "Your name",
+      "email": "Email",
+      "role": "I am a...",
+      "roleParent": "Parent",
+      "roleEducator": "Educator",
+      "rolePartner": "Partner",
+      "roleOther": "Other",
+      "message": "Message",
+      "submit": "Send message →"
+    },
+    "direct": {
+      "eyebrow": "Direct",
+      "generalLabel": "General Inquiries",
+      "general": "For general questions and information, please contact our team.",
+      "partnershipsLabel": "Partnerships",
+      "partnerships": "Interested in collaborating with MADAREK? We welcome opportunities to build meaningful partnerships that advance education and create lasting impact.",
+      "careersLabel": "Careers",
+      "careers": "Join us in shaping the future of learning.",
+      "locationsLabel": "Locations",
+      "locations": "Dubai, UAE · Riyadh, KSA",
+      "socialLabel": "Social"
+    }
+  },
+  "leadership": {
+    "governance": {
+      "eyebrow": "Governance",
+      "titleLine1": "Board of",
+      "titleLine2": "Directors.",
+      "body": "Strategic oversight, governance, and stewardship across the group."
+    },
+    "boardUnited": "MADAREK United",
+    "boardHoldings": "MADAREK Holdings",
+    "team": {
+      "eyebrow": "Leadership & Management",
+      "titleLine1": "The people",
+      "titleLine2": "behind the schools.",
+      "body": "Executive leadership steering MADAREK's growth, school operations, and long-term education platform strategy."
+    },
+    "leadershipLabel": "Leadership",
+    "managementLabel": "Management"
+  },
+  "board": {
+    "tba": "To be announced",
+    "seatTba": "Board seat to be announced",
+    "roles": {
+      "chairman": "Chairman of the Board",
+      "viceChairman": "Vice Chairman of the Board",
+      "member": "Board Member"
+    },
+    "names": {
+      "majid-al-hokair": "Majid Abdulhassan bin Abdulaziz Al Hokair",
+      "sulaiman-al-abduljader": "Dr. Sulaiman Tareq Al Abduljader",
+      "shukri-mansoor": "Shukri Abdulfattah Shukri Mansoor",
+      "omar-al-jassar": "Omar Abdulaziz Sulaiman Al Jassar",
+      "fahad-albassam": "Fahad Abdulrahman Muhammad Albassam",
+      "omar-alshayeji": "Omar Saleh Shayej AlShayeji",
+      "monira-al-wugayan": "Monira Adel Ahmad Al Wugayan",
+      "jassem-zainal": "Jassem Hassan Zainal",
+      "issah-al-muzaini": "Issah Abdullah Issah Al Muzaini"
+    }
+  },
+  "leaders": {
+    "shukri-mansour": {
+      "name": "Dr Shukri A. Mansour",
+      "eyebrow": "CEO for MADAREK KSA",
+      "title": "Chief Executive Officer",
+      "preview": "Leads MADAREK KSA across strategy, operations, and organizational direction."
+    },
+    "mohamed-hussein-motawea": {
+      "name": "Mohamed Hussein Motawea",
+      "eyebrow": "CEO for MADAREK UAE",
+      "title": "Chief Executive Officer & Schools Director",
+      "preview": "Strategic and operational leadership for MADAREK UAE and Al Maaref American School, with 30+ years transforming schools across the region.",
+      "bio": [
+        "As Chief Executive Officer and Schools Director at MADAREK UAE, Mohamed Hussein Motawea provides strategic and operational leadership for Al Maaref American School in Dubai.",
+        "With over 30 years of experience transforming schools across the UAE and Egypt — including 15 years in senior leadership — he is widely recognised for building high-performing teams, driving measurable school improvement, and embedding a culture of excellence across entire school communities.",
+        "In 2025, he was honoured with the NEASC Commission on International Education Service Award, a prestigious global recognition of his contributions to international education. Among his key achievements, he led Al Zuhour Private School from an 'Acceptable' to a 'Good' rating by SPEA, guiding a community of over 3,000 students and 300 staff through a sustained improvement journey.",
+        "He brings deep expertise in UAE regulatory frameworks, including KHDA and SPEA/MOE inspections, as well as international accreditation through NEASC and Cognia. He has served as a NEASC Visiting Team Member and has chaired accreditation visits for international schools across the Gulf and beyond.",
+        "He holds a Master's degree in Management from the University of Lincoln, UK, and dual bachelor's degrees in Education and Business & Finance from Alexandria University, and is a licensed School Principal by the UAE Ministry of Education."
+      ]
+    },
+    "haris-moideen": {
+      "name": "Haris Moideen",
+      "eyebrow": "Finance Leadership",
+      "title": "Acting CFO & Board Secretary",
+      "preview": "A Chartered Accountant with over 25 years in finance and governance, overseeing financial management, compliance, and board affairs.",
+      "bio": [
+        "A Chartered Accountant and member of the Institute of Chartered Accountants of India, Haris Moideen brings over 25 years of experience across accounting, finance, and corporate governance.",
+        "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined MADAREK in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance."
+      ]
+    }
+  },
+  "shareholders": {
+    "eyebrow": "Ownership",
+    "titleLine1": "Our",
+    "titleLine2": "shareholders.",
+    "intro": "The institutions and partners invested in MADAREK's continued growth across the region.",
+    "visitWebsite": "Visit website",
+    "names": {
+      "sanam": "SANAM Capital Holding",
+      "al-hokair": "Al Hokair Group",
+      "gee": "Global Educational Excellence",
+      "al-jasser": "Al Jasser Holding"
+    }
+  },
+  "leaderDetail": {
+    "notFound": "Leader not found.",
+    "backToLeadership": "Back to leadership",
+    "leadership": "Leadership",
+    "about": "About",
+    "teamEyebrow": "The team",
+    "otherLine1": "Other",
+    "otherLine2": "leaders.",
+    "ctaLine1": "Meet the rest",
+    "ctaLine2": "of the team.",
+    "viewAll": "View all leadership",
+    "readFullProfile": "Read full profile"
+  },
+  "media": {
+    "hero": {
+      "eyebrow": "Media",
+      "title": "Stay",
+      "italicTail": "connected.",
+      "lede": "The latest announcements, achievements, partnerships, and stories from across the MADAREK ecosystem."
+    },
+    "filterAll": "All",
+    "latest": "Latest",
+    "moreNews": "More news",
+    "empty": "No news in this category yet.",
+    "readMore": "Read more",
+    "readArticle": "Read article",
+    "readAnnouncement": "Read the announcement",
+    "categories": {
+      "Announcements": "Announcements",
+      "Achievements": "Achievements",
+      "Press Release": "Press Release",
+      "Partnerships": "Partnerships",
+      "Events": "Events"
+    }
+  },
+  "mediaArticle": {
+    "notFound": "Article not found.",
+    "backToMedia": "Back to media",
+    "allNews": "All news",
+    "watchReel": "Watch the reel",
+    "backToAllNews": "Back to all news"
+  },
+  "careers": {
+    "hero": {
+      "eyebrow": "Careers at MADAREK",
+      "title": "Join the future",
+      "italicTail": "of education.",
+      "lede": "We attract, develop, and empower talented people who share our passion for education and innovation."
+    },
+    "general": {
+      "eyebrow": "General application",
+      "titleLine1": "Don't see",
+      "titleLine2": "your role?",
+      "body": "We're always looking for talented educators and professionals who share our mission. Send us your CV and tell us how you'd like to contribute.",
+      "cta": "Submit application"
+    }
+  },
+  "schoolsExplorer": {
+    "eyebrow": "Our presence",
+    "titleLine1": "Growing across",
+    "titleLine2": "the Gulf.",
+    "intro": "Premium campuses across the UAE and Saudi Arabia — each carrying its own character, all sharing the MADAREK framework, with more on the way.",
+    "stats": {
+      "campuses": "Campuses",
+      "cities": "Cities",
+      "countries": "Countries",
+      "curricula": "Curricula"
+    },
+    "ourCampuses": "Our campuses",
+    "mapLabel": "Map of the Gulf showing {{count}} Madarek campuses",
+    "viewCampusDetails": "View campus details →",
+    "card": {
+      "ages": "Ages {{ages}}",
+      "capacity": "Capacity {{value}}",
+      "students": "{{value}} students",
+      "details": "Details"
+    }
+  }
+}

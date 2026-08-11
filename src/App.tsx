@@ -5,11 +5,15 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   BRAND, DensityCtx, withOpacity,
   MadarekLogo, Meta, Display, Body, Section, Container, PillLink,
 } from './system';
 import type { DensityKey } from './system';
+import { LanguageProvider } from './i18n/LanguageProvider';
+import { LanguageToggle } from './i18n/LanguageToggle';
+import { useLocalizedSchools } from './i18n/localize';
 import HomePage from './home';
 import { schools } from './data';
 
@@ -36,6 +40,8 @@ const LeaderDetailRoute = lazy(() => import('./pages').then((m) => ({ default: m
 
 /* ── header ──────────────────────────────────────────────── */
 function Header() {
+  const { t } = useTranslation();
+  const localizedSchools = useLocalizedSchools(schools);
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -73,20 +79,20 @@ function Header() {
   // Dropdowns point at real destinations: About → its on-page sections,
   // Schools → each campus (from the schools source of truth).
   const nav: { to: string; label: string; children?: { to: string; label: string }[] }[] = [
-    { to: '/', label: 'Home' },
-    { to: '/about', label: 'About', children: [
-      { to: '/about',                label: 'Overview' },
-      { to: '/about#vision-mission', label: 'Vision & Mission' },
-      { to: '/about#leadership',     label: 'Leadership' },
-      { to: '/about#shareholding',   label: 'Shareholders' },
+    { to: '/', label: t('nav.home') },
+    { to: '/about', label: t('nav.about'), children: [
+      { to: '/about',                label: t('nav.overview') },
+      { to: '/about#vision-mission', label: t('nav.visionMission') },
+      { to: '/about#leadership',     label: t('nav.leadership') },
+      { to: '/about#shareholding',   label: t('nav.shareholders') },
     ] },
-    { to: '/schools', label: 'Schools', children: [
-      { to: '/schools', label: 'All schools' },
-      ...schools.map((s) => ({ to: `/schools/${s.slug}`, label: s.short })),
+    { to: '/schools', label: t('nav.schools'), children: [
+      { to: '/schools', label: t('nav.allSchools') },
+      ...localizedSchools.map((s) => ({ to: `/schools/${s.slug}`, label: s.short })),
     ] },
-    { to: '/media', label: 'Media' },
-    { to: '/careers', label: 'Careers' },
-    { to: '/contact', label: 'Contact' },
+    { to: '/media', label: t('nav.media') },
+    { to: '/careers', label: t('nav.careers') },
+    { to: '/contact', label: t('nav.contact') },
   ];
 
   const isActive = (to: string) => {
@@ -124,14 +130,14 @@ function Header() {
           border: scrolled ? `1px solid ${withOpacity('ink', 0.06)}` : '1px solid transparent',
         }}>
         <div className="relative px-6 md:px-12 flex items-center justify-between">
-          <Link to="/" className="relative z-[10] flex items-center" aria-label="Madarek home">
+          <Link to="/" className="relative z-[10] flex items-center" aria-label={t('header.madarekHome')}>
             <MadarekLogo
               className="h-8 md:h-10 w-auto"
               style={{ color: scrolled ? BRAND.ink : BRAND.paperHi }} />
           </Link>
 
           {/* desktop — inline nav, aligned to the right (logo stays left) */}
-          <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
+          <nav aria-label={t('header.primary')} className="hidden lg:flex items-center gap-1">
             {nav.map((item) => {
               const active = isActive(item.to);
               const font = { fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontSize: 14.5, fontWeight: 500, letterSpacing: '0.005em' } as const;
@@ -197,23 +203,29 @@ function Header() {
                 </div>
               );
             })}
+            <span className="ml-2 pl-3 border-l" style={{ borderColor: withOpacity(scrolled ? 'ink' : 'paper', 0.2) }}>
+              <LanguageToggle color={scrolled ? BRAND.ink : BRAND.paperHi} />
+            </span>
           </nav>
 
-          {/* mobile menu toggle */}
+          {/* mobile — language toggle + menu button */}
+          <div className="lg:hidden flex items-center gap-4 relative z-[10]">
+            <LanguageToggle color={scrolled ? BRAND.ink : BRAND.paperHi} />
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden flex items-center gap-2 py-2 relative z-[10] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
+            className="flex items-center gap-2 py-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
             style={{ color: scrolled ? BRAND.ink : BRAND.paperHi }}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={menuOpen ? t('header.closeMenu') : t('header.openMenu')}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu">
-            <span className="font-mono text-[11px] tracking-[0.18em] uppercase">{menuOpen ? 'Close' : 'Menu'}</span>
+            <span className="font-mono text-[11px] tracking-[0.18em] uppercase">{menuOpen ? t('header.close') : t('header.menu')}</span>
             <div className="flex flex-col gap-1">
               <span className="block w-5 h-px" style={{ background: scrolled ? BRAND.ink : BRAND.paperHi, transform: menuOpen ? 'rotate(45deg) translateY(2px)' : 'none', transition: 'transform 0.3s' }} />
               <span className="block w-5 h-px" style={{ background: scrolled ? BRAND.ink : BRAND.paperHi, transform: menuOpen ? 'rotate(-45deg) translateY(-2px)' : 'none', transition: 'transform 0.3s' }} />
             </div>
           </button>
+          </div>
         </div>
       </header>
 
@@ -224,7 +236,7 @@ function Header() {
             id="mobile-menu"
             role="dialog"
             aria-modal="true"
-            aria-label="Site navigation"
+            aria-label={t('header.siteNavigation')}
             initial={{ opacity: 0, y: '-100%' }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '-100%' }}
@@ -238,7 +250,7 @@ function Header() {
                 to="/"
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center"
-                aria-label="Madarek home">
+                aria-label={t('header.madarekHome')}>
                 <MadarekLogo className="h-8 md:h-10 w-auto" style={{ color: BRAND.paperHi }} />
               </Link>
               <button
@@ -246,8 +258,8 @@ function Header() {
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-2 py-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
                 style={{ color: BRAND.paperHi }}
-                aria-label="Close menu">
-                <span className="font-mono text-[11px] tracking-[0.18em] uppercase">Close</span>
+                aria-label={t('header.closeMenu')}>
+                <span className="font-mono text-[11px] tracking-[0.18em] uppercase">{t('header.close')}</span>
                 <div className="flex flex-col gap-1">
                   <span className="block w-5 h-px" style={{ background: BRAND.paperHi, transform: 'rotate(45deg) translateY(2px)' }} />
                   <span className="block w-5 h-px" style={{ background: BRAND.paperHi, transform: 'rotate(-45deg) translateY(-2px)' }} />
@@ -301,6 +313,7 @@ function Header() {
 
 /* ── footer ──────────────────────────────────────────────── */
 function Footer() {
+  const { t } = useTranslation();
   return (
     <footer style={{ background: BRAND.ink }} className="py-20 px-6 md:px-12 text-[#F4EDE0]">
       <div className="max-w-7xl mx-auto">
@@ -312,21 +325,20 @@ function Footer() {
                 style={{ color: BRAND.paperHi }} />
             </div>
             <div className="max-w-sm" style={{ color: withOpacity('paper', 0.7), fontWeight: 300, fontSize: 16, lineHeight: 1.5 }}>
-              A community of schools across the Gulf, dedicated to academic
-              excellence and lasting educational impact.
+              {t('footer.tagline')}
             </div>
           </div>
 
           <div className="col-span-6 md:col-span-3 md:col-start-7">
-            <Meta tone="paper">Explore</Meta>
+            <Meta tone="paper">{t('footer.explore')}</Meta>
             <ul className="mt-6 space-y-3">
               {[
-                ['/', 'Home'],
-                ['/about', 'About'],
-                ['/schools', 'Schools'],
-                ['/media', 'Media'],
-                ['/careers', 'Careers'],
-                ['/contact', 'Contact'],
+                ['/', t('nav.home')],
+                ['/about', t('nav.about')],
+                ['/schools', t('nav.schools')],
+                ['/media', t('nav.media')],
+                ['/careers', t('nav.careers')],
+                ['/contact', t('nav.contact')],
               ].map(([to, label]) => (
                 <li key={to}>
                   <Link to={to}
@@ -338,7 +350,7 @@ function Footer() {
           </div>
 
           <div className="col-span-6 md:col-span-3">
-            <Meta tone="paper">Get in touch</Meta>
+            <Meta tone="paper">{t('footer.getInTouch')}</Meta>
             <ul className="mt-6 space-y-3">
               <li>
                 <a href="mailto:info@madarek.me"
@@ -361,11 +373,11 @@ function Footer() {
 
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-start md:items-center gap-3" style={{ borderColor: withOpacity('paper', 0.12) }}>
           <span style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }}>
-            © {new Date().getFullYear()} MADAREK Education
+            {t('footer.copyright', { year: new Date().getFullYear() })}
           </span>
           <div className="flex gap-6">
-            <Link to="/privacy" style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }} className="hover:text-white">Privacy</Link>
-            <Link to="/terms"   style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }} className="hover:text-white">Terms</Link>
+            <Link to="/privacy" style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }} className="hover:text-white">{t('footer.privacy')}</Link>
+            <Link to="/terms"   style={{ color: withOpacity('paper', 0.55), fontSize: 13, fontWeight: 300 }} className="hover:text-white">{t('footer.terms')}</Link>
           </div>
         </div>
       </div>
@@ -375,16 +387,17 @@ function Footer() {
 
 /* ── stub page for /privacy and /terms ───────────────────── */
 function StubPage({ title }: { title: string }) {
+  const { t } = useTranslation();
   return (
     <Section bg="paper" className="min-h-dvh flex items-center justify-center pt-48 pb-32">
       <Container max="5xl" className="text-center">
-        <Meta>Placeholder</Meta>
+        <Meta>{t('stub.eyebrow')}</Meta>
         <div className="mt-6">
           <Display size="lg" italic>{title}.</Display>
         </div>
         <div className="mt-8">
           <Body size="lg" muted>
-            This page exists in the structure but isn't a redesign focus area.
+            {t('stub.body')}
           </Body>
         </div>
       </Container>
@@ -394,28 +407,28 @@ function StubPage({ title }: { title: string }) {
 
 /* ── 404 — real not-found, not a silent redirect ───────────── */
 function NotFoundPage() {
+  const { t } = useTranslation();
   return (
     <Section bg="ink" className="min-h-dvh flex items-center justify-center pt-48 pb-32">
       <Container max="5xl" className="text-center">
-        <Meta tone="paper">404</Meta>
+        <Meta tone="paper">{t('notFound.eyebrow')}</Meta>
         <div className="mt-8">
           <Display size="xl" italic style={{ color: BRAND.paperHi }}>
-            Page not found.
+            {t('notFound.title')}
           </Display>
         </div>
         <div className="mt-8 max-w-xl mx-auto">
           <Body size="lg" style={{ color: withOpacity('paper', 0.78) }}>
-            The page you're looking for isn't here — it may have moved, or the
-            link may be out of date.
+            {t('notFound.body')}
           </Body>
         </div>
         <div className="mt-12 flex flex-wrap justify-center items-center gap-8">
-          <PillLink to="/" variant="invert" size="md">Back to home</PillLink>
+          <PillLink to="/" variant="invert" size="md">{t('notFound.backHome')}</PillLink>
           <Link
             to="/schools"
             className="transition-colors text-[15px] font-light border-b pb-1"
             style={{ color: withOpacity('paper', 0.8), borderColor: withOpacity('paper', 0.4) }}>
-            Explore the schools →
+            {t('notFound.exploreSchools')}
           </Link>
         </div>
       </Container>
@@ -432,6 +445,7 @@ function SchoolDetailRoute() {
 
 /* ── app shell (inside the router) ───────────────────────── */
 function AppShell() {
+  const { t } = useTranslation();
   const [density] = useState<DensityKey>('editorial');
   const realLocation = useLocation();
   const reduced = useReducedMotion();
@@ -499,8 +513,8 @@ function AppShell() {
             <Route path="/media"              element={<MediaPage />} />
             <Route path="/media/:id"          element={<MediaArticleRoute />} />
             <Route path="/contact"            element={<ContactPage />} />
-            <Route path="/privacy"            element={<StubPage title="Privacy" />} />
-            <Route path="/terms"              element={<StubPage title="Terms" />} />
+            <Route path="/privacy"            element={<StubPage title={t('footer.privacy')} />} />
+            <Route path="/terms"              element={<StubPage title={t('footer.terms')} />} />
             <Route path="*"                   element={<NotFoundPage />} />
           </Routes>
         </Suspense>
@@ -535,8 +549,10 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppShell />
-    </BrowserRouter>
+    <LanguageProvider>
+      <BrowserRouter>
+        <AppShell />
+      </BrowserRouter>
+    </LanguageProvider>
   );
 }

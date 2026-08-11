@@ -6,6 +6,7 @@ photography goes full-bleed alone, text stacks beneath it,
 
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import {
   BRAND, useDensity, withOpacity,
@@ -18,9 +19,11 @@ import {
 import type { BrandKey } from './system';
 import { mediaByNewest, formatMediaDate } from './data';
 import type { School, MediaItem } from './data';
+import { useLocalizedSchool, useLocalizedMediaList } from './i18n/localize';
 
 /* ── 01 · Hero ─────────────────────────────────────────────── */
 function HeroSection() {
+  const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
@@ -45,7 +48,7 @@ function HeroSection() {
 
       {/* top brand bar */}
       <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-32 md:pt-36 text-[#F4EDE0]/85">
-        <Meta tone="paper">MADAREK · Education across the GCC · Est. 2026</Meta>
+        <Meta tone="paper">{t('home.hero.eyebrow')}</Meta>
       </div>
 
       {/* main type */}
@@ -54,20 +57,20 @@ function HeroSection() {
         className="absolute inset-0 z-10 flex flex-col justify-end px-6 md:px-12 pb-24 md:pb-32">
         <div className="max-w-[1400px]">
           <Display size="lg" style={{ color: BRAND.paperHi, fontWeight: 300 }}>
-            <span style={{ display: 'block' }}>Shaping the future</span>
+            <span style={{ display: 'block' }}>{t('home.hero.titleLine1')}</span>
             <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.paperHi }}>
-              of learning.
+              {t('home.hero.titleLine2')}
             </span>
           </Display>
 
           <div className="mt-8 max-w-xl">
             <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>
-              A growing network of international schools across the GCC.
+              {t('home.hero.subtitle')}
             </Body>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-8">
-            <PillLink to="#schools" variant="invert">Explore our schools</PillLink>
+            <PillLink to="#schools" variant="invert">{t('home.hero.cta')}</PillLink>
           </div>
         </div>
       </motion.div>
@@ -80,7 +83,7 @@ function HeroSection() {
       {/* scroll cue */}
       <div className="absolute bottom-8 left-6 md:left-12 z-20 flex items-center gap-3 text-[#F4EDE0]/60">
         <span className="block w-px h-12 bg-current animate-[fall_2s_ease-in-out_infinite]" />
-        <Meta tone="paper">Scroll</Meta>
+        <Meta tone="paper">{t('home.hero.scroll')}</Meta>
       </div>
     </section>
   );
@@ -88,6 +91,7 @@ function HeroSection() {
 
 /* ── 02 · About — typographic statement only. */
 function AboutSection() {
+  const { t } = useTranslation();
   const d = useDensity();
   return (
     <Section id="about" bg="paper" className={`${d.sectionY}`}>
@@ -96,12 +100,12 @@ function AboutSection() {
           <div className="grid grid-cols-12 gap-6 mb-16">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={1} tone="ink" />
-              <div className="mt-3"><Eyebrow tone="ink">About MADAREK</Eyebrow></div>
+              <div className="mt-3"><Eyebrow tone="ink">{t('home.about.eyebrow')}</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg" italic={false}>
-                A regional education
-                <span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> platform.</span>
+                {t('home.about.title')}
+                <span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> {t('home.about.titleAccent')}</span>
               </Display>
             </div>
           </div>
@@ -110,23 +114,19 @@ function AboutSection() {
         <Reveal delay={0.1}>
           <div className="grid grid-cols-12 gap-6 mt-24">
             <div className="col-span-12 md:col-span-3 md:col-start-4">
-              <Meta>Introduction</Meta>
+              <Meta>{t('home.about.introLabel')}</Meta>
             </div>
             <div className="col-span-12 md:col-span-6">
               <Body size="xl" muted={false}>
-                MADAREK is a growing network of schools across the GCC, united by
-                one commitment: academic excellence and developing confident,
-                well-rounded learners.
+                {t('home.about.body1')}
               </Body>
               <div className="mt-6">
                 <Body size="xl" muted={false}>
-                  Through internationally recognised curricula and modern learning
-                  environments, we help students thrive — and contribute to the
-                  communities we serve.
+                  {t('home.about.body2')}
                 </Body>
               </div>
               <div className="mt-12">
-                <TextLink to="/about" tone="ink">Read the full story</TextLink>
+                <TextLink to="/about" tone="ink">{t('home.about.link')}</TextLink>
               </div>
             </div>
           </div>
@@ -139,14 +139,17 @@ function AboutSection() {
 /* ── 03 · The Four Pillars — tagline + tag chips (full descriptions
    live on the About page). */
 function FrameworkSection() {
+  const { t } = useTranslation();
   const d = useDensity();
 
-  const pillars: { tone: BrandKey; title: string; tagline: string; tags: string[] }[] = [
-    { tone: 'red',    title: 'Educational Excellence', tagline: 'High-quality learning that develops the whole student.', tags: ['Academic achievement', 'Critical thinking', 'Holistic development'] },
-    { tone: 'yellow', title: 'Innovation',             tagline: 'Future-ready environments built on creativity and technology.', tags: ['Technology', 'Creativity', 'New approaches'] },
-    { tone: 'cyan',   title: 'Regional Growth',        tagline: 'A leading education ecosystem across the GCC and beyond.', tags: ['Strategic expansion', 'Partnerships', 'GCC & beyond'] },
-    { tone: 'lime',   title: 'Lasting Impact',         tagline: 'Positive, sustainable outcomes for generations to come.', tags: ['Students & educators', 'Communities', 'Future generations'] },
-  ];
+  const pillars: { tone: BrandKey; title: string; tagline: string; tags: string[] }[] = (
+    ['excellence', 'innovation', 'growth', 'impact'] as const
+  ).map((key, i) => ({
+    tone: (['red', 'yellow', 'cyan', 'lime'] as const)[i],
+    title: t(`home.framework.pillars.${key}.title`),
+    tagline: t(`home.framework.pillars.${key}.tagline`),
+    tags: t(`home.framework.pillars.${key}.tags`, { returnObjects: true }) as string[],
+  }));
 
   return (
     <Section id="framework" bg="paperLo" className={d.sectionY}>
@@ -155,12 +158,12 @@ function FrameworkSection() {
           <div className="grid grid-cols-12 gap-6 mb-16">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={2} tone="ink" />
-              <div className="mt-3"><Eyebrow>Our Four Pillars</Eyebrow></div>
+              <div className="mt-3"><Eyebrow>{t('home.framework.eyebrow')}</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
-                <span>Four pillars.</span>
-                <span style={{ display: 'block', color: BRAND.inkSub }}>One direction.</span>
+                <span>{t('home.framework.titleLine1')}</span>
+                <span style={{ display: 'block', color: BRAND.inkSub }}>{t('home.framework.titleLine2')}</span>
               </Display>
             </div>
           </div>
@@ -181,12 +184,12 @@ function FrameworkSection() {
                 </h3>
                 <div className="mt-3"><Body size="md" muted>{p.tagline}</Body></div>
                 <div className="mt-6 flex flex-wrap gap-2">
-                  {p.tags.map((t) => (
+                  {p.tags.map((tag) => (
                     <span
-                      key={t}
+                      key={tag}
                       className="inline-block rounded-full px-3 py-1"
                       style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '0.04em', color: BRAND.inkSub, background: BRAND.paperHi, border: `1px solid ${BRAND.rule}` }}>
-                      {t}
+                      {tag}
                     </span>
                   ))}
                 </div>
@@ -201,6 +204,7 @@ function FrameworkSection() {
 
 /* ── 04 · Full-bleed image moment + marquee. */
 function CinematicMoment() {
+  const { t } = useTranslation();
   return (
     <section className="relative w-full" data-screen-label="04 Cinematic moment">
       <div className="relative h-dvh w-full overflow-hidden">
@@ -211,11 +215,11 @@ function CinematicMoment() {
           priority />
         <div className="absolute inset-0 z-10 flex items-end px-6 md:px-12 pb-16">
           <div className="max-w-3xl">
-            <Eyebrow tone="cyan" className="text-[#F4EDE0]/80">A school is a place</Eyebrow>
+            <Eyebrow tone="cyan" className="text-[#F4EDE0]/80">{t('home.cinematic.eyebrow')}</Eyebrow>
             <div className="mt-6">
               <Display size="md" style={{ color: BRAND.paperHi }} italic={false}>
-                Where every student is
-                <span style={{ fontStyle: 'normal' }}> known.</span>
+                {t('home.cinematic.titleLine1')}
+                <span style={{ fontStyle: 'normal' }}> {t('home.cinematic.titleAccent')}</span>
               </Display>
             </div>
           </div>
@@ -229,6 +233,7 @@ function CinematicMoment() {
     hero tile beside two stacked tiles; hover reveals details; each
     links to its campus page. */
 function SchoolsSection({ schools }: { schools: School[] }) {
+  const { t } = useTranslation();
   const d = useDensity();
   return (
     <Section id="schools" bg="navy" className={d.sectionY}>
@@ -238,19 +243,19 @@ function SchoolsSection({ schools }: { schools: School[] }) {
             <div className="flex flex-wrap items-end justify-between gap-6 mb-8 md:mb-10">
               <div>
                 <SectionNumber n={3} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Our Schools</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="cyan">{t('home.schools.eyebrow')}</Eyebrow></div>
               </div>
               <Link
                 to="/schools"
                 className="group inline-flex items-baseline gap-2 border-b pb-1 transition-colors"
                 style={{ color: BRAND.paperHi, borderColor: withOpacity('paper', 0.5), fontFamily: 'Inter, sans-serif', fontSize: 15 }}>
-                All schools
+                {t('nav.allSchools')}
                 <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
               </Link>
             </div>
             <Display style={{ color: BRAND.paperHi, fontSize: 'clamp(1.85rem, 4vw, 3.4rem)' }}>
-              {schools.filter((s) => s.status !== 'upcoming').length} campuses today,{' '}
-              <span style={{ color: withOpacity('paper', 0.55) }}>and a region in the making.</span>
+              {t('home.schools.headlineCount', { count: schools.filter((s) => s.status !== 'upcoming').length })}{' '}
+              <span style={{ color: withOpacity('paper', 0.55) }}>{t('home.schools.headlineAccent')}</span>
             </Display>
           </div>
         </Reveal>
@@ -267,6 +272,7 @@ function SchoolsSection({ schools }: { schools: School[] }) {
     controls, drag/scroll, and a progress bar; a closing card signals the
     network is still growing. */
 function SchoolsCarousel({ schools }: { schools: School[] }) {
+  const { t } = useTranslation();
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [atStart, setAtStart] = useState(true);
@@ -305,14 +311,14 @@ function SchoolsCarousel({ schools }: { schools: School[] }) {
       {/* controls */}
       <div className="flex items-center justify-between mb-8">
         <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.2em', color: withOpacity('paper', 0.52) }}>
-          Drag to explore
+          {t('home.schools.dragToExplore')}
         </span>
         <div className="flex gap-3">
-          <button type="button" onClick={() => scrollByCards(-1)} disabled={atStart} aria-label="Previous campuses"
+          <button type="button" onClick={() => scrollByCards(-1)} disabled={atStart} aria-label={t('home.schools.prevCampuses')}
             className={arrowCls} style={{ borderColor: withOpacity('paper', 0.28), color: BRAND.paperHi }}>
             <span className="-mt-0.5 text-lg">←</span>
           </button>
-          <button type="button" onClick={() => scrollByCards(1)} disabled={atEnd} aria-label="More campuses"
+          <button type="button" onClick={() => scrollByCards(1)} disabled={atEnd} aria-label={t('home.schools.moreCampuses')}
             className={arrowCls} style={{ borderColor: withOpacity('paper', 0.28), color: BRAND.paperHi }}>
             <span className="-mt-0.5 text-lg">→</span>
           </button>
@@ -323,7 +329,7 @@ function SchoolsCarousel({ schools }: { schools: School[] }) {
         ref={trackRef}
         onScroll={update}
         role="group"
-        aria-label="Campuses"
+        aria-label={t('home.schools.campuses')}
         className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
         {schools.map((s, i) => (
           <CarouselCard key={s.slug} school={s} index={i} />
@@ -341,7 +347,9 @@ function SchoolsCarousel({ schools }: { schools: School[] }) {
 
 const CARD_W = 'flex-none w-[80%] sm:w-[55%] md:w-[40%] lg:w-[31%] xl:w-[27%]';
 
-function CarouselCard({ school, index }: { school: School; index: number }) {
+function CarouselCard({ school: schoolProp, index }: { school: School; index: number }) {
+  const { t } = useTranslation();
+  const school = useLocalizedSchool(schoolProp) as School;
   return (
     <Link
       data-card
@@ -363,7 +371,7 @@ function CarouselCard({ school, index }: { school: School; index: number }) {
         {school.status === 'upcoming' && (
           <div className="absolute top-4 right-4">
             <span className="font-mono uppercase rounded-md px-2.5 py-1" style={{ fontSize: 10, letterSpacing: '0.16em', color: BRAND.ink, background: BRAND.cyan, fontWeight: 600 }}>
-              Opening soon
+              {t('home.schools.openingSoon')}
             </span>
           </div>
         )}
@@ -376,10 +384,10 @@ function CarouselCard({ school, index }: { school: School; index: number }) {
           </h3>
           <div className="overflow-hidden max-h-0 opacity-0 -translate-y-1 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100 group-hover:translate-y-0">
             <div className="mt-3 font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.14em', color: withOpacity('paper', 0.62) }}>
-              {school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}
+              {school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · {t('home.schools.ages')} {school.ages}
             </div>
             <div className="mt-3 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
-              <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>View campus</span>
+              <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>{t('home.schools.viewCampus')}</span>
               <span style={{ color: BRAND.cyan }}>→</span>
             </div>
           </div>
@@ -391,21 +399,22 @@ function CarouselCard({ school, index }: { school: School; index: number }) {
 
 /* Closing card — communicates the network keeps growing. */
 function FutureCampusCard() {
+  const { t } = useTranslation();
   return (
     <Link
       to="/schools"
-      aria-label="More campuses joining the network"
+      aria-label={t('home.schools.futureAria')}
       className={`group relative ${CARD_W} snap-start rounded-xl focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[color:#27C4FF]`}>
       <div
         className="relative aspect-[3/4] flex flex-col items-center justify-center text-center px-8 rounded-xl border border-white/[0.12] transition-colors duration-300 group-hover:border-[#27C4FF]/40"
         style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 45%, rgba(255,255,255,0) 100%)' }}>
-        <span className="font-mono uppercase mb-6" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('cyan', 0.9) }}>Coming soon</span>
+        <span className="font-mono uppercase mb-6" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('cyan', 0.9) }}>{t('home.schools.comingSoon')}</span>
         <FoldedMark size={44} tone="cyan" tilt="lean" />
         <div className="mt-7 max-w-[15rem]" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, color: BRAND.paperHi, fontSize: 'clamp(1.4rem, 2vw, 1.8rem)', lineHeight: 1.18 }}>
-          More campuses joining the network
+          {t('home.schools.futureTitle')}
         </div>
         <div className="mt-6 inline-flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.paperHi }}>
-          <span className="border-b pb-0.5 transition-colors group-hover:border-[#27C4FF]" style={{ borderColor: withOpacity('paper', 0.5) }}>Explore all</span>
+          <span className="border-b pb-0.5 transition-colors group-hover:border-[#27C4FF]" style={{ borderColor: withOpacity('paper', 0.5) }}>{t('home.schools.exploreAll')}</span>
           <span style={{ color: BRAND.cyan }}>→</span>
         </div>
       </div>
@@ -416,6 +425,7 @@ function FutureCampusCard() {
 /* ── 06 · Foundation + Academy — two tight one-liners side by side,
    each linking to its full page. */
 function FoundationAcademySection() {
+  const { t } = useTranslation();
   const d = useDensity();
   const headingFont = 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif';
   return (
@@ -426,18 +436,17 @@ function FoundationAcademySection() {
             <div className="h-full p-10 md:p-14" style={{ background: BRAND.paper }}>
               <div className="flex items-center gap-3 mb-6">
                 <FoldedMark size={32} tone="pink" tilt="back" />
-                <Eyebrow tone="pink">MADAREK Foundation</Eyebrow>
+                <Eyebrow tone="pink">{t('home.foundationAcademy.foundationEyebrow')}</Eyebrow>
               </div>
               <h3 style={{ fontFamily: headingFont, fontWeight: 300, fontSize: 'clamp(1.7rem, 2.8vw, 2.6rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: BRAND.ink }}>
-                Lasting impact beyond the classroom.
+                {t('home.foundationAcademy.foundationTitle')}
               </h3>
               <div className="mt-5 max-w-md">
                 <Body size="md" muted>
-                  Empowering communities and expanding opportunities through
-                  education.
+                  {t('home.foundationAcademy.foundationBody')}
                 </Body>
               </div>
-              <div className="mt-8"><TextLink to="/foundation" tone="pink">Explore the Foundation</TextLink></div>
+              <div className="mt-8"><TextLink to="/foundation" tone="pink">{t('home.foundationAcademy.foundationLink')}</TextLink></div>
             </div>
           </Reveal>
 
@@ -445,18 +454,17 @@ function FoundationAcademySection() {
             <div className="h-full p-10 md:p-14" style={{ background: BRAND.paper }}>
               <div className="flex items-center gap-3 mb-6">
                 <FoldedMark size={32} tone="yellow" tilt="lean" />
-                <Eyebrow tone="yellow">MADAREK Academy</Eyebrow>
+                <Eyebrow tone="yellow">{t('home.foundationAcademy.academyEyebrow')}</Eyebrow>
               </div>
               <h3 style={{ fontFamily: headingFont, fontWeight: 300, fontSize: 'clamp(1.7rem, 2.8vw, 2.6rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: BRAND.ink }}>
-                Learning beyond the classroom.
+                {t('home.foundationAcademy.academyTitle')}
               </h3>
               <div className="mt-5 max-w-md">
                 <Body size="md" muted>
-                  Enrichment, global experiences, and leadership programmes for
-                  students.
+                  {t('home.foundationAcademy.academyBody')}
                 </Body>
               </div>
-              <div className="mt-8"><TextLink to="/academy" tone="yellow">Inside the Academy</TextLink></div>
+              <div className="mt-8"><TextLink to="/academy" tone="yellow">{t('home.foundationAcademy.academyLink')}</TextLink></div>
             </div>
           </Reveal>
         </div>
@@ -473,6 +481,7 @@ function FoundationAcademySection() {
 /* Card image — real photo when present, branded placeholder while
    images are pending. `className` sets the frame (aspect / min-height). */
 function MediaImage({ item, className = '', markSize = 40 }: { item: MediaItem; className?: string; markSize?: number }) {
+  const { t } = useTranslation();
   return (
     <div className={`relative overflow-hidden ${className}`} style={{ background: BRAND.paperLo }}>
       {item.image ? (
@@ -481,7 +490,7 @@ function MediaImage({ item, className = '', markSize = 40 }: { item: MediaItem; 
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3" style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.16)} 0%, ${BRAND.paperLo} 68%)` }}>
           <FoldedMark size={markSize} tone="cyan" tilt="lean" opacity={0.85} />
           <span className="font-mono uppercase" style={{ fontSize: 10, letterSpacing: '0.2em', color: BRAND.inkMute }}>
-            Image coming soon
+            {t('home.media.imageComingSoon')}
           </span>
         </div>
       )}
@@ -491,9 +500,10 @@ function MediaImage({ item, className = '', markSize = 40 }: { item: MediaItem; 
 
 /* Category (left) + date (right) meta row. */
 function MediaMeta({ item }: { item: MediaItem }) {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.14em', color: BRAND.cyan }}>{item.category}</span>
+      <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.14em', color: BRAND.cyan }}>{t(`media.categories.${item.category}`, { defaultValue: item.category })}</span>
       <span className="font-mono" style={{ fontSize: 11, letterSpacing: '0.06em', color: BRAND.inkMute }}>{formatMediaDate(item.date, { short: true })}</span>
     </div>
   );
@@ -507,8 +517,9 @@ const mediaCardBase = 'group flex flex-col overflow-hidden rounded-xl border tra
 const mediaHref = (it: MediaItem) => (it.body ? `/media/${it.id}` : it.href || '/media');
 
 function MediaSection() {
+  const { t } = useTranslation();
   const d = useDensity();
-  const items = mediaByNewest;
+  const items = useLocalizedMediaList(mediaByNewest);
   if (items.length === 0) return null;
 
   const featured = items[0];
@@ -523,24 +534,24 @@ function MediaSection() {
           <div className="grid grid-cols-12 gap-6 mb-10 md:mb-14">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={4} tone="cyan" />
-              <div className="mt-3"><Eyebrow tone="cyan">Media</Eyebrow></div>
+              <div className="mt-3"><Eyebrow tone="cyan">{t('home.media.eyebrow')}</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <Display size="lg">
-                  Latest<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> updates.</span>
+                  {t('home.media.titleLine')}<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> {t('home.media.titleAccent')}</span>
                 </Display>
                 <Link
                   to="/media"
                   className="group inline-flex items-baseline gap-2 border-b pb-1 transition-colors"
                   style={{ color: BRAND.ink, borderColor: withOpacity('ink', 0.4), fontFamily: 'Inter, sans-serif', fontSize: 15 }}>
-                  View all {items.length} updates
+                  {t('home.media.viewAll', { count: items.length })}
                   <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
                 </Link>
               </div>
               <div className="mt-5 max-w-2xl">
                 <Body size="md" muted>
-                  Announcements, achievements, and stories from across the MADAREK network.
+                  {t('home.media.subtitle')}
                 </Body>
               </div>
             </div>
@@ -565,7 +576,7 @@ function MediaSection() {
                 </h3>
                 <Body size="md" muted>{featured.excerpt}</Body>
                 <span className="mt-1 inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: BRAND.ink }}>
-                  <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.4) }}>Read more</span>
+                  <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.4) }}>{t('home.media.readMore')}</span>
                   <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
                 </span>
               </div>
@@ -622,6 +633,7 @@ function MediaSection() {
 
 /* ── 09 · Contact — large typographic close. Single primary CTA. */
 function ContactSection() {
+  const { t } = useTranslation();
   const d = useDensity();
   return (
     <Section id="contact-cta" bg="white" className={d.sectionY}>
@@ -630,21 +642,19 @@ function ContactSection() {
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={5} tone="cyan" />
-              <div className="mt-3"><Eyebrow tone="cyan">Get in touch</Eyebrow></div>
+              <div className="mt-3"><Eyebrow tone="cyan">{t('home.contact.eyebrow')}</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg">
-                Let's shape the future<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> together.</span>
+                {t('home.contact.titleLine')}<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> {t('home.contact.titleAccent')}</span>
               </Display>
               <div className="mt-12 max-w-2xl">
                 <Body size="lg" muted>
-                  Whether you are a parent, educator, institution, or strategic
-                  partner, we welcome the opportunity to connect and explore how
-                  we can create meaningful educational experiences together.
+                  {t('home.contact.body')}
                 </Body>
               </div>
               <div className="mt-12 flex flex-wrap items-center gap-8">
-                <PillLink to="/contact" variant="primary" size="md">Contact MADAREK</PillLink>
+                <PillLink to="/contact" variant="primary" size="md">{t('home.contact.cta')}</PillLink>
                 <a
                   href="mailto:info@madarek.me"
                   className="transition-colors text-[15px] font-light border-b pb-1 hover:border-current"

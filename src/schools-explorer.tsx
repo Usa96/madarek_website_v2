@@ -7,6 +7,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, Marker as LeafletMarker, Popup, ZoomControl, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -16,6 +17,7 @@ import {
   Section, Container, Reveal,
 } from './system';
 import type { School } from './data';
+import { useLocalizedSchool, useLocalizedSchools } from './i18n/localize';
 
 /* Per-campus coordinates [lat, lng]. Approximate district locations —
    close enough for the regional view, distinct so the two Riyadh
@@ -36,6 +38,7 @@ const countryOf = (s: School) => (s.location.split(',')[1] || '').trim();
 
 /* ── presence explorer ─────────────────────────────────────── */
 export function SchoolsExplorer({ schools }: { schools: School[] }) {
+  const { t } = useTranslation();
   const d = useDensity();
   const navigate = useNavigate();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);   // hover highlight
@@ -47,10 +50,10 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
   const countries = new Set(schools.map(countryOf).filter(Boolean));
   const curricula = new Set(schools.map((s) => s.curriculum.split(' ')[0]));
   const stats = [
-    { value: String(schools.length).padStart(2, '0'), label: 'Campuses' },
-    { value: String(cities.size).padStart(2, '0'),    label: 'Cities' },
-    { value: String(countries.size).padStart(2, '0'), label: 'Countries' },
-    { value: String(curricula.size).padStart(2, '0'), label: 'Curricula' },
+    { value: String(schools.length).padStart(2, '0'), label: t('schoolsExplorer.stats.campuses') },
+    { value: String(cities.size).padStart(2, '0'),    label: t('schoolsExplorer.stats.cities') },
+    { value: String(countries.size).padStart(2, '0'), label: t('schoolsExplorer.stats.countries') },
+    { value: String(curricula.size).padStart(2, '0'), label: t('schoolsExplorer.stats.curricula') },
   ];
 
   return (
@@ -60,17 +63,15 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
         <Reveal>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-14">
             <div className="max-w-2xl">
-              <Eyebrow tone="cyan">Our presence</Eyebrow>
+              <Eyebrow tone="cyan">{t('schoolsExplorer.eyebrow')}</Eyebrow>
               <div className="mt-6">
                 <Display size="lg">
-                  Growing across<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> the Gulf.</span>
+                  {t('schoolsExplorer.titleLine1')}<span style={{ fontStyle: 'normal', color: BRAND.inkSub }}> {t('schoolsExplorer.titleLine2')}</span>
                 </Display>
               </div>
               <div className="mt-6">
                 <Body size="lg" muted>
-                  Premium campuses across the UAE and Saudi Arabia — each
-                  carrying its own character, all sharing the MADAREK
-                  framework, with more on the way.
+                  {t('schoolsExplorer.intro')}
                 </Body>
               </div>
             </div>
@@ -108,7 +109,7 @@ export function SchoolsExplorer({ schools }: { schools: School[] }) {
             <h3
               className="flex items-center gap-5 mb-10"
               style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontSize: 'clamp(1.5rem, 2.4vw, 2.1rem)', color: BRAND.ink }}>
-              Our campuses
+              {t('schoolsExplorer.ourCampuses')}
               <span className="h-px flex-1" style={{ background: BRAND.rule }} />
             </h3>
           </Reveal>
@@ -152,7 +153,7 @@ function MapController({ target }: { target: [number, number] | null }) {
 
 /* ── Leaflet map on the CARTO light basemap ────────────────── */
 function PresenceMap({
-  schools,
+  schools: schoolsProp,
   activeSlug,
   selectedSlug,
   onFocus,
@@ -168,6 +169,8 @@ function PresenceMap({
   onHover: (slug: string | null) => void;
   onViewDetails: (slug: string) => void;
 }) {
+  const { t } = useTranslation();
+  const schools = useLocalizedSchools(schoolsProp);
   const located = schools.filter((s) => SCHOOL_COORDS[s.slug]);
   const markerRefs = useRef<Record<string, L.Marker>>({});
 
@@ -205,7 +208,7 @@ function PresenceMap({
     <figure
       className="relative w-full overflow-hidden border rounded-2xl"
       style={{ borderColor: BRAND.rule, height: 'clamp(380px, 56vw, 540px)', zIndex: 0, boxShadow: '0 24px 60px -24px rgba(10,14,28,0.28)' }}
-      aria-label={`Map of the Gulf showing ${located.length} Madarek campuses`}>
+      aria-label={t('schoolsExplorer.mapLabel', { count: located.length })}>
       <MapContainer
         center={OVERVIEW_CENTER}
         zoom={OVERVIEW_ZOOM}
@@ -260,7 +263,7 @@ function PresenceMap({
                       type="button"
                       onClick={(e) => { e.stopPropagation(); onViewDetails(s.slug); }}
                       style={{ marginTop: 14, width: '100%', padding: '9px 12px', background: BRAND.ink, color: BRAND.paperHi, border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontSize: 11.5, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500 }}>
-                      View campus details →
+                      {t('schoolsExplorer.viewCampusDetails')}
                     </button>
                   </div>
                 </div>
@@ -304,7 +307,7 @@ function PresenceMap({
 
 /* ── campus card ───────────────────────────────────────────── */
 function SchoolCard({
-  school,
+  school: schoolProp,
   active,
   onOpen,
   onHover,
@@ -314,6 +317,8 @@ function SchoolCard({
   onOpen: () => void;
   onHover: (on: boolean) => void;
 }) {
+  const { t } = useTranslation();
+  const school = useLocalizedSchool(schoolProp) as School;
   return (
     <button
       type="button"
@@ -337,7 +342,7 @@ function SchoolCard({
           <span
             className="absolute top-4 right-4 font-mono uppercase"
             style={{ fontSize: 10, letterSpacing: '0.16em', color: BRAND.ink, background: BRAND.cyan, borderRadius: 999, padding: '5px 10px', fontWeight: 600 }}>
-            Opening soon
+            {t('common.openingSoon')}
           </span>
         )}
       </div>
@@ -345,11 +350,11 @@ function SchoolCard({
         <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.15, color: BRAND.ink }}>
           {school.name}
         </div>
-        <div className="mt-3"><Meta>{school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · Ages {school.ages}</Meta></div>
+        <div className="mt-3"><Meta>{school.curriculum}{school.grades ? ` · ${school.grades}` : ''} · {t('schoolsExplorer.card.ages', { ages: school.ages })}</Meta></div>
         <div className="mt-auto pt-5 border-t flex items-center justify-between" style={{ borderColor: BRAND.rule }}>
-          <Meta>{school.status === 'upcoming' ? `Capacity ${school.students}` : `${school.students} students`}</Meta>
+          <Meta>{school.status === 'upcoming' ? t('schoolsExplorer.card.capacity', { value: school.students }) : t('schoolsExplorer.card.students', { value: school.students })}</Meta>
           <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium" style={{ color: active ? BRAND.cyan : BRAND.ink }}>
-            Details
+            {t('schoolsExplorer.card.details')}
             <span className="transition-transform group-hover:translate-x-1" style={{ color: BRAND.cyan }}>→</span>
           </span>
         </div>

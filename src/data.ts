@@ -22,6 +22,18 @@ export interface School {
   overview: string;
   highlights: string[];
   status?: 'open' | 'upcoming';  // omit/'open' = operating; 'upcoming' = in development
+  /* Arabic parallel fields — populated for the `ar` locale and picked at
+     render by the localize helpers. Missing fields fall back to English. */
+  nameAr?: string;
+  shortAr?: string;
+  locationAr?: string;
+  curriculumAr?: string;
+  gradesAr?: string;
+  languagesAr?: string;
+  addressAr?: string;
+  descriptionAr?: string;
+  overviewAr?: string;
+  highlightsAr?: string[];
 }
 
 /* ── Media / News ─────────────────────────────────────────────
@@ -53,6 +65,7 @@ export interface MediaItem {
   titleAr?: string;
   excerptAr?: string;
   bodyAr?: string;   // article HTML (Arabic)
+  sourceAr?: string; // publisher name in Arabic
   video?: string;    // optional external video / reel link (e.g. Instagram)
 }
 
@@ -139,6 +152,7 @@ export const media: MediaItem[] = [
     date: '2026-07-28',
     category: 'Announcements',
     source: 'MADAREK',
+    sourceAr: 'مدارك',
     image: '/redesign-assets/news/mgis-third-campus.webp',
     title: 'MADAREK United signs 25-year agreement to develop a third MGIS campus in Riyadh',
     excerpt: 'Through its subsidiary Modern MENA Company for Education, MADAREK United has signed a 25-year investment agreement to develop the third Modern Global International Schools (MGIS) campus in Riyadh.',
@@ -147,12 +161,20 @@ export const media: MediaItem[] = [
 <p>The agreement expands Modern Global International Schools' presence in the Saudi capital, building on the network's established campuses in Qurtuba and Digital City. It reflects MADAREK's long-term commitment to widening access to high-quality, internationally recognised education across the Kingdom.</p>
 <p>The new campus adds further capacity to one of Riyadh's leading American-curriculum school networks, supporting continued demand for future-ready learning environments across the GCC.</p>
 `,
+    titleAr: 'مدارك المتحدة توقّع اتفاقية مدتها 25 عامًا لتطوير فرعٍ ثالث لمدارس جلوبال العالمية الحديثة في الرياض',
+    excerptAr: 'من خلال شركتها التابعة «مودرن مينا للتعليم»، وقّعت مدارك المتحدة اتفاقية استثمارية مدتها 25 عامًا لتطوير الفرع الثالث لمدارس جلوبال العالمية الحديثة (MGIS) في الرياض.',
+    bodyAr: `
+<p>وقّعت مدارك المتحدة، عبر شركتها التابعة «مودرن مينا للتعليم»، اتفاقية استثمارية مدتها 25 عامًا لتطوير الفرع الثالث لمدارس جلوبال العالمية الحديثة في الرياض.</p>
+<p>وتوسّع الاتفاقية حضور مدارس جلوبال العالمية الحديثة في العاصمة السعودية، بالبناء على فرعَي الشبكة القائمَين في قرطبة والمدينة الرقمية، وتعكس التزام مدارك طويل الأمد بتوسيع إتاحة التعليم عالي الجودة المعتمد عالميًا في أنحاء المملكة.</p>
+<p>ويضيف الفرع الجديد طاقةً استيعابية إضافية إلى إحدى أبرز شبكات المدارس ذات المنهج الأمريكي في الرياض، بما يلبّي الطلب المتنامي على بيئات تعلّم مواكبة للمستقبل في أنحاء دول مجلس التعاون الخليجي.</p>
+`,
   },
   {
     id: 'mas-wellbeing-award-for-schools',
     date: '2026-06-30',
     category: 'Achievements',
     source: 'Al Maaref American School',
+    sourceAr: 'مدرسة المعارف الأمريكية',
     image: '/redesign-assets/news/mas-wellbeing-award.webp',
     title: 'Al Maaref American School achieves the Wellbeing Award for Schools',
     excerpt: "Al Maaref American School has been awarded the Wellbeing Award for Schools (WAS), delivered in partnership with the National Children's Bureau — accredited through 2029.",
@@ -161,12 +183,20 @@ export const media: MediaItem[] = [
 <p>The Wellbeing Award recognises schools that place emotional wellbeing and mental health at the heart of school life — for students and staff alike — through a whole-school approach embedded across culture, curriculum, and community.</p>
 <p>The recognition reflects Al Maaref American School's commitment to nurturing confident, well-rounded learners in a supportive and inclusive environment, as part of the wider MADAREK framework across the network.</p>
 `,
+    titleAr: 'مدرسة المعارف الأمريكية تحصل على جائزة الرفاه للمدارس',
+    excerptAr: 'حصلت مدرسة المعارف الأمريكية على جائزة الرفاه للمدارس (WAS)، المقدَّمة بالشراكة مع المكتب الوطني للطفولة — باعتمادٍ ساري المفعول حتى عام 2029.',
+    bodyAr: `
+<p>حصلت مدرسة المعارف الأمريكية على جائزة الرفاه للمدارس (WAS)، وهي اعتمادٌ معترف به يُقدَّم بالشراكة مع المكتب الوطني للطفولة، وتظلّ سارية حتى عام 2029.</p>
+<p>وتكرّم جائزة الرفاه المدارس التي تضع الرفاه العاطفي والصحة النفسية في صميم الحياة المدرسية — للطلبة والموظفين على حدٍّ سواء — من خلال نهجٍ مدرسي شامل يمتدّ عبر الثقافة والمنهج والمجتمع.</p>
+<p>ويعكس هذا التكريم التزام مدرسة المعارف الأمريكية برعاية متعلّمين واثقين متكاملي الشخصية في بيئة داعمة وشاملة، ضمن إطار مدارك الأوسع عبر الشبكة.</p>
+`,
   },
   {
     id: 'shurooq-madarek-sharjah-k12',
     date: '2026-05-24',
     category: 'Press Release',
     source: 'MADAREK',
+    sourceAr: 'مدارك',
     image: '/redesign-assets/news/mashrooq_signing.jpg',
     video: 'https://www.instagram.com/reels/DYrFrd1iBWX/',
     title: 'Shurooq and SANAM Group sign agreement to develop USD 50 million K-12 school in Sharjah Sustainable City',
@@ -181,6 +211,7 @@ export const media: MediaItem[] = [
     date: '2025-12-08',
     category: 'Press Release',
     source: 'MADAREK',
+    sourceAr: 'مدارك',
     image: '/redesign-assets/news/05_dec_2025_v2.webp',
     title: 'SANAM Group Holding Company Acquires Modern Global International Schools in Saudi Arabia',
     excerpt: 'SANAM Group Holding Company announced the acquisition of a 65% stake in Modern Global International Schools (MGIS) in the Kingdom of Saudi Arabia, as part of its investment expansion strategy in the education sector across GCC countries.',
@@ -238,6 +269,24 @@ export const schools: School[] = [
       'Learning built on independent thinking, creativity, and real-world problem-solving',
       'Modern facilities — science labs, libraries, arts studios, and dedicated play areas',
     ],
+    nameAr: 'مدرسة المعارف الأمريكية',
+    shortAr: 'مدرسة المعارف الأمريكية',
+    locationAr: 'دبي، الإمارات',
+    curriculumAr: 'أمريكي',
+    gradesAr: 'الروضة–الصف 12',
+    languagesAr: 'الإنجليزية · العربية',
+    addressAr: 'البرشاء جنوب، دبي، الإمارات العربية المتحدة',
+    descriptionAr:
+      'مدرسة تتبع المنهج الأمريكي في دبي، تأسست عام 1987 — تُعلّم الطلبة من المراحل المبكرة حتى المرحلة الثانوية وصولًا إلى دبلوم الثانوية الأمريكية.',
+    overviewAr:
+      'تأسست مدرسة المعارف الأمريكية عام 1987، وهي من أعرق المدارس الأمريكية في دبي. تقدّم منهجًا وفق المعايير الأمريكية من المراحل المبكرة حتى المرحلة الثانوية، بنهجٍ يقوم على التفكير المستقل والإبداع وحلّ المشكلات الواقعية — ضمن مجتمعٍ متسامح وشامل يجمع طلبةً من جنسيات متعددة.',
+    highlightsAr: [
+      'تأسست عام 1987 — من أعرق المدارس الأمريكية في دبي',
+      'منهج أمريكي متوافق مع المعايير الأمريكية يُفضي إلى دبلوم الثانوية الأمريكية',
+      'معتمدة من NEASC وCognia، وتقدّم برامج College Board',
+      'تعلّمٌ قائم على التفكير المستقل والإبداع وحلّ المشكلات الواقعية',
+      'مرافق حديثة — مختبرات علوم ومكتبات واستوديوهات فنون ومناطق لعب مخصّصة',
+    ],
   },
   {
     slug: 'mgis-qortuba-campus',
@@ -266,6 +315,25 @@ export const schools: School[] = [
       'Sports: soccer, basketball, gymnastics, aerobics',
       'Strong Arabic instruction and Manners programme',
     ],
+    nameAr: 'مدارس جلوبال العالمية الحديثة — فرع قرطبة',
+    shortAr: 'جلوبال قرطبة',
+    locationAr: 'الرياض، السعودية',
+    curriculumAr: 'أمريكي (IB-PYP)',
+    gradesAr: 'الحضانة–الصف 9',
+    languagesAr: 'الإنجليزية · العربية',
+    addressAr: 'حي قرطبة، الرياض، المملكة العربية السعودية',
+    descriptionAr:
+      'منهج أمريكي مُثرى بإطار البكالوريا الدولية — من الحضانة حتى الصف التاسع، في قلب الرياض.',
+    overviewAr:
+      'يُعدّ فرع قرطبة لمدارس جلوبال العالمية الحديثة من المدارس العالمية الرائدة في الرياض، ويقدّم منهجًا أمريكيًا مُثرى بإطار البكالوريا الدولية. وبخدمته الطلبة من الحضانة حتى الصف التاسع، يوفّر الفرع بيئة تعلّم راعية تعزّز التميّز الأكاديمي وبناء الشخصية والمواطنة العالمية، مع إعداد الطلبة للنجاح مدى الحياة.',
+    highlightsAr: [
+      'منهج أمريكي مبني على إطار البكالوريا الدولية للسنوات الابتدائية (IB-PYP)',
+      'متوسط حجم الصف 18 طالبًا، بحدٍّ أقصى 24',
+      'مرافق متكاملة: مختبرات علوم وفنون وموسيقى ومسرح',
+      'أندية في القراءة والشطرنج والموسيقى وإعادة التدوير والفنون',
+      'رياضات: كرة القدم وكرة السلة والجمباز والأيروبيك',
+      'تعليمٌ قوي للغة العربية وبرنامج للسلوك والأخلاق',
+    ],
   },
   {
     slug: 'mgis-digital-city-campus',
@@ -293,6 +361,25 @@ export const schools: School[] = [
       'Co-educational with strong parent engagement',
       'Family-oriented culture',
       'Operating hours: Sunday–Thursday, 7:30 AM–2:00 PM',
+    ],
+    nameAr: 'مدارس جلوبال العالمية الحديثة — فرع المدينة الرقمية',
+    shortAr: 'جلوبال المدينة الرقمية',
+    locationAr: 'الرياض، السعودية',
+    curriculumAr: 'أمريكي (الأساس المشترك الأمريكي)',
+    gradesAr: 'الروضة–الصف 6',
+    languagesAr: 'الإنجليزية · العربية · الفرنسية',
+    addressAr: 'المدينة الرقمية، الرياض، المملكة العربية السعودية',
+    descriptionAr:
+      'يقدّم تجارب تعلّم مبتكرة تُلهم الفضول والإبداع والإنجاز مدى الحياة.',
+    overviewAr:
+      'فرع المدينة الرقمية هو أحدث فروع الشبكة — ثلاثي اللغة وغني بالتقنية، ومصمَّم حول الشراكة مع الأسرة ونهج حبّ التعلّم.',
+    highlightsAr: [
+      'منهج أمريكي قائم على معايير الأساس المشترك الأمريكية',
+      'دمج تقني متقدّم في جميع الفصول',
+      'ثلاثي اللغة: الإنجليزية والعربية والفرنسية',
+      'تعليم مختلط مع انخراط قوي لأولياء الأمور',
+      'ثقافة تُعنى بالأسرة',
+      'ساعات العمل: الأحد–الخميس، 7:30 صباحًا–2:00 ظهرًا',
     ],
   },
   {
@@ -331,6 +418,27 @@ export const schools: School[] = [
       'Learning support centre with therapy and sensory rooms, and dedicated clinics',
       'Indoor sports hall, main and learner swimming pools, and rooftop recreation',
       'Green spaces, a botanical garden, and shaded pedestrian walkways',
+    ],
+    nameAr: 'مدرسة مدينة الشارقة المستدامة',
+    shortAr: 'مدينة الشارقة المستدامة',
+    locationAr: 'الشارقة، الإمارات',
+    curriculumAr: 'أمريكي',
+    gradesAr: 'الروضة–الصف 12',
+    languagesAr: 'الإنجليزية · العربية',
+    addressAr: 'مدينة الشارقة المستدامة، أم فنين / الرقعة الحمراء، الشارقة، الإمارات العربية المتحدة',
+    descriptionAr:
+      'مدرسة أمريكية مرتقبة من الروضة حتى الصف الثاني عشر في مدينة الشارقة المستدامة — حرمٌ بقيمة 50 مليون دولار أمريكي مصمَّم لنحو 2,435 طالبًا، يُطوَّر بالشراكة مع «شروق».',
+    overviewAr:
+      'مدرسة مرتقبة من الروضة حتى الصف الثاني عشر في مدينة الشارقة المستدامة، تُطوَّر بالشراكة بين مدارك وهيئة الشارقة للاستثمار والتطوير «شروق». وباتّباعها المنهج الأمريكي، صُمِّم الحرم البالغة قيمته 50 مليون دولار أمريكي لنحو 2,435 طالبًا من الروضة حتى الصف الثاني عشر — ضمن إحدى أبرز المجتمعات المستدامة في الإمارة، وهو مبنيٌّ حول الابتكار والرفاه والتعلّم التعاوني.',
+    highlightsAr: [
+      'منهج أمريكي، من الروضة حتى الصف الثاني عشر',
+      'حرمٌ بقيمة 50 مليون دولار أمريكي في مدينة الشارقة المستدامة',
+      'مصمَّم لنحو 2,435 طالبًا على موقعٍ مساحته 29,275 م²',
+      'مختبرات للعلوم وتقنية المعلومات والروبوتات والهندسة والرياضيات، مع مساحات للابتكار والصناعة',
+      'ثلاث مكتبات واستوديوهات فنون ومسرح صندوقي أسود وقاعة متعددة الأغراض تتّسع لـ500 مقعد',
+      'مركز لدعم التعلّم يضمّ غرف علاج ودمج حسّي وعيادات مخصّصة',
+      'صالة رياضية مغلقة ومسبح رئيسي ومسبح للمتعلّمين ومرافق ترفيهية على السطح',
+      'مساحات خضراء وحديقة نباتية وممرات مشاة مظلّلة',
     ],
   },
 ];

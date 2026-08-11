@@ -7,6 +7,7 @@
 import { lazy, Suspense, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import {
   BRAND, useDensity, withOpacity,
@@ -19,6 +20,7 @@ import {
 import type { BrandKey } from './system';
 import { mediaByNewest, formatMediaDate, findMedia } from './data';
 import type { School, MediaItem } from './data';
+import { useArabic, useLocalizedSchool, useLocalizedMedia } from './i18n/localize';
 /* Leaflet + react-leaflet (~150KB) live entirely inside SchoolsExplorer.
    Lazy-loading it keeps that weight out of every other page's bundle —
    it only downloads when the /schools page actually renders the map. */
@@ -91,24 +93,17 @@ function PageHero({
 
 /* ── About page ────────────────────────────────────────────── */
 export function AboutPage() {
+  const { t } = useTranslation();
   const d = useDensity();
-
-  const values: { tone: BrandKey; title: string; detail: string }[] = [
-    { tone: 'red',    title: 'Excellence',    detail: 'Pursuing the highest standards across all aspects of education.' },
-    { tone: 'yellow', title: 'Innovation',    detail: 'Embracing new ideas and technologies to enhance learning experiences.' },
-    { tone: 'cyan',   title: 'Integrity',     detail: 'Operating with transparency, accountability, and responsibility.' },
-    { tone: 'lime',   title: 'Collaboration', detail: 'Building strong partnerships that foster growth and shared success.' },
-    { tone: 'pink',   title: 'Impact',        detail: 'Creating positive and lasting contributions to students and communities.' },
-  ];
 
   return (
     <>
       <PageHero
         image="/redesign-assets/about_us.webp"
-        eyebrow="Who We Are"
-        title="A regional"
-        italicTail="education platform."
-        lede="A growing network of international schools across the GCC, built on academic excellence and the growth of confident, well-rounded learners."
+        eyebrow={t('about.hero.eyebrow')}
+        title={t('about.hero.title')}
+        italicTail={t('about.hero.italicTail')}
+        lede={t('about.hero.lede')}
         tone="ink" />
 
       {/* Our story — NEEDS FACTS: founder / parent company, number of schools &
@@ -119,18 +114,13 @@ export function AboutPage() {
             <div className="grid grid-cols-12 gap-6">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone="ink" />
-                <div className="mt-3"><Eyebrow>Our story</Eyebrow></div>
+                <div className="mt-3"><Eyebrow>{t('about.story.eyebrow')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="md">Bringing schools together across the Gulf.</Display>
+                <Display size="md">{t('about.story.title')}</Display>
                 <div className="mt-10 max-w-2xl">
                   <Body size="xl">
-                    MADAREK brings together a growing network of schools across
-                    the GCC. From our first campuses in the UAE and Saudi Arabia,
-                    we continue to expand — guided by a single mission: to deliver
-                    internationally recognised education that develops
-                    well-rounded students and strengthens the communities we
-                    serve.
+                    {t('about.story.body')}
                   </Body>
                 </div>
               </div>
@@ -146,12 +136,12 @@ export function AboutPage() {
             <div className="grid grid-cols-12 gap-6 mb-20">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={2} tone="ink" />
-                <div className="mt-3"><Eyebrow>Vision &amp; Mission</Eyebrow></div>
+                <div className="mt-3"><Eyebrow>{t('about.visionMission.eyebrow')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  <span>Vision &amp;</span>
-                  <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>mission.</span>
+                  <span>{t('about.visionMission.titleLine1')}</span>
+                  <span style={{ display: 'block', fontStyle: 'normal', color: BRAND.inkSub }}>{t('about.visionMission.titleLine2')}</span>
                 </Display>
               </div>
             </div>
@@ -160,13 +150,11 @@ export function AboutPage() {
           <Reveal delay={0.1}>
             <div className="grid grid-cols-12 gap-6 mt-16">
               <div className="col-span-12 md:col-span-3 md:col-start-4">
-                <Meta>Vision</Meta>
+                <Meta>{t('about.visionMission.visionLabel')}</Meta>
               </div>
               <div className="col-span-12 md:col-span-6">
                 <Body size="xl">
-                  To become a leading education platform recognized for
-                  delivering exceptional learning experiences and creating
-                  lasting value across the region.
+                  {t('about.visionMission.vision')}
                 </Body>
               </div>
             </div>
@@ -175,13 +163,11 @@ export function AboutPage() {
           <Reveal delay={0.15}>
             <div className="grid grid-cols-12 gap-6 mt-12">
               <div className="col-span-12 md:col-span-3 md:col-start-4">
-                <Meta>Mission</Meta>
+                <Meta>{t('about.visionMission.missionLabel')}</Meta>
               </div>
               <div className="col-span-12 md:col-span-6">
                 <Body size="xl">
-                  To nurture future generations through accessible, high-quality
-                  education that combines academic excellence with innovation and
-                  global best practices.
+                  {t('about.visionMission.mission')}
                 </Body>
               </div>
             </div>
@@ -196,38 +182,37 @@ export function AboutPage() {
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={3} tone="ink" />
-                <div className="mt-3"><Eyebrow>Our Four Pillars</Eyebrow></div>
+                <div className="mt-3"><Eyebrow>{t('about.pillars.eyebrow')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                <Display size="lg">Four pillars,<span style={{ color: BRAND.inkSub }}> one direction.</span></Display>
+                <Display size="lg">{t('about.pillars.titleLine1')}<span style={{ color: BRAND.inkSub }}> {t('about.pillars.titleLine2')}</span></Display>
               </div>
             </div>
           </Reveal>
 
           <div className="border-t" style={{ borderColor: BRAND.rule }}>
-            {([
-              { tone: 'red',    title: 'Educational Excellence', detail: 'Delivering high-quality learning experiences that foster academic achievement, critical thinking, and holistic development.', tags: ['Academic achievement', 'Critical thinking', 'Holistic development'] },
-              { tone: 'yellow', title: 'Innovation',             detail: 'Creating future-ready learning environments that embrace technology, creativity, and new approaches to education.', tags: ['Technology', 'Creativity', 'New approaches'] },
-              { tone: 'cyan',   title: 'Regional Growth',        detail: 'Building a leading education ecosystem through strategic expansion, partnerships, and collaboration across the GCC and beyond.', tags: ['Strategic expansion', 'Partnerships', 'GCC & beyond'] },
-              { tone: 'lime',   title: 'Lasting Impact',         detail: 'Creating positive and sustainable outcomes for students, educators, communities, and future generations.', tags: ['Students & educators', 'Communities', 'Future generations'] },
-            ] as { tone: BrandKey; title: string; detail: string; tags: string[] }[]).map((p, i) => (
-              <div key={p.title} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6" style={{ borderColor: BRAND.rule }}>
+            {(['excellence', 'innovation', 'growth', 'impact'] as const).map((key, i) => {
+              const tone = (['red', 'yellow', 'cyan', 'lime'] as const)[i];
+              const tags = t(`about.pillars.items.${key}.tags`, { returnObjects: true }) as string[];
+              return (
+              <div key={key} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6" style={{ borderColor: BRAND.rule }}>
                 <div className="col-span-12 md:col-span-1">
-                  <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND[p.tone], fontWeight: 600 }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND[tone], fontWeight: 600 }}>{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <div className="col-span-12 md:col-span-4">
-                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.4rem, 2vw, 1.9rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: BRAND.ink }}>{p.title}</h3>
+                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.4rem, 2vw, 1.9rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: BRAND.ink }}>{t(`about.pillars.items.${key}.title`)}</h3>
                   <div className="mt-5 flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <span key={t} className="inline-block rounded-full px-3 py-1" style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '0.04em', color: BRAND.inkSub, background: BRAND.paperHi, border: `1px solid ${BRAND.rule}` }}>{t}</span>
+                    {tags.map((tag) => (
+                      <span key={tag} className="inline-block rounded-full px-3 py-1" style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, letterSpacing: '0.04em', color: BRAND.inkSub, background: BRAND.paperHi, border: `1px solid ${BRAND.rule}` }}>{tag}</span>
                     ))}
                   </div>
                 </div>
                 <div className="col-span-12 md:col-span-6 md:col-start-6">
-                  <Body size="lg" muted>{p.detail}</Body>
+                  <Body size="lg" muted>{t(`about.pillars.items.${key}.detail`)}</Body>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </Container>
       </Section>
@@ -238,38 +223,30 @@ export function AboutPage() {
           <Reveal>
             <div className="mb-16">
               <SectionNumber n={5} tone="cyan" />
-              <div className="mt-3 mb-8"><Eyebrow tone="cyan">Educational Excellence</Eyebrow></div>
+              <div className="mt-3 mb-8"><Eyebrow tone="cyan">{t('about.excellence.eyebrow')}</Eyebrow></div>
               <Display size="lg">
-                A commitment to
-                <span style={{ display: 'block', color: BRAND.inkSub }}>lifelong learning.</span>
+                {t('about.excellence.titleLine1')}
+                <span style={{ display: 'block', color: BRAND.inkSub }}>{t('about.excellence.titleLine2')}</span>
               </Display>
               <div className="mt-10 max-w-2xl">
                 <Body size="lg" muted>
-                  At MADAREK, we believe exceptional education extends beyond
-                  academic achievement. We strive to cultivate well-rounded
-                  individuals equipped with the skills, values, and mindset needed
-                  to succeed in an evolving world.
+                  {t('about.excellence.body')}
                 </Body>
               </div>
             </div>
           </Reveal>
 
           <div className="border-t" style={{ borderColor: BRAND.rule }}>
-            {[
-              { title: 'Student-Centered Learning', note: 'Placing students at the heart of the educational journey and fostering environments that encourage curiosity, creativity, and personal growth.' },
-              { title: 'Innovation in Education',   note: 'Embracing technology and modern teaching methodologies to prepare learners for the future.' },
-              { title: 'Global Standards',          note: 'Delivering internationally recognised curricula and best practices that support academic excellence.' },
-              { title: 'Holistic Development',      note: 'Supporting academic, personal, social, and emotional growth to develop well-rounded individuals.' },
-            ].map((it, i) => (
-              <div key={it.title} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
+            {(['studentCentered', 'innovation', 'globalStandards', 'holistic'] as const).map((key, i) => (
+              <div key={key} className="border-b py-10 md:py-14 grid grid-cols-12 gap-6 items-baseline" style={{ borderColor: BRAND.rule }}>
                 <div className="col-span-2 md:col-span-1">
                   <span className="font-mono tabular-nums" style={{ fontSize: 13, letterSpacing: '0.18em', color: BRAND.cyan, fontWeight: 600 }}>{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <div className="col-span-10 md:col-span-5">
-                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.3rem, 1.8vw, 1.7rem)', lineHeight: 1.2, color: BRAND.ink }}>{it.title}</h3>
+                  <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.3rem, 1.8vw, 1.7rem)', lineHeight: 1.2, color: BRAND.ink }}>{t(`about.excellence.items.${key}.title`)}</h3>
                 </div>
                 <div className="col-span-12 md:col-span-6">
-                  <Body size="md" muted>{it.note}</Body>
+                  <Body size="md" muted>{t(`about.excellence.items.${key}.note`)}</Body>
                 </div>
               </div>
             ))}
@@ -285,14 +262,15 @@ export function AboutPage() {
 
 /* ── Schools page ──────────────────────────────────────────── */
 export function SchoolsPage({ schools }: { schools: School[] }) {
+  const { t } = useTranslation();
   return (
     <>
       <PageHero
         image="/redesign-assets/1.webp"
-        eyebrow="Our Schools"
-        title="Investing in"
-        italicTail="educational excellence."
-        lede="MADAREK's schools provide diverse learning environments designed to nurture academic achievement, creativity, and personal growth."
+        eyebrow={t('schoolsPage.hero.eyebrow')}
+        title={t('schoolsPage.hero.title')}
+        italicTail={t('schoolsPage.hero.italicTail')}
+        lede={t('schoolsPage.hero.lede')}
         tone="cyan" />
 
       <Suspense fallback={<div style={{ minHeight: '80vh' }} />}>
@@ -304,15 +282,17 @@ export function SchoolsPage({ schools }: { schools: School[] }) {
 
 
 /* ── School Detail page ────────────────────────────────────── */
-export function SchoolDetailPage({ school }: { school: School | undefined }) {
+export function SchoolDetailPage({ school: schoolProp }: { school: School | undefined }) {
+  const { t } = useTranslation();
   const d = useDensity();
+  const school = useLocalizedSchool(schoolProp);
   if (!school) {
     return (
       <Section bg="paper" className="pt-48 pb-32">
         <Container max="5xl">
-          <Display size="md">School not found.</Display>
+          <Display size="md">{t('schoolDetail.notFound')}</Display>
           <div className="mt-8">
-            <TextLink to="/schools" tone="cyan">Back to all schools</TextLink>
+            <TextLink to="/schools" tone="cyan">{t('schoolDetail.backToAll')}</TextLink>
           </div>
         </Container>
       </Section>
@@ -327,14 +307,14 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
         lede={school.description}
         tone="cyan" />
 
-      <nav aria-label="Breadcrumb" style={{ background: BRAND.paperHi }} className="border-b" >
+      <nav aria-label={t('schoolDetail.breadcrumb')} style={{ background: BRAND.paperHi }} className="border-b" >
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center gap-3" style={{ borderColor: BRAND.rule }}>
           <Link
             to="/schools"
             className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
             style={{ color: BRAND.ink, fontFamily: 'Inter, sans-serif', fontSize: 13 }}>
             <span aria-hidden="true">←</span>
-            <Meta tone="ink">All schools</Meta>
+            <Meta tone="ink">{t('nav.allSchools')}</Meta>
           </Link>
           <span aria-hidden="true" style={{ color: BRAND.inkMute }}>/</span>
           <span aria-current="page"><Meta tone="cyan">{school.short}</Meta></span>
@@ -342,7 +322,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
             <span
               className="ml-1 font-mono uppercase"
               style={{ fontSize: 10, letterSpacing: '0.16em', color: BRAND.ink, background: BRAND.cyan, borderRadius: 999, padding: '4px 10px', fontWeight: 600 }}>
-              Opening soon
+              {t('common.openingSoon')}
             </span>
           )}
         </div>
@@ -354,16 +334,16 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
             <div className="grid grid-cols-12 gap-6 mb-24">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Facts</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="cyan">{t('schoolDetail.facts')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 items-start">
                   {[
-                    { label: 'Curriculum', value: school.curriculum },
-                    ...(school.grades ? [{ label: 'Grades', value: school.grades }] : []),
-                    { label: 'Ages',       value: school.ages },
-                    { label: 'Languages',  value: school.languages },
-                    { label: school.status === 'upcoming' ? 'Planned capacity' : 'Total students', value: school.students },
+                    { label: t('schoolDetail.curriculum'), value: school.curriculum },
+                    ...(school.grades ? [{ label: t('schoolDetail.grades'), value: school.grades }] : []),
+                    { label: t('schoolDetail.ages'),       value: school.ages },
+                    { label: t('schoolDetail.languages'),  value: school.languages },
+                    { label: school.status === 'upcoming' ? t('schoolDetail.plannedCapacity') : t('schoolDetail.totalStudents'), value: school.students },
                   ].map((f) => (
                     <div key={f.label}>
                       <Meta>{f.label}</Meta>
@@ -381,7 +361,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
             <div className="grid grid-cols-12 gap-6 mb-24">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={2} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Overview</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="cyan">{t('schoolDetail.overview')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Body size="xl">{school.overview}</Body>
@@ -393,7 +373,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
             <div className="grid grid-cols-12 gap-6">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={3} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Highlights</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="cyan">{t('schoolDetail.highlights')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -415,7 +395,7 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
       <section className="w-full overflow-hidden" style={{ background: BRAND.paperLo }}>
         <div className="py-16 md:py-24 px-6 md:px-12">
           <div className="max-w-7xl mx-auto mb-10">
-            <Eyebrow tone="cyan">Campus gallery</Eyebrow>
+            <Eyebrow tone="cyan">{t('schoolDetail.gallery')}</Eyebrow>
           </div>
           <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
             {(school.gallery || []).map((g, i) => (
@@ -431,22 +411,22 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
         <Container max="6xl">
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 md:col-span-3">
-              <Eyebrow tone="paper">Contact</Eyebrow>
+              <Eyebrow tone="paper">{t('schoolDetail.contact')}</Eyebrow>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="md" style={{ color: BRAND.paperHi }}>
-                Interested in<span style={{ fontStyle: 'normal' }}> {school.name}?</span>
+                {t('schoolDetail.interestedIn')}<span style={{ fontStyle: 'normal' }}> {school.name}?</span>
               </Display>
               <div className="mt-10 space-y-3" style={{ color: withOpacity('paper', 0.8) }}>
-                <div><Meta tone="paper">Address</Meta><Body style={{ color: withOpacity('paper', 0.85) }}>{school.address}</Body></div>
-                <div><Meta tone="paper">Email</Meta>
+                <div><Meta tone="paper">{t('schoolDetail.address')}</Meta><Body style={{ color: withOpacity('paper', 0.85) }}>{school.address}</Body></div>
+                <div><Meta tone="paper">{t('schoolDetail.email')}</Meta>
                   <Body style={{ color: withOpacity('paper', 0.85) }}>
                     <a href={`mailto:${school.email}`} className="hover:text-white">{school.email}</a>
                   </Body>
                 </div>
               </div>
               <div className="mt-12">
-                <PillLink to="/contact" variant="invert" size="md">Contact admissions</PillLink>
+                <PillLink to="/contact" variant="invert" size="md">{t('schoolDetail.contactAdmissions')}</PillLink>
               </div>
             </div>
           </div>
@@ -460,30 +440,28 @@ export function SchoolDetailPage({ school }: { school: School | undefined }) {
 const CARD_HEADING = 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif';
 
 export function FoundationPage() {
+  const { t } = useTranslation();
   const d = useDensity();
 
-  const focusAreas: { tone: BrandKey; title: string; detail: string }[] = [
-    { tone: 'pink',   title: 'Access to Education',       detail: 'Supporting initiatives that promote inclusive and accessible learning opportunities for individuals and communities.' },
-    { tone: 'cyan',   title: 'Community Development',     detail: 'Contributing to programs that strengthen communities and create meaningful, lasting social impact.' },
-    { tone: 'yellow', title: 'Student Empowerment',      detail: 'Encouraging leadership, creativity, and lifelong learning so students can reach their full potential.' },
-    { tone: 'lime',   title: 'Partnerships for Good',    detail: 'Collaborating with institutions and organizations that share our vision of positive change through education.' },
-    { tone: 'red',    title: 'Sustainability & Impact',  detail: 'Creating long-term value through responsible initiatives that build a better future for generations to come.' },
-  ];
+  const focusAreas = (['access', 'community', 'empowerment', 'partnerships', 'sustainability'] as const).map((key, i) => ({
+    tone: (['pink', 'cyan', 'yellow', 'lime', 'red'] as const)[i],
+    title: t(`foundation.focusAreas.items.${key}.title`),
+    detail: t(`foundation.focusAreas.items.${key}.detail`),
+  }));
 
-  const involvement = [
-    { title: 'Partner with us', detail: 'For institutions and organizations whose mission aligns with advancing education across the region.' },
-    { title: 'Support a cause', detail: 'Back the initiatives that expand access, strengthen communities, and empower students.' },
-    { title: 'Collaborate',     detail: 'For educators and changemakers bringing programs and ideas to the communities we serve.' },
-  ];
+  const involvement = (['partner', 'support', 'collaborate'] as const).map((key) => ({
+    title: t(`foundation.involvement.items.${key}.title`),
+    detail: t(`foundation.involvement.items.${key}.detail`),
+  }));
 
   return (
     <>
       <PageHero
         image="/redesign-assets/transformation.webp"
-        eyebrow="MADAREK Foundation"
-        title="Creating lasting impact"
-        italicTail="through education."
-        lede="Empowering communities and expanding opportunities through meaningful educational initiatives and partnerships."
+        eyebrow={t('foundation.hero.eyebrow')}
+        title={t('foundation.hero.title')}
+        italicTail={t('foundation.hero.italicTail')}
+        lede={t('foundation.hero.lede')}
         tone="pink" />
 
       {/* Mission — manifesto */}
@@ -491,18 +469,13 @@ export function FoundationPage() {
         <Container max="6xl">
           <Reveal>
             <div className="max-w-4xl">
-              <Eyebrow tone="pink">Our mission</Eyebrow>
+              <Eyebrow tone="pink">{t('foundation.mission.eyebrow')}</Eyebrow>
               <div className="mt-7">
-                <Display size="md">Education transforms lives.</Display>
+                <Display size="md">{t('foundation.mission.title')}</Display>
               </div>
               <div className="mt-10">
                 <Body size="xl">
-                  The MADAREK Foundation reflects our commitment to creating
-                  positive and sustainable impact beyond the classroom. Through
-                  educational initiatives, community engagement, and strategic
-                  collaborations, we empower future generations and contribute to
-                  the advancement of the communities we serve — guided by the
-                  belief that education has the power to transform lives.
+                  {t('foundation.mission.body')}
                 </Body>
               </div>
             </div>
@@ -516,13 +489,12 @@ export function FoundationPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
               <div>
-                <Eyebrow tone="pink">What we do</Eyebrow>
-                <div className="mt-5"><Display size="md">Where we focus.</Display></div>
+                <Eyebrow tone="pink">{t('foundation.focusAreas.eyebrow')}</Eyebrow>
+                <div className="mt-5"><Display size="md">{t('foundation.focusAreas.title')}</Display></div>
               </div>
               <div className="max-w-md">
                 <Body size="md" muted>
-                  Five areas where the Foundation concentrates its programmes,
-                  initiatives, and partnerships.
+                  {t('foundation.focusAreas.intro')}
                 </Body>
               </div>
             </div>
@@ -554,8 +526,8 @@ export function FoundationPage() {
         <Container>
           <Reveal>
             <div className="mb-14">
-              <Eyebrow tone="pink">Get involved</Eyebrow>
-              <div className="mt-5"><Display size="md">Be part of the work.</Display></div>
+              <Eyebrow tone="pink">{t('foundation.involvement.eyebrow')}</Eyebrow>
+              <div className="mt-5"><Display size="md">{t('foundation.involvement.title')}</Display></div>
             </div>
           </Reveal>
 
@@ -574,7 +546,7 @@ export function FoundationPage() {
           </div>
 
           <div className="mt-12">
-            <PillLink to="mailto:foundation@madarek.me" variant="primary" size="md">Partner with the Foundation</PillLink>
+            <PillLink to="mailto:foundation@madarek.me" variant="primary" size="md">{t('foundation.involvement.cta')}</PillLink>
           </div>
         </Container>
       </Section>
@@ -584,31 +556,21 @@ export function FoundationPage() {
 
 /* ── Academy page ─────────────────────────────────────────── */
 export function AcademyPage() {
+  const { t } = useTranslation();
   const d = useDensity();
-  const programs = [
-    { title: 'Student Exchange Programs',      detail: 'Opportunities to engage with peers across the MADAREK ecosystem and beyond — promoting cultural understanding, broader perspectives, and global citizenship.' },
-    { title: 'Leadership Development',         detail: 'Mentorship programs, workshops, and experiential learning that cultivate confidence, collaboration, and responsibility in future leaders.' },
-    { title: 'Innovation & Entrepreneurship', detail: 'Initiatives that encourage creativity, critical thinking, and problem-solving to inspire the next generation of innovators and changemakers.' },
-    { title: 'Academic Enrichment',           detail: 'Competitions, educational camps, workshops, and specialized programs that complement and extend classroom education.' },
-    { title: 'Cross-School Collaboration',    detail: 'Shared initiatives, projects, and experiences that connect students and educators across the MADAREK ecosystem.' },
-    { title: 'Global Partnerships',           detail: 'Collaborations with leading institutions and organizations that open broader opportunities and exposure to international best practices.' },
-  ];
-
-  const outcomes = [
-    { title: 'Global perspective', detail: 'Exposure to new cultures, peers, and international best practices.' },
-    { title: 'Leadership',         detail: 'Confidence, collaboration, and responsibility built through real experience.' },
-    { title: 'Creativity',         detail: 'Critical thinking and problem-solving that inspire changemakers.' },
-    { title: 'Belonging',          detail: 'Connection across the MADAREK ecosystem through shared work.' },
-  ];
+  const programs = (['exchange', 'leadership', 'innovation', 'enrichment', 'collaboration', 'partnerships'] as const).map((key) => ({
+    title: t(`academy.programs.items.${key}.title`),
+    detail: t(`academy.programs.items.${key}.detail`),
+  }));
 
   return (
     <>
       <PageHero
         image="/redesign-assets/5.webp"
-        eyebrow="MADAREK Academy"
-        title="Learning beyond"
-        italicTail="the classroom."
-        lede="Inspiring the next generation through enrichment programs, global experiences, and lifelong learning opportunities."
+        eyebrow={t('academy.hero.eyebrow')}
+        title={t('academy.hero.title')}
+        italicTail={t('academy.hero.italicTail')}
+        lede={t('academy.hero.lede')}
         tone="yellow" />
 
       {/* Overview */}
@@ -616,18 +578,13 @@ export function AcademyPage() {
         <Container max="6xl">
           <Reveal>
             <div className="max-w-4xl">
-              <Eyebrow tone="yellow">Overview</Eyebrow>
+              <Eyebrow tone="yellow">{t('academy.overview.eyebrow')}</Eyebrow>
               <div className="mt-7">
-                <Display size="md">A platform for student enrichment.</Display>
+                <Display size="md">{t('academy.overview.title')}</Display>
               </div>
               <div className="mt-10">
                 <Body size="xl">
-                  MADAREK Academy is a platform for enrichment, leadership
-                  development, and collaborative experiences that empower students
-                  to explore new perspectives and unlock their full potential. By
-                  extending learning beyond traditional classrooms, we prepare
-                  students to thrive in a globally connected, rapidly evolving
-                  world.
+                  {t('academy.overview.body')}
                 </Body>
               </div>
             </div>
@@ -641,13 +598,12 @@ export function AcademyPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
               <div>
-                <Eyebrow tone="yellow">Programs</Eyebrow>
-                <div className="mt-5"><Display size="md">Six ways to grow.</Display></div>
+                <Eyebrow tone="yellow">{t('academy.programs.eyebrow')}</Eyebrow>
+                <div className="mt-5"><Display size="md">{t('academy.programs.title')}</Display></div>
               </div>
               <div className="max-w-md">
                 <Body size="md" muted>
-                  Enrichment that extends learning beyond the classroom — across
-                  the MADAREK ecosystem and around the world.
+                  {t('academy.programs.intro')}
                 </Body>
               </div>
             </div>
@@ -683,33 +639,29 @@ export function AcademyPage() {
         <Container max="6xl">
           <Reveal>
             <div className="mb-14">
-              <Eyebrow tone="yellow">Who it&apos;s for</Eyebrow>
-              <div className="mt-5"><Display size="md">Open to every MADAREK student.</Display></div>
+              <Eyebrow tone="yellow">{t('academy.whoFor.eyebrow')}</Eyebrow>
+              <div className="mt-5"><Display size="md">{t('academy.whoFor.title')}</Display></div>
             </div>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: BRAND.rule }}>
             <div className="p-8 md:p-10" style={{ background: BRAND.paper }}>
-              <Meta tone="yellow">Who it&apos;s for</Meta>
+              <Meta tone="yellow">{t('academy.whoFor.whoLabel')}</Meta>
               <div className="mt-4">
                 <Body size="lg" muted>
-                  MADAREK Academy is open to students across our schools and the
-                  wider community, with programmes designed for a range of ages
-                  and stages.
+                  {t('academy.whoFor.who')}
                 </Body>
               </div>
             </div>
             <div className="p-8 md:p-10" style={{ background: BRAND.paper }}>
-              <Meta tone="yellow">How to join</Meta>
+              <Meta tone="yellow">{t('academy.whoFor.joinLabel')}</Meta>
               <div className="mt-4">
                 <Body size="lg" muted>
-                  Enrolment opens ahead of each programme. To register interest or
-                  learn more about dates and eligibility, get in touch with our
-                  team.
+                  {t('academy.whoFor.join')}
                 </Body>
               </div>
               <div className="mt-7">
-                <PillLink to="/contact" variant="primary" size="md">Contact admissions</PillLink>
+                <PillLink to="/contact" variant="primary" size="md">{t('schoolDetail.contactAdmissions')}</PillLink>
               </div>
             </div>
           </div>
@@ -721,17 +673,16 @@ export function AcademyPage() {
         <Container max="6xl">
           <div className="mt-6 max-w-4xl">
             <Display size="md" style={{ color: BRAND.paperHi }}>
-              To inspire lifelong learners and future leaders.
+              {t('academy.vision.title')}
             </Display>
           </div>
           <div className="mt-8 max-w-2xl">
             <Body size="lg" style={{ color: withOpacity('paper', 0.78) }}>
-              By creating experiences that extend beyond the classroom and
-              prepare students to succeed in an interconnected world.
+              {t('academy.vision.body')}
             </Body>
           </div>
           <div className="mt-10">
-            <PillLink to="mailto:academy@madarek.me" variant="invert" size="md">Express interest</PillLink>
+            <PillLink to="mailto:academy@madarek.me" variant="invert" size="md">{t('academy.vision.cta')}</PillLink>
           </div>
         </Container>
       </Section>
@@ -741,6 +692,7 @@ export function AcademyPage() {
 
 /* ── Contact page ─────────────────────────────────────────── */
 export function ContactPage() {
+  const { t } = useTranslation();
   const d = useDensity();
   const [submitted, setSubmitted] = useState(false);
 
@@ -757,17 +709,15 @@ export function ContactPage() {
         <Container max="6xl">
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 md:col-span-3">
-              <Meta tone="paper">Contact</Meta>
+              <Meta tone="paper">{t('contactPage.eyebrow')}</Meta>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="xl" style={{ color: BRAND.paperHi }}>
-                Let's shape the future<span style={{ fontStyle: 'normal' }}> together.</span>
+                {t('contactPage.titleLine')}<span style={{ fontStyle: 'normal' }}> {t('contactPage.titleAccent')}</span>
               </Display>
               <div className="mt-10 max-w-2xl">
                 <Body size="lg" style={{ color: withOpacity('paper', 0.85) }}>
-                  Whether you are a parent, educator, institution, or strategic
-                  partner, we welcome the opportunity to connect and explore how
-                  we can create meaningful educational experiences together.
+                  {t('contactPage.intro')}
                 </Body>
               </div>
             </div>
@@ -779,36 +729,34 @@ export function ContactPage() {
         <Container max="6xl">
           <div className="flex flex-col md:grid md:grid-cols-12 gap-12">
             <div className="col-span-12 md:col-span-7">
-              <Eyebrow>Send us a note</Eyebrow>
+              <Eyebrow>{t('contactPage.form.eyebrow')}</Eyebrow>
               {submitted ? (
                 <div
                   role="status"
                   aria-live="polite"
                   className="mt-10 border rounded-lg p-8"
                   style={{ borderColor: BRAND.rule, background: BRAND.paperHi }}>
-                  <Display size="xs" italic>Thank you.</Display>
+                  <Display size="xs" italic>{t('contactPage.form.thankYou')}</Display>
                   <div className="mt-4">
                     <Body size="md" muted>
-                      Your note is on its way. Someone from our team will reply
-                      within two working days. In the meantime, you can also
-                      reach us at{' '}
+                      {t('contactPage.form.thankYouBody')}{' '}
                       <a href="mailto:info@madarek.me" className="border-b border-current">info@madarek.me</a>.
                     </Body>
                   </div>
                 </div>
               ) : (
                 <form className="mt-10 space-y-8" onSubmit={handleSubmit} noValidate={false}>
-                  <FormField label="Your name" id="name"    required />
-                  <FormField label="Email"     id="email"   type="email" required />
-                  <FormField label="I am a..." id="role"
-                    options={['Parent', 'Educator', 'Partner', 'Other']} />
-                  <FormField label="Message"   id="message" multiline required />
+                  <FormField label={t('contactPage.form.name')} id="name"    required />
+                  <FormField label={t('contactPage.form.email')}     id="email"   type="email" required />
+                  <FormField label={t('contactPage.form.role')} id="role"
+                    options={[t('contactPage.form.roleParent'), t('contactPage.form.roleEducator'), t('contactPage.form.rolePartner'), t('contactPage.form.roleOther')]} />
+                  <FormField label={t('contactPage.form.message')}   id="message" multiline required />
                   <div>
                     <button
                       type="submit"
                       className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-[13px] tracking-[0.14em] uppercase font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#27C4FF]"
                       style={{ background: BRAND.ink, color: BRAND.paperHi }}>
-                      Send message →
+                      {t('contactPage.form.submit')}
                     </button>
                   </div>
                 </form>
@@ -816,12 +764,12 @@ export function ContactPage() {
             </div>
 
             <div className="col-span-12 md:col-span-4 md:col-start-9">
-              <Eyebrow>Direct</Eyebrow>
+              <Eyebrow>{t('contactPage.direct.eyebrow')}</Eyebrow>
               <div className="mt-10 space-y-8">
                 <div>
-                  <Meta>General Inquiries</Meta>
+                  <Meta>{t('contactPage.direct.generalLabel')}</Meta>
                   <div className="mt-2">
-                    <Body size="md" muted>For general questions and information, please contact our team.</Body>
+                    <Body size="md" muted>{t('contactPage.direct.general')}</Body>
                   </div>
                   <div className="mt-2">
                     <Body size="lg">
@@ -830,9 +778,9 @@ export function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <Meta>Partnerships</Meta>
+                  <Meta>{t('contactPage.direct.partnershipsLabel')}</Meta>
                   <div className="mt-2">
-                    <Body size="md" muted>Interested in collaborating with MADAREK? We welcome opportunities to build meaningful partnerships that advance education and create lasting impact.</Body>
+                    <Body size="md" muted>{t('contactPage.direct.partnerships')}</Body>
                   </div>
                   <div className="mt-2">
                     <Body size="lg">
@@ -841,9 +789,9 @@ export function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <Meta>Careers</Meta>
+                  <Meta>{t('contactPage.direct.careersLabel')}</Meta>
                   <div className="mt-2">
-                    <Body size="md" muted>Join us in shaping the future of learning.</Body>
+                    <Body size="md" muted>{t('contactPage.direct.careers')}</Body>
                   </div>
                   <div className="mt-2">
                     <Body size="lg">
@@ -852,11 +800,11 @@ export function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <Meta>Locations</Meta>
-                  <div className="mt-2"><Body size="lg">Dubai, UAE · Riyadh, KSA</Body></div>
+                  <Meta>{t('contactPage.direct.locationsLabel')}</Meta>
+                  <div className="mt-2"><Body size="lg">{t('contactPage.direct.locations')}</Body></div>
                 </div>
                 <div>
-                  <Meta>Social</Meta>
+                  <Meta>{t('contactPage.direct.socialLabel')}</Meta>
                   <div className="mt-2 flex gap-4">
                     <Body size="md">
                       <a href="https://www.linkedin.com/company/madarek1/" target="_blank" rel="noopener noreferrer" className="border-b border-current pb-1">LinkedIn</a>
@@ -876,75 +824,41 @@ export function ContactPage() {
 }
 
 /* ── Leadership page ────────────────────────────────────────── */
+/* Structural leader records. Display text (eyebrow, title, preview, bio)
+   is translated at render via t(`leaders.<slug>.*`); `hasBio` gates the
+   full-profile link and detail rendering. Names are proper nouns and stay
+   here (their Arabic forms live under leaders.<slug>.name for the AR
+   locale, read at render). */
 type Leader = {
-  slug: string; name: string; eyebrow: string; title: string;
-  preview: string; bio?: string[]; tone: BrandKey; image: string; email: string; linkedin: string;
+  slug: string; name: string; hasBio: boolean;
+  tone: BrandKey; image: string; email: string; linkedin: string;
 };
 
 const LEADERS: Leader[] = [
-  {
-    slug: 'shukri-mansour',
-    name: 'Dr Shukri A. Mansour',
-    eyebrow: 'CEO for MADAREK KSA',
-    title: 'Chief Executive Officer',
-    preview: 'Leads MADAREK KSA across strategy, operations, and organizational direction.',
-    tone: 'cyan',
-    image: '/redesign-assets/BOD/Dr.Shukri.svg',
-    email: 'shukri.mansour@madarek.me',
-    linkedin: '#',
-  },
-  {
-    slug: 'mohamed-hussein-motawea',
-    name: 'Mohamed Hussein Motawea',
-    eyebrow: 'CEO for MADAREK UAE',
-    title: 'Chief Executive Officer & Schools Director',
-    preview: 'Strategic and operational leadership for MADAREK UAE and Al Maaref American School, with 30+ years transforming schools across the region.',
-    bio: [
-      "As Chief Executive Officer and Schools Director at MADAREK UAE, Mohamed Hussein Motawea provides strategic and operational leadership for Al Maaref American School in Dubai.",
-      "With over 30 years of experience transforming schools across the UAE and Egypt — including 15 years in senior leadership — he is widely recognised for building high-performing teams, driving measurable school improvement, and embedding a culture of excellence across entire school communities.",
-      "In 2025, he was honoured with the NEASC Commission on International Education Service Award, a prestigious global recognition of his contributions to international education. Among his key achievements, he led Al Zuhour Private School from an 'Acceptable' to a 'Good' rating by SPEA, guiding a community of over 3,000 students and 300 staff through a sustained improvement journey.",
-      "He brings deep expertise in UAE regulatory frameworks, including KHDA and SPEA/MOE inspections, as well as international accreditation through NEASC and Cognia. He has served as a NEASC Visiting Team Member and has chaired accreditation visits for international schools across the Gulf and beyond.",
-      "He holds a Master's degree in Management from the University of Lincoln, UK, and dual bachelor's degrees in Education and Business & Finance from Alexandria University, and is a licensed School Principal by the UAE Ministry of Education.",
-    ],
-    tone: 'yellow',
-    image: '/redesign-assets/BOD/Mohammad_al_motawea.svg',
-    email: 'mohamed.motawea@madarek.me',
-    linkedin: '#',
-  },
-  {
-    slug: 'haris-moideen',
-    name: 'Haris Moideen',
-    eyebrow: 'Finance Leadership',
-    title: 'Acting CFO & Board Secretary',
-    preview: 'A Chartered Accountant with over 25 years in finance and governance, overseeing financial management, compliance, and board affairs.',
-    bio: [
-      "A Chartered Accountant and member of the Institute of Chartered Accountants of India, Haris Moideen brings over 25 years of experience across accounting, finance, and corporate governance.",
-      "His career spans respected organisations including ICFAI University, the Arenco Group, and EXL Inc. He joined MADAREK in 2013 and today serves as Acting Chief Financial Officer and Board Secretary, overseeing financial management, compliance, and governance.",
-    ],
-    tone: 'pink',
-    image: '/redesign-assets/BOD/Haris.svg',
-    email: 'haris.moideen@madarek.me',
-    linkedin: '#',
-  },
+  { slug: 'shukri-mansour',          name: 'Dr Shukri A. Mansour',     hasBio: false, tone: 'cyan',   image: '/redesign-assets/BOD/Dr.Shukri.svg',            email: 'shukri.mansour@madarek.me',  linkedin: '#' },
+  { slug: 'mohamed-hussein-motawea', name: 'Mohamed Hussein Motawea',  hasBio: true,  tone: 'yellow', image: '/redesign-assets/BOD/Mohammad_al_motawea.svg',  email: 'mohamed.motawea@madarek.me', linkedin: '#' },
+  { slug: 'haris-moideen',           name: 'Haris Moideen',            hasBio: true,  tone: 'pink',   image: '/redesign-assets/BOD/Haris.svg',                email: 'haris.moideen@madarek.me',   linkedin: '#' },
 ];
 
-type BoardMember = { name: string; title: string; image: string };
+/* Board members. Names are proper nouns; `nameKey` selects the display
+   name from t(`board.names.*`) (English or transliterated Arabic), and
+   `titleKey` the role from t(`board.roles.*`). Order = display order. */
+type BoardMember = { nameKey: string; titleKey: string; image: string };
 
-/* The group runs two boards. Order within each array = display order. */
 const BOARD_UNITED: BoardMember[] = [
-  { name: 'Majid Abdulhassan bin Abdulaziz Al Hokair', title: 'Chairman of the Board', image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader',          title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
-  { name: 'Shukri Abdulfattah Shukri Mansoor',         title: 'Board Member',          image: '/redesign-assets/BOD/Dr.Shukri.svg' },
-  { name: 'Omar Abdulaziz Sulaiman Al Jassar',         title: 'Board Member',          image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
-  { name: 'Fahad Abdulrahman Muhammad Albassam',       title: 'Board Member',          image: '/redesign-assets/BOD/Fahad_al_Bassam.svg' },
-  { name: 'Omar Saleh Shayej AlShayeji',               title: 'Board Member',          image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
-  { name: 'Monira Adel Ahmad Al Wugayan',             title: 'Board Member',          image: '/redesign-assets/BOD/Monira.svg' },
+  { nameKey: 'majid-al-hokair',        titleKey: 'chairman', image: '/redesign-assets/BOD/Majed_al_hokair.svg' },
+  { nameKey: 'sulaiman-al-abduljader', titleKey: 'member',   image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
+  { nameKey: 'shukri-mansoor',         titleKey: 'member',   image: '/redesign-assets/BOD/Dr.Shukri.svg' },
+  { nameKey: 'omar-al-jassar',         titleKey: 'member',   image: '/redesign-assets/BOD/Omar_al_jassar.svg' },
+  { nameKey: 'fahad-albassam',         titleKey: 'member',   image: '/redesign-assets/BOD/Fahad_al_Bassam.svg' },
+  { nameKey: 'omar-alshayeji',         titleKey: 'member',   image: '/redesign-assets/BOD/omar_al_shayeji.svg' },
+  { nameKey: 'monira-al-wugayan',      titleKey: 'member',   image: '/redesign-assets/BOD/Monira.svg' },
 ];
 
 const BOARD_HOLDINGS: BoardMember[] = [
-  { name: 'Jassem Hassan Zainal',             title: 'Chairman of the Board',      image: '/redesign-assets/BOD/Jassem_Zainal.svg' },
-  { name: 'Dr. Sulaiman Tareq Al Abduljader', title: 'Vice Chairman of the Board', image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
-  { name: 'Issah Abdullah Issah Al Muzaini',  title: 'Board Member',               image: '/redesign-assets/BOD/Issah_Al_Muzaini.svg' },
+  { nameKey: 'jassem-zainal',          titleKey: 'chairman',     image: '/redesign-assets/BOD/Jassem_Zainal.svg' },
+  { nameKey: 'sulaiman-al-abduljader', titleKey: 'viceChairman', image: '/redesign-assets/BOD/Dr.Sulaiman.svg' },
+  { nameKey: 'issah-al-muzaini',       titleKey: 'member',       image: '/redesign-assets/BOD/Issah_Al_Muzaini.svg' },
 ];
 
 const getInitials = (name: string) =>
@@ -974,58 +888,30 @@ function Portrait({ src, alt, name, tone }: { src: string; alt: string; name: st
   );
 }
 
-/* Executives — portrait cards with name + title overlaid, matching the
-   Board wall layout. Each card links to the leader's detail page. */
-function ExecutiveGrid({ leaders }: { leaders: Leader[] }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
-      {leaders.map((l, i) => (
-        <Reveal key={l.slug} delay={(i % 3) * 0.06}>
-          <Link
-            to={`/about/leadership/${l.slug}`}
-            className="group relative block aspect-[3/4] overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]">
-            <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
-              <Portrait src={l.image} alt={l.name} name={l.name} tone={l.tone} />
-            </div>
-            <div className="absolute inset-0 z-20 pointer-events-none"
-              style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.92) 0%, rgba(10,12,28,0.45) 32%, rgba(10,12,28,0) 60%)' }} />
-            <div className="absolute inset-x-0 bottom-0 z-30 p-5 md:p-6">
-              <div style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.15rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: BRAND.paperHi }}>
-                {l.name}
-              </div>
-              <div className="mt-2 font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72) }}>
-                {l.title}
-              </div>
-            </div>
-          </Link>
-        </Reveal>
-      ))}
-    </div>
-  );
-}
-
 /* Board — oversized portrait wall on a dark surface. Tall photo
    cards; name + role sit over a gradient at the base of each. */
 function BoardWall({ members }: { members: BoardMember[] }) {
+  const { t } = useTranslation();
   const tones: BrandKey[] = ['cyan', 'yellow', 'pink', 'lime', 'red'];
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
       {members.map((m, i) => {
         const tone = tones[i % tones.length];
+        const name = t(`board.names.${m.nameKey}`);
         return (
-          <Reveal key={m.name || `seat-${i}`} delay={(i % 3) * 0.06}>
+          <Reveal key={m.nameKey} delay={(i % 3) * 0.06}>
             <article className="group relative aspect-[3/4] overflow-hidden rounded-xl">
               <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
-                <Portrait src={m.image} alt={m.name || 'Board seat to be announced'} name={m.name} tone={tone} />
+                <Portrait src={m.image} alt={name} name={name} tone={tone} />
               </div>
               <div className="absolute inset-0 z-20 pointer-events-none"
                 style={{ background: 'linear-gradient(to top, rgba(10,12,28,0.92) 0%, rgba(10,12,28,0.45) 32%, rgba(10,12,28,0) 60%)' }} />
               <div className="absolute inset-x-0 bottom-0 z-30 p-5 md:p-6">
-                <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: m.name ? BRAND.paperHi : withOpacity('paper', 0.55) }}>
-                  {m.name || 'To be announced'}
+                <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.15, color: BRAND.paperHi }}>
+                  {name}
                 </div>
                 <div className="mt-2 font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.7) }}>
-                  {m.title}
+                  {t(`board.roles.${m.titleKey}`)}
                 </div>
               </div>
             </article>
@@ -1040,6 +926,7 @@ function BoardWall({ members }: { members: BoardMember[] }) {
    role chip, big name, an accent rule, then a short bio with a link to the
    full profile. */
 function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
+  const { t } = useTranslation();
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
       {leaders.map((leader, i) => (
@@ -1051,21 +938,21 @@ function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
             <span
               className="inline-block self-start py-1.5 px-3 mb-5 font-mono uppercase"
               style={{ fontSize: 11, letterSpacing: '0.16em', color: withOpacity('paper', 0.72), border: `1px solid ${withOpacity('paper', 0.25)}` }}>
-              {leader.eyebrow}
+              {t(`leaders.${leader.slug}.eyebrow`)}
             </span>
             <div style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.5rem, 2.2vw, 2rem)', lineHeight: 1.12, letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-              {leader.name}
+              {t(`leaders.${leader.slug}.name`)}
             </div>
-            <div className="mt-3"><Meta tone="paper">{leader.title}</Meta></div>
+            <div className="mt-3"><Meta tone="paper">{t(`leaders.${leader.slug}.title`)}</Meta></div>
             <div className="w-20 h-1 my-7" style={{ background: withOpacity('paper', 0.25) }} />
-            <Body size="md" style={{ color: withOpacity('paper', 0.72) }}>{leader.preview}</Body>
-            {leader.bio && (
+            <Body size="md" style={{ color: withOpacity('paper', 0.72) }}>{t(`leaders.${leader.slug}.preview`)}</Body>
+            {leader.hasBio && (
               <div className="mt-6">
                 <Link
                   to={`/about/leadership/${leader.slug}`}
                   className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:#27C4FF]"
                   style={{ color: BRAND.paperHi }}>
-                  <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>Read full profile</span>
+                  <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.5) }}>{t('leaderDetail.readFullProfile')}</span>
                   <span style={{ color: BRAND.cyan }}>→</span>
                 </Link>
               </div>
@@ -1082,14 +969,15 @@ function LeadershipFeature({ leaders }: { leaders: Leader[] }) {
   empty ('') and the card shows a "Summary to be added" placeholder.
   (The full ownership-percentage register is retained in SHAREHOLDING
    below for an optional breakdown if we want to show figures too.) */
-const SHAREHOLDERS: { name: string; logo: string; summary: string; tone: BrandKey; href?: string }[] = [
-  { name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan',   href: 'https://www.sanam.com/' },
-  { name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red',    href: 'http://www.alhokair.com/index.html' },
-  { name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE_Logo_H.png',      summary: '', tone: 'lime',   href: 'https://www.gee-edu.com/' },
-  { name: 'Al Jasser Holding',             logo: '/redesign-assets/shareholders/aljasser.png',        summary: '', tone: 'yellow', href: 'https://careers.aljasser-holding.com/' },
+const SHAREHOLDERS: { nameKey: string; name: string; logo: string; summary: string; tone: BrandKey; href?: string }[] = [
+  { nameKey: 'sanam',     name: 'SANAM Capital Holding',         logo: '/redesign-assets/shareholders/SANAM.svg',           summary: '', tone: 'cyan',   href: 'https://www.sanam.com/' },
+  { nameKey: 'al-hokair', name: 'Al Hokair Group',               logo: '/redesign-assets/shareholders/Al_Hokair_Group.svg', summary: '', tone: 'red',    href: 'http://www.alhokair.com/index.html' },
+  { nameKey: 'gee',       name: 'Global Educational Excellence', logo: '/redesign-assets/shareholders/GEE_Logo_H.png',      summary: '', tone: 'lime',   href: 'https://www.gee-edu.com/' },
+  { nameKey: 'al-jasser', name: 'Al Jasser Holding',             logo: '/redesign-assets/shareholders/aljasser.png',        summary: '', tone: 'yellow', href: 'https://careers.aljasser-holding.com/' },
 ];
 
 function ShareholdingSection() {
+  const { t } = useTranslation();
   const d = useDensity();
   return (
     <Section id="shareholding" bg="paperLo" className={d.sectionY}>
@@ -1098,16 +986,15 @@ function ShareholdingSection() {
           <div className="grid grid-cols-12 gap-6 mb-14">
             <div className="col-span-12 md:col-span-3">
               <SectionNumber n={8} tone="cyan" />
-              <div className="mt-3"><Eyebrow tone="cyan">Ownership</Eyebrow></div>
+              <div className="mt-3"><Eyebrow tone="cyan">{t('shareholders.eyebrow')}</Eyebrow></div>
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="lg" style={{ overflowWrap: 'normal', wordBreak: 'keep-all' }}>
-                Our <span style={{ color: BRAND.inkSub }}>shareholders.</span>
+                {t('shareholders.titleLine1')} <span style={{ color: BRAND.inkSub }}>{t('shareholders.titleLine2')}</span>
               </Display>
               <div className="mt-8 max-w-2xl">
                 <Body size="lg" muted>
-                  The institutions and partners invested in MADAREK's continued
-                  growth across the region.
+                  {t('shareholders.intro')}
                 </Body>
               </div>
             </div>
@@ -1116,6 +1003,7 @@ function ShareholdingSection() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
           {SHAREHOLDERS.map((s, i) => {
+            const name = t(`shareholders.names.${s.nameKey}`);
             const cardClass = 'group flex flex-col h-full overflow-hidden rounded-xl border transition-shadow duration-300 hover:shadow-[0_24px_60px_-30px_rgba(10,14,28,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27C4FF]';
             const cardStyle = { borderColor: BRAND.rule, background: BRAND.paperHi } as const;
             const inner = (
@@ -1129,7 +1017,7 @@ function ShareholdingSection() {
                 </div>
                 <div className="p-7 flex flex-col flex-1">
                   <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 500, fontSize: 'clamp(1.2rem, 1.7vw, 1.5rem)', lineHeight: 1.2, letterSpacing: '-0.01em', color: BRAND.ink }}>
-                    {s.name}
+                    {name}
                   </h3>
                   {s.summary && (
                     <div className="mt-4 flex-1">
@@ -1138,7 +1026,7 @@ function ShareholdingSection() {
                   )}
                   {s.href && (
                     <div className="mt-auto pt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.16em] uppercase font-medium" style={{ color: BRAND.ink }}>
-                      <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.3) }}>Visit website</span>
+                      <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.3) }}>{t('shareholders.visitWebsite')}</span>
                       <span style={{ color: BRAND.cyan }}>→</span>
                     </div>
                   )}
@@ -1148,7 +1036,7 @@ function ShareholdingSection() {
             return (
               <Reveal key={s.name} delay={(i % 4) * 0.08}>
                 {s.href ? (
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" className={cardClass} style={cardStyle} aria-label={`${s.name} — visit website`}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className={cardClass} style={cardStyle} aria-label={`${name} — ${t('shareholders.visitWebsite')}`}>
                     {inner}
                   </a>
                 ) : (
@@ -1167,6 +1055,7 @@ function ShareholdingSection() {
    first, then the executive team split into Leadership (the CEOs) and
    Management, and finally the shareholding breakdown. */
 export function LeadershipSection() {
+  const { t } = useTranslation();
   const d = useDensity();
   const leadership = LEADERS.filter((l) => l.slug !== 'haris-moideen');
   const management = LEADERS.filter((l) => l.slug === 'haris-moideen');
@@ -1179,15 +1068,15 @@ export function LeadershipSection() {
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={6} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Governance</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="cyan">{t('leadership.governance.eyebrow')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg" style={{ color: BRAND.paperHi }}>
-                  Board of<span style={{ fontStyle: 'normal' }}> Directors.</span>
+                  {t('leadership.governance.titleLine1')}<span style={{ fontStyle: 'normal' }}> {t('leadership.governance.titleLine2')}</span>
                 </Display>
                 <div className="mt-8 max-w-2xl">
                   <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
-                    Strategic oversight, governance, and stewardship across the group.
+                    {t('leadership.governance.body')}
                   </Body>
                 </div>
               </div>
@@ -1199,7 +1088,7 @@ export function LeadershipSection() {
             <Reveal>
               <div className="flex items-center gap-5 mb-8">
                 <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-                  MADAREK United
+                  {t('leadership.boardUnited')}
                 </h3>
                 <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
               </div>
@@ -1212,7 +1101,7 @@ export function LeadershipSection() {
             <Reveal>
               <div className="flex items-center gap-5 mb-8">
                 <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-                  MADAREK Holdings
+                  {t('leadership.boardHoldings')}
                 </h3>
                 <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
               </div>
@@ -1229,16 +1118,15 @@ export function LeadershipSection() {
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={7} tone="cyan" />
-                <div className="mt-3"><Eyebrow tone="cyan">Leadership &amp; Management</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone="cyan">{t('leadership.team.eyebrow')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg" style={{ color: BRAND.paperHi }}>
-                  The people<span style={{ fontStyle: 'normal', display: 'block' }}>behind the schools.</span>
+                  {t('leadership.team.titleLine1')}<span style={{ fontStyle: 'normal', display: 'block' }}>{t('leadership.team.titleLine2')}</span>
                 </Display>
                 <div className="mt-8 max-w-2xl">
                   <Body size="lg" style={{ color: withOpacity('paper', 0.72) }}>
-                    Executive leadership steering MADAREK's growth, school operations,
-                    and long-term education platform strategy.
+                    {t('leadership.team.body')}
                   </Body>
                 </div>
               </div>
@@ -1250,7 +1138,7 @@ export function LeadershipSection() {
             <Reveal>
               <div className="flex items-center gap-5 mb-10">
                 <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-                  Leadership
+                  {t('leadership.leadershipLabel')}
                 </h3>
                 <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
               </div>
@@ -1263,7 +1151,7 @@ export function LeadershipSection() {
             <Reveal>
               <div className="flex items-center gap-5 mb-10">
                 <h3 style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', letterSpacing: '-0.01em', color: BRAND.paperHi }}>
-                  Management
+                  {t('leadership.managementLabel')}
                 </h3>
                 <span className="h-px flex-1" style={{ background: withOpacity('paper', 0.15) }} />
               </div>
@@ -1282,15 +1170,16 @@ export function LeadershipSection() {
   Individual page for each executive (CEOs, CFO). BOD members do
   not get detail pages. */
 export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
+  const { t } = useTranslation();
   const d = useDensity();
 
   if (!leader) {
     return (
       <Section bg="paper" className="pt-48 pb-32">
         <Container max="5xl">
-          <Display size="md">Leader not found.</Display>
+          <Display size="md">{t('leaderDetail.notFound')}</Display>
           <div className="mt-8">
-            <TextLink to="/about#leadership" tone="ink">Back to leadership</TextLink>
+            <TextLink to="/about#leadership" tone="ink">{t('leaderDetail.backToLeadership')}</TextLink>
           </div>
         </Container>
       </Section>
@@ -1298,7 +1187,8 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
   }
 
   const others = LEADERS.filter((l) => l.slug !== leader.slug);
-  const lastName = leader.name.split(' ').filter(Boolean).slice(-1)[0];
+  const displayName = t(`leaders.${leader.slug}.name`);
+  const lastName = displayName.split(' ').filter(Boolean).slice(-1)[0];
 
   return (
     <>
@@ -1314,12 +1204,12 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
               </div>
             </div>
             <div className="col-span-12 md:col-span-8">
-              <Eyebrow tone={leader.tone}>{leader.eyebrow}</Eyebrow>
+              <Eyebrow tone={leader.tone}>{t(`leaders.${leader.slug}.eyebrow`)}</Eyebrow>
               <div className="mt-6">
-                <Display size="lg" style={{ color: BRAND.paperHi }}>{leader.name}</Display>
+                <Display size="lg" style={{ color: BRAND.paperHi }}>{displayName}</Display>
               </div>
               <div className="mt-6">
-                <Meta tone="paper">{leader.title}</Meta>
+                <Meta tone="paper">{t(`leaders.${leader.slug}.title`)}</Meta>
               </div>
             </div>
           </div>
@@ -1327,14 +1217,14 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
       </section>
 
       {/* breadcrumb */}
-      <nav aria-label="Breadcrumb" style={{ background: BRAND.paperHi }} className="border-b">
+      <nav aria-label={t('schoolDetail.breadcrumb')} style={{ background: BRAND.paperHi }} className="border-b">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center gap-3" style={{ borderColor: BRAND.rule }}>
           <Link
             to="/about#leadership"
             className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
             style={{ color: BRAND.ink, fontFamily: 'Inter, sans-serif', fontSize: 13 }}>
             <span aria-hidden="true">←</span>
-            <Meta tone="ink">Leadership</Meta>
+            <Meta tone="ink">{t('leaderDetail.leadership')}</Meta>
           </Link>
           <span aria-hidden="true" style={{ color: BRAND.inkMute }}>/</span>
           <span aria-current="page"><Meta tone={leader.tone}>{lastName}</Meta></span>
@@ -1348,17 +1238,17 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
             <div className="grid grid-cols-12 gap-6 mb-12">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={1} tone={leader.tone} />
-                <div className="mt-3"><Eyebrow tone={leader.tone}>About</Eyebrow></div>
+                <div className="mt-3"><Eyebrow tone={leader.tone}>{t('leaderDetail.about')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
-                {leader.bio ? (
+                {leader.hasBio ? (
                   <div className="space-y-6 max-w-3xl">
-                    {leader.bio.map((para, i) => (
+                    {(t(`leaders.${leader.slug}.bio`, { returnObjects: true }) as string[]).map((para, i) => (
                       <Body key={i} size={i === 0 ? 'xl' : 'lg'} muted={i !== 0}>{para}</Body>
                     ))}
                   </div>
                 ) : (
-                  <Body size="xl">{leader.preview}</Body>
+                  <Body size="xl">{t(`leaders.${leader.slug}.preview`)}</Body>
                 )}
               </div>
             </div>
@@ -1373,11 +1263,11 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-3">
                 <SectionNumber n={2} tone="ink" />
-                <div className="mt-3"><Eyebrow>The team</Eyebrow></div>
+                <div className="mt-3"><Eyebrow>{t('leaderDetail.teamEyebrow')}</Eyebrow></div>
               </div>
               <div className="col-span-12 md:col-span-9">
                 <Display size="lg">
-                  Other<span style={{ fontStyle: 'normal' }}> leaders.</span>
+                  {t('leaderDetail.otherLine1')}<span style={{ fontStyle: 'normal' }}> {t('leaderDetail.otherLine2')}</span>
                 </Display>
               </div>
             </div>
@@ -1396,11 +1286,11 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
                     </div>
                   </div>
                   <div className="p-6">
-                    <Eyebrow tone={l.tone}>{l.eyebrow}</Eyebrow>
+                    <Eyebrow tone={l.tone}>{t(`leaders.${l.slug}.eyebrow`)}</Eyebrow>
                     <div className="mt-3" style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 300, fontSize: 22, lineHeight: 1.25, color: BRAND.ink }}>
-                      {l.name}
+                      {t(`leaders.${l.slug}.name`)}
                     </div>
-                    <div className="mt-2"><Meta>{l.title}</Meta></div>
+                    <div className="mt-2"><Meta>{t(`leaders.${l.slug}.title`)}</Meta></div>
                   </div>
                 </Link>
               </Reveal>
@@ -1414,15 +1304,15 @@ export function LeaderDetailPage({ leader }: { leader: Leader | undefined }) {
         <Container max="6xl">
           <div className="grid grid-cols-12 gap-6 items-end">
             <div className="col-span-12 md:col-span-8">
-              <Eyebrow tone="paper">Leadership</Eyebrow>
+              <Eyebrow tone="paper">{t('leaderDetail.leadership')}</Eyebrow>
               <div className="mt-6">
                 <Display size="md" style={{ color: BRAND.paperHi }}>
-                  Meet the rest<span style={{ fontStyle: 'normal' }}> of the team.</span>
+                  {t('leaderDetail.ctaLine1')}<span style={{ fontStyle: 'normal' }}> {t('leaderDetail.ctaLine2')}</span>
                 </Display>
               </div>
             </div>
             <div className="col-span-12 md:col-span-4 md:text-right">
-              <PillLink to="/about#leadership" variant="invert">View all leadership</PillLink>
+              <PillLink to="/about#leadership" variant="invert">{t('leaderDetail.viewAll')}</PillLink>
             </div>
           </div>
         </Container>
@@ -1448,6 +1338,7 @@ export function LeaderDetailRoute() {
    placeholder so the grid still reads as intentional while images
    are being sourced. */
 function MediaThumb({ item, aspect = 'aspect-[4/3]', mark = 40 }: { item: MediaItem; aspect?: string; mark?: number }) {
+  const { t } = useTranslation();
   // Real photos may not be in the repo yet; fall back to the branded
   // placeholder if the image path 404s rather than showing a broken icon.
   const [failed, setFailed] = useState(false);
@@ -1467,7 +1358,7 @@ function MediaThumb({ item, aspect = 'aspect-[4/3]', mark = 40 }: { item: MediaI
           style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.14)} 0%, ${BRAND.paperLo} 70%)` }}>
           <FoldedMark size={mark} tone="cyan" tilt="lean" opacity={0.85} />
           <span className="font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: BRAND.inkMute }}>
-            Image coming soon
+            {t('common.imageComingSoon')}
           </span>
         </div>
       )}
@@ -1499,14 +1390,16 @@ function mediaLink(item: MediaItem): { to?: string; external?: string } {
 /* Media card — links to an internal article page (/media/:id) when the
    item carries a full `body`; otherwise to an external `href` when set;
    otherwise it's a static card. Compact, uniform-height grid card. */
-function MediaCard({ item }: { item: MediaItem }) {
+function MediaCard({ item: itemProp }: { item: MediaItem }) {
+  const { t } = useTranslation();
+  const item = useLocalizedMedia(itemProp) as MediaItem;
   const { to, external } = mediaLink(item);
   const clickable = to ?? external;
 
   const media = (
     <div className="relative mb-5 overflow-hidden rounded-xl">
       <MediaThumb item={item} />
-      <div className="absolute left-3 top-3 z-10"><CategoryChip label={item.category} /></div>
+      <div className="absolute left-3 top-3 z-10"><CategoryChip label={t(`media.categories.${item.category}`, { defaultValue: item.category })} /></div>
     </div>
   );
 
@@ -1534,7 +1427,7 @@ function MediaCard({ item }: { item: MediaItem }) {
       </p>
       <div className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.16em] uppercase font-medium" style={{ color: BRAND.ink }}>
         <span className="border-b pb-0.5" style={{ borderColor: withOpacity('ink', 0.28) }}>
-          {external ? 'Read more' : 'Read article'}
+          {external ? t('media.readMore') : t('media.readArticle')}
         </span>
         <span style={{ color: BRAND.cyan }}>→</span>
       </div>
@@ -1548,17 +1441,19 @@ function MediaCard({ item }: { item: MediaItem }) {
 }
 
 /* Featured lead — the newest article as a wide, two-column hero card. */
-function FeaturedMedia({ item }: { item: MediaItem }) {
+function FeaturedMedia({ item: itemProp }: { item: MediaItem }) {
+  const { t } = useTranslation();
+  const item = useLocalizedMedia(itemProp) as MediaItem;
   const { to, external } = mediaLink(item);
   const inner = (
     <div className="group grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
       <div className="relative overflow-hidden rounded-2xl">
         <MediaThumb item={item} aspect="aspect-[16/10]" mark={56} />
-        <div className="absolute left-4 top-4 z-10"><CategoryChip label={item.category} /></div>
+        <div className="absolute left-4 top-4 z-10"><CategoryChip label={t(`media.categories.${item.category}`, { defaultValue: item.category })} /></div>
       </div>
       <div className="lg:py-4">
         <div className="flex items-center gap-3 mb-5">
-          <Meta tone="cyan">Latest</Meta>
+          <Meta tone="cyan">{t('media.latest')}</Meta>
           <span className="block h-px w-6" style={{ background: BRAND.rule }} />
           <Meta>{formatMediaDate(item.date)}</Meta>
         </div>
@@ -1570,7 +1465,7 @@ function FeaturedMedia({ item }: { item: MediaItem }) {
         </div>
         <div className="mt-7 inline-flex items-center gap-2 text-[13px] tracking-[0.16em] uppercase font-medium" style={{ color: BRAND.ink }}>
           <span className="border-b pb-1" style={{ borderColor: withOpacity('ink', 0.35) }}>
-            {external ? 'Read more' : 'Read the announcement'}
+            {external ? t('media.readMore') : t('media.readAnnouncement')}
           </span>
           <span style={{ color: BRAND.cyan }}>→</span>
         </div>
@@ -1584,6 +1479,7 @@ function FeaturedMedia({ item }: { item: MediaItem }) {
 }
 
 export function MediaPage() {
+  const { t } = useTranslation();
   const d = useDensity();
   const categories = ['All', ...Array.from(new Set(mediaByNewest.map((m) => m.category)))];
   const [selected, setSelected] = useState<string>('All');
@@ -1594,10 +1490,10 @@ export function MediaPage() {
     <>
       <PageHero
         image="/redesign-assets/transformation.webp"
-        eyebrow="Media"
-        title="Stay"
-        italicTail="connected."
-        lede="The latest announcements, achievements, partnerships, and stories from across the MADAREK ecosystem."
+        eyebrow={t('media.hero.eyebrow')}
+        title={t('media.hero.title')}
+        italicTail={t('media.hero.italicTail')}
+        lede={t('media.hero.lede')}
         tone="cyan"
         number={1} />
 
@@ -1621,7 +1517,7 @@ export function MediaPage() {
                     letterSpacing: '0.04em',
                     fontWeight: 400,
                   }}>
-                  {c}
+                  {c === 'All' ? t('media.filterAll') : t(`media.categories.${c}`, { defaultValue: c })}
                 </button>
               );
             })}
@@ -1637,7 +1533,7 @@ export function MediaPage() {
             <>
               <Reveal>
                 <div className="flex items-center gap-5 mb-10 md:mb-12">
-                  <Eyebrow>More news</Eyebrow>
+                  <Eyebrow>{t('media.moreNews')}</Eyebrow>
                   <span className="h-px flex-1" style={{ background: BRAND.rule }} />
                 </div>
               </Reveal>
@@ -1652,7 +1548,7 @@ export function MediaPage() {
           )}
 
           {filtered.length === 0 && (
-            <Body size="lg" muted>No news in this category yet.</Body>
+            <Body size="lg" muted>{t('media.empty')}</Body>
           )}
         </Container>
       </Section>
@@ -1676,14 +1572,16 @@ const ARTICLE_CSS = `
 `;
 
 export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
+  const { t } = useTranslation();
+  const siteAr = useArabic();
+  const [lang, setLang] = useState<'en' | 'ar'>(siteAr ? 'ar' : 'en');
 
   if (!item || !item.body) {
     return (
       <Section bg="paper" className="pt-48 pb-32">
         <Container max="5xl">
-          <Display size="md">Article not found.</Display>
-          <div className="mt-8"><TextLink to="/media" tone="cyan">Back to media</TextLink></div>
+          <Display size="md">{t('mediaArticle.notFound')}</Display>
+          <div className="mt-8"><TextLink to="/media" tone="cyan">{t('mediaArticle.backToMedia')}</TextLink></div>
         </Container>
       </Section>
     );
@@ -1704,10 +1602,10 @@ export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
           <Link to="/media" className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-medium mb-9"
             style={{ color: withOpacity('paper', 0.8) }}>
             <span style={{ color: BRAND.cyan }}>←</span>
-            <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.4) }}>All news</span>
+            <span className="border-b pb-0.5" style={{ borderColor: withOpacity('paper', 0.4) }}>{t('mediaArticle.allNews')}</span>
           </Link>
           <div className="flex items-center gap-3 mb-6">
-            <Meta tone="cyan">{item.category}</Meta>
+            <Meta tone="cyan">{t(`media.categories.${item.category}`, { defaultValue: item.category })}</Meta>
             <span className="block h-px w-6" style={{ background: withOpacity('paper', 0.3) }} />
             <Meta tone="paper">{formatMediaDate(item.date)}</Meta>
           </div>
@@ -1718,7 +1616,7 @@ export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
           </div>
           {hasAr && (
             <div className="mt-9 inline-flex rounded-full p-1" style={{ border: `1px solid ${withOpacity('paper', 0.22)}` }}>
-              {([['en', 'English'], ['ar', 'العربية']] as const).map(([code, label]) => {
+              {(['en', 'ar'] as const).map((code) => {
                 const active = lang === code;
                 return (
                   <button key={code} type="button" onClick={() => setLang(code)}
@@ -1728,7 +1626,7 @@ export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
                       color: active ? BRAND.ink : withOpacity('paper', 0.8),
                       fontFamily: 'Inter, sans-serif', fontSize: 13, letterSpacing: '0.04em',
                     }}>
-                    {label}
+                    {code === 'en' ? t('language.english') : t('language.arabic')}
                   </button>
                 );
               })}
@@ -1754,14 +1652,14 @@ export function MediaArticlePage({ item }: { item: MediaItem | undefined }) {
                 <a href={item.video} target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] tracking-[0.14em] uppercase font-medium transition-colors"
                   style={{ background: BRAND.ink, color: BRAND.paperHi }}>
-                  ▶ Watch the reel
+                  ▶ {t('mediaArticle.watchReel')}
                   <span style={{ color: BRAND.cyan }}>→</span>
                 </a>
               </div>
             )}
 
             <div className="mt-12">
-              <PillLink to="/media" variant="ghost">Back to all news</PillLink>
+              <PillLink to="/media" variant="ghost">{t('mediaArticle.backToAllNews')}</PillLink>
             </div>
           </div>
         </Container>
@@ -1792,15 +1690,16 @@ const LIFE_IMAGES = [
 ];
 
 export function CareersPage() {
+  const { t } = useTranslation();
   const d = useDensity();
   return (
     <>
       <PageHero
         image="/redesign-assets/growth.webp"
-        eyebrow="Careers at MADAREK"
-        title="Join the future"
-        italicTail="of education."
-        lede="We attract, develop, and empower talented people who share our passion for education and innovation."
+        eyebrow={t('careers.hero.eyebrow')}
+        title={t('careers.hero.title')}
+        italicTail={t('careers.hero.italicTail')}
+        lede={t('careers.hero.lede')}
         tone="yellow"
         number={1} />
 
@@ -1808,21 +1707,19 @@ export function CareersPage() {
         <Container max="6xl">
           <Reveal>
             <div className="border-t border-b py-16 md:py-20 text-center" style={{ borderColor: BRAND.rule }}>
-              <Eyebrow>General application</Eyebrow>
+              <Eyebrow>{t('careers.general.eyebrow')}</Eyebrow>
               <div className="mt-6">
                 <Display size="md">
-                  Don't see<span style={{ fontStyle: 'normal' }}> your role?</span>
+                  {t('careers.general.titleLine1')}<span style={{ fontStyle: 'normal' }}> {t('careers.general.titleLine2')}</span>
                 </Display>
               </div>
               <div className="mt-8 max-w-xl mx-auto">
                 <Body size="md" muted>
-                  We're always looking for talented educators and professionals
-                  who share our mission. Send us your CV and tell us how you'd
-                  like to contribute.
+                  {t('careers.general.body')}
                 </Body>
               </div>
               <div className="mt-10">
-                <PillLink to="mailto:careers@madarek.me">Submit application</PillLink>
+                <PillLink to="mailto:careers@madarek.me">{t('careers.general.cta')}</PillLink>
               </div>
             </div>
           </Reveal>
