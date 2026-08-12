@@ -283,7 +283,8 @@ export function SchoolsPage({ schools }: { schools: School[] }) {
 
 /* ── School Detail page ────────────────────────────────────── */
 export function SchoolDetailPage({ school: schoolProp }: { school: School | undefined }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language.startsWith('ar');
   const d = useDensity();
   const school = useLocalizedSchool(schoolProp);
   if (!school) {
@@ -415,7 +416,7 @@ export function SchoolDetailPage({ school: schoolProp }: { school: School | unde
             </div>
             <div className="col-span-12 md:col-span-9">
               <Display size="md" style={{ color: BRAND.paperHi }}>
-                {t('schoolDetail.interestedIn')}<span style={{ fontStyle: 'normal' }}> {school.name}?</span>
+                {t('schoolDetail.interestedIn')}<span style={{ fontStyle: 'normal' }}>{isAr ? '' : ' '}{school.name}{isAr ? '؟' : '?'}</span>
               </Display>
               <div className="mt-10 space-y-3" style={{ color: withOpacity('paper', 0.8) }}>
                 <div><Meta tone="paper">{t('schoolDetail.address')}</Meta><Body style={{ color: withOpacity('paper', 0.85) }}>{school.address}</Body></div>
