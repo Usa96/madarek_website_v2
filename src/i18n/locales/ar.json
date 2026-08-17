@@ -44,6 +44,7 @@
     "label": "اللغة",
     "english": "English",
     "arabic": "العربية",
+    "french": "Français",
     "switchTo": "التبديل إلى {{language}}"
   },
   "home": {
