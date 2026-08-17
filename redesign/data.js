@@ -1,7 +1,7 @@
 /* Madarek redesign — data
-   --------------------------------------------------------------
-   Shaped for the prototype. Image paths point to redesign-assets/
-   because this prototype is loaded as a static HTML file, not
+  --------------------------------------------------------------
+  Shaped for the prototype. Image paths point to redesign-assets/
+  because this prototype is loaded as a static HTML file, not
    from the live Vite app. */
 
 window.MadarekData = {
@@ -12,12 +12,12 @@ window.MadarekData = {
       short: "Al Maaref",
       location: "Dubai, UAE",
       curriculum: "International Baccalaureate",
-      ages: "3–18 years old",
-      languages: "English · Arabic",
+      ages: "4–18 years old",
+      languages: "English · Arabic · French",
       capacity: "1,200 students",
       image: "redesign-assets/2.webp",
       gallery: ["redesign-assets/2.webp", "redesign-assets/3.webp", "redesign-assets/4.webp", "redesign-assets/5.webp"],
-      address: "Al Barsha South, Dubai, United Arab Emirates",
+      address: "Baghdad Street - Al Qusais - Al Qusais 1 - Dubai, United Arab Emirates",
       email: "admissions@mas-edu.ae",
       website: "https://mas-edu.ae/",
       description:
