@@ -300,8 +300,8 @@ export const schools: School[] = [
     students: '630',
     image: '/redesign-assets/MGIS_Qortuba/01.webp',
     gallery: ['/redesign-assets/MGIS_Qortuba/3.webp', '/redesign-assets/MGIS_Qortuba/4.webp', '/redesign-assets/MGIS_Qortuba/5.webp', '/redesign-assets/MGIS_Qortuba/6.webp'],
-    address: 'Qortuba District, Riyadh, Kingdom of Saudi Arabia',
-    email: 'info@mgis-sa.com',
+    address: 'Abdallah Ibn Ibrahim Ibn Seif, Qurtubah, Riyadh 13248, Saudi Arabia',
+    email: 'registration.mgis@menadev.edu.sa',
     website: 'https://mgis-sa.com/',
     description:
       'An American curriculum enriched by the IB framework — Nursery to Grade 9, in the heart of Riyadh.',
@@ -347,8 +347,8 @@ export const schools: School[] = [
     students: '321',
     image: '/redesign-assets/MGIS_DC/1.webp',
     gallery: ['/redesign-assets/MGIS_DC/2.webp', '/redesign-assets/MGIS_DC/3.webp', '/redesign-assets/MGIS_DC/5.webp', '/redesign-assets/MGIS_DC/6.webp'],
-    address: 'Digital City, Riyadh, Kingdom of Saudi Arabia',
-    email: 'info@mgis-sa.com',
+    address: 'Prince Turki Bin Abdulaziz Al Awal Rd, Al Nakheel, Saudi Arabia',
+    email: 'registration.mgis@menadev.edu.sa',
     website: 'https://mgis-sa.com/',
     description:
       'Providing innovative learning experiences that inspire curiosity, creativity, and lifelong achievement.',

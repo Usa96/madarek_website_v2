@@ -43,7 +43,7 @@ window.MadarekData = {
       image: "redesign-assets/6.webp",
       gallery: ["redesign-assets/6.webp", "redesign-assets/3.webp", "redesign-assets/4.webp"],
       address: "Qortuba District, Riyadh, Kingdom of Saudi Arabia",
-      email: "info@mgis-sa.com",
+      email: "registration.mgis@menadev.edu.sa",
       website: "https://mgis-sa.com/",
       description:
         "Delivering internationally recognized education within a dynamic learning environment that prepares students for future success.",
@@ -69,8 +69,8 @@ window.MadarekData = {
       capacity: "500 students",
       image: "redesign-assets/1.webp",
       gallery: ["redesign-assets/1.webp", "redesign-assets/7.webp", "redesign-assets/3.webp"],
-      address: "Digital City, Riyadh, Kingdom of Saudi Arabia",
-      email: "info@mgis-sa.com",
+      address: "Prince Turki Bin Abdulaziz Al Awal Rd, An Nakheel, Digital City, Riyadh, Kingdom of Saudi Arabia",
+      email: "registration.mgis@menadev.edu.sa",
       website: "https://mgis-sa.com/",
       description:
         "Providing innovative learning experiences that inspire curiosity, creativity, and lifelong achievement.",
