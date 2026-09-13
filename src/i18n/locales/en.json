@@ -250,12 +250,10 @@
   "principalMessage": {
     "breadcrumb": "Breadcrumb",
     "eyebrow": "Principal's Message",
-    "portraitPending": "Portrait pending",
     "sectionEyebrow": "A message from our Principal",
     "notFound": "This school hasn't published a Principal's Message yet.",
     "backToSchool": "Back to school overview",
     "photosLabel": "Life at {{school}}",
-    "photosPending": "Photo pending",
     "ctaTitle": "Continue exploring the school.",
     "ctaBack": "Back to school overview",
     "ctaContact": "Contact admissions"

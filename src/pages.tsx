@@ -511,27 +511,30 @@ export function PrincipalMessagePage({ school: schoolProp }: { school: School | 
         </div>
       </nav>
 
-      {/* Hero — portrait card + name/title, dark like the leader detail hero */}
+      {/* Hero — name/title, dark like the leader detail hero. Gains a
+          portrait column only once a real photo is provided. */}
       <section className="relative w-full pt-20 pb-20 md:pt-28 md:pb-28" style={{ background: BRAND.ink }}>
         <Container>
-          <div className="grid grid-cols-12 gap-6 md:gap-12 items-center">
-            <div className="col-span-12 md:col-span-5">
-              <div className="aspect-[4/5] relative overflow-hidden rounded-xl" style={{ border: `1px solid ${withOpacity('paper', 0.14)}` }}>
-                {school.principalPhoto ? (
+          {school.principalPhoto ? (
+            <div className="grid grid-cols-12 gap-6 md:gap-12 items-center">
+              <div className="col-span-12 md:col-span-5">
+                <div className="aspect-[4/5] relative overflow-hidden rounded-xl" style={{ border: `1px solid ${withOpacity('paper', 0.14)}` }}>
                   <img src={school.principalPhoto} alt={school.principalName || ''} className="w-full h-full object-cover" />
-                ) : (
-                  <div
-                    className="absolute inset-0 flex flex-col items-center justify-center gap-5"
-                    style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.14)} 0%, #16211f 55%, #10161a 100%)` }}>
-                    <FoldedMark size={52} tone="cyan" tilt="lean" opacity={0.9} />
-                    <span className="font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('paper', 0.55) }}>
-                      {t('principalMessage.portraitPending')}
-                    </span>
+                </div>
+              </div>
+              <div className="col-span-12 md:col-span-7">
+                <Eyebrow tone="cyan">{t('principalMessage.eyebrow')}</Eyebrow>
+                <div className="mt-6"><Display size="lg" style={{ color: BRAND.paperHi }}>{school.name}</Display></div>
+                <div className="mt-6">
+                  <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 600, fontSize: 15, color: BRAND.paperHi }}>
+                    {school.principalName}
                   </div>
-                )}
+                  <div className="mt-1"><Meta tone="paper">{school.principalTitle}</Meta></div>
+                </div>
               </div>
             </div>
-            <div className="col-span-12 md:col-span-7">
+          ) : (
+            <div className="max-w-3xl">
               <Eyebrow tone="cyan">{t('principalMessage.eyebrow')}</Eyebrow>
               <div className="mt-6"><Display size="lg" style={{ color: BRAND.paperHi }}>{school.name}</Display></div>
               <div className="mt-6">
@@ -541,7 +544,7 @@ export function PrincipalMessagePage({ school: schoolProp }: { school: School | 
                 <div className="mt-1"><Meta tone="paper">{school.principalTitle}</Meta></div>
               </div>
             </div>
-          </div>
+          )}
         </Container>
       </section>
 
