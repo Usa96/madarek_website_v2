@@ -275,7 +275,23 @@
     "interestedIn": "مهتم بـ",
     "address": "العنوان",
     "email": "البريد الإلكتروني",
-    "contactAdmissions": "تواصل مع قسم القبول"
+    "contactAdmissions": "تواصل مع قسم القبول",
+    "meetPrincipalEyebrow": "كلمة المدير/ة",
+    "meetPrincipalTitle": "كلمة من مدير/ة المدرسة.",
+    "readMessage": "اقرأ الكلمة"
+  },
+  "principalMessage": {
+    "breadcrumb": "مسار التنقل",
+    "eyebrow": "كلمة المدير/ة",
+    "portraitPending": "الصورة قريباً",
+    "sectionEyebrow": "كلمة من مدير/ة المدرسة",
+    "notFound": "لم تُنشر بعد كلمة مدير/ة لهذه المدرسة.",
+    "backToSchool": "العودة إلى صفحة المدرسة",
+    "photosLabel": "الحياة في {{school}}",
+    "photosPending": "الصورة قريباً",
+    "ctaTitle": "تابع استكشاف المدرسة.",
+    "ctaBack": "العودة إلى صفحة المدرسة",
+    "ctaContact": "تواصل مع قسم القبول"
   },
   "foundation": {
     "hero": {

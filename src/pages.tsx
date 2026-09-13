@@ -393,6 +393,27 @@ export function SchoolDetailPage({ school: schoolProp }: { school: School | unde
         </Container>
       </Section>
 
+      {school.principalMessage && school.principalMessage.length > 0 && (
+        <Section bg="ink" className="py-16 md:py-20">
+          <Container max="6xl">
+            <Reveal>
+              <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-10">
+                <FoldedMark size={44} tone="cyan" tilt="lean" opacity={0.9} />
+                <div className="flex-1">
+                  <Eyebrow tone="cyan">{t('schoolDetail.meetPrincipalEyebrow')}</Eyebrow>
+                  <div className="mt-4">
+                    <Display size="sm" style={{ color: BRAND.paperHi }}>{t('schoolDetail.meetPrincipalTitle')}</Display>
+                  </div>
+                </div>
+                <PillLink to={`/schools/${school.slug}/principals-message`} variant="invert">
+                  {t('schoolDetail.readMessage')}
+                </PillLink>
+              </div>
+            </Reveal>
+          </Container>
+        </Section>
+      )}
+
       <section className="w-full overflow-hidden" style={{ background: BRAND.paperLo }}>
         <div className="py-16 md:py-24 px-6 md:px-12">
           <div className="max-w-7xl mx-auto mb-10">
@@ -429,6 +450,156 @@ export function SchoolDetailPage({ school: schoolProp }: { school: School | unde
               <div className="mt-12">
                 <PillLink to="/contact" variant="invert" size="md">{t('schoolDetail.contactAdmissions')}</PillLink>
               </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+    </>
+  );
+}
+
+/* ── Principal's Message page ─────────────────────────────────
+   Per-school subpage at /schools/:slug/principals-message — a
+   portrait-plus-letter layout in the school's cyan tone. Schools
+   without a published message yet (e.g. an upcoming campus with no
+   principal appointed) get a friendly not-yet-published state. */
+export function PrincipalMessagePage({ school: schoolProp }: { school: School | undefined }) {
+  const { t } = useTranslation();
+  const d = useDensity();
+  const school = useLocalizedSchool(schoolProp);
+
+  if (!school) {
+    return (
+      <Section bg="paper" className="pt-48 pb-32">
+        <Container max="5xl">
+          <Display size="md">{t('schoolDetail.notFound')}</Display>
+          <div className="mt-8">
+            <TextLink to="/schools" tone="cyan">{t('schoolDetail.backToAll')}</TextLink>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  if (!school.principalMessage || school.principalMessage.length === 0) {
+    return (
+      <Section bg="paper" className="pt-48 pb-32">
+        <Container max="5xl">
+          <Eyebrow tone="cyan">{t('principalMessage.eyebrow')}</Eyebrow>
+          <div className="mt-7"><Display size="md">{t('principalMessage.notFound')}</Display></div>
+          <div className="mt-8">
+            <TextLink to={`/schools/${school.slug}`} tone="cyan">{t('principalMessage.backToSchool')}</TextLink>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  return (
+    <>
+      <nav aria-label={t('principalMessage.breadcrumb')} style={{ background: BRAND.paperHi }} className="border-b">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center gap-3" style={{ borderColor: BRAND.rule }}>
+          <Link
+            to={`/schools/${school.slug}`}
+            className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
+            style={{ color: BRAND.ink, fontFamily: 'Inter, sans-serif', fontSize: 13 }}>
+            <span aria-hidden="true">←</span>
+            <Meta tone="ink">{school.short}</Meta>
+          </Link>
+          <span aria-hidden="true" style={{ color: BRAND.inkMute }}>/</span>
+          <span aria-current="page"><Meta tone="cyan">{t('principalMessage.eyebrow')}</Meta></span>
+        </div>
+      </nav>
+
+      {/* Hero — portrait card + name/title, dark like the leader detail hero */}
+      <section className="relative w-full pt-20 pb-20 md:pt-28 md:pb-28" style={{ background: BRAND.ink }}>
+        <Container>
+          <div className="grid grid-cols-12 gap-6 md:gap-12 items-center">
+            <div className="col-span-12 md:col-span-5">
+              <div className="aspect-[4/5] relative overflow-hidden rounded-xl" style={{ border: `1px solid ${withOpacity('paper', 0.14)}` }}>
+                {school.principalPhoto ? (
+                  <img src={school.principalPhoto} alt={school.principalName || ''} className="w-full h-full object-cover" />
+                ) : (
+                  <div
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-5"
+                    style={{ background: `linear-gradient(150deg, ${withOpacity('cyan', 0.14)} 0%, #16211f 55%, #10161a 100%)` }}>
+                    <FoldedMark size={52} tone="cyan" tilt="lean" opacity={0.9} />
+                    <span className="font-mono uppercase" style={{ fontSize: 10.5, letterSpacing: '0.2em', color: withOpacity('paper', 0.55) }}>
+                      {t('principalMessage.portraitPending')}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-7">
+              <Eyebrow tone="cyan">{t('principalMessage.eyebrow')}</Eyebrow>
+              <div className="mt-6"><Display size="lg" style={{ color: BRAND.paperHi }}>{school.name}</Display></div>
+              <div className="mt-6">
+                <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 600, fontSize: 15, color: BRAND.paperHi }}>
+                  {school.principalName}
+                </div>
+                <div className="mt-1"><Meta tone="paper">{school.principalTitle}</Meta></div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Letter */}
+      <Section bg="paper" className={d.sectionY}>
+        <Container max="6xl">
+          <Reveal>
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 md:col-span-3">
+                <SectionNumber n={1} tone="cyan" />
+                <div className="mt-3"><Eyebrow tone="cyan">{t('principalMessage.sectionEyebrow')}</Eyebrow></div>
+              </div>
+              <div className="col-span-12 md:col-span-9">
+                <div className="max-w-3xl space-y-6">
+                  {school.principalMessage.map((para, i) => (
+                    <Body key={i} size={i === 0 ? 'xl' : 'lg'} muted={i !== 0}>{para}</Body>
+                  ))}
+                </div>
+                <div className="mt-11 pt-8 max-w-3xl" style={{ borderTop: `1px solid ${BRAND.rule}` }}>
+                  <div style={{ fontFamily: 'Plus Jakarta Sans, Inter, ui-sans-serif, sans-serif', fontWeight: 400, fontStyle: 'italic', fontSize: 26, color: BRAND.ink }}>
+                    {school.principalName}
+                  </div>
+                  <div className="mt-2"><Meta>{school.principalTitle}</Meta></div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* Photo strip — reuses the campus gallery */}
+      {school.gallery && school.gallery.length > 0 && (
+        <section className="w-full overflow-hidden" style={{ background: BRAND.paperLo }}>
+          <div className="py-16 md:py-24 px-6 md:px-12">
+            <div className="max-w-7xl mx-auto mb-10">
+              <Eyebrow tone="cyan">{t('principalMessage.photosLabel', { school: school.short })}</Eyebrow>
+            </div>
+            <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
+              {school.gallery.map((g, i) => (
+                <div key={i} className="flex-shrink-0 snap-start w-[300px] md:w-[480px] aspect-[4/3] overflow-hidden rounded-lg ring-1 ring-black/5">
+                  <img src={g} alt={`${school.name} ${i + 1}`} className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA */}
+      <Section bg="ink" className="py-24 md:py-32">
+        <Container max="6xl">
+          <div className="grid grid-cols-12 gap-6 items-end">
+            <div className="col-span-12 md:col-span-8">
+              <Eyebrow tone="cyan">{school.short}</Eyebrow>
+              <div className="mt-6"><Display size="md" style={{ color: BRAND.paperHi }}>{t('principalMessage.ctaTitle')}</Display></div>
+            </div>
+            <div className="col-span-12 md:col-span-4 md:text-right">
+              <PillLink to={`/schools/${school.slug}`} variant="invert">{t('principalMessage.ctaBack')}</PillLink>
             </div>
           </div>
         </Container>

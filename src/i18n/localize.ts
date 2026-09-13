@@ -29,6 +29,7 @@ function swap<T>(obj: T, isAr: boolean, fields: readonly string[]): T {
 const SCHOOL_FIELDS = [
   'name', 'short', 'location', 'curriculum', 'grades', 'languages',
   'address', 'description', 'overview', 'highlights',
+  'principalName', 'principalTitle', 'principalMessage',
 ] as const;
 
 const MEDIA_FIELDS = ['title', 'excerpt', 'source'] as const;

@@ -22,6 +22,14 @@ export interface School {
   overview: string;
   highlights: string[];
   status?: 'open' | 'upcoming';  // omit/'open' = operating; 'upcoming' = in development
+  /* Principal's Message — shown on its own subpage at
+     /schools/:slug/principals-message. `principalPhoto` is optional;
+     leave it unset and the page shows a "portrait pending" placeholder,
+     same convention as pending media images. */
+  principalName?: string;
+  principalTitle?: string;
+  principalPhoto?: string;
+  principalMessage?: string[];
   /* Arabic parallel fields — populated for the `ar` locale and picked at
      render by the localize helpers. Missing fields fall back to English. */
   nameAr?: string;
@@ -34,6 +42,9 @@ export interface School {
   descriptionAr?: string;
   overviewAr?: string;
   highlightsAr?: string[];
+  principalNameAr?: string;
+  principalTitleAr?: string;
+  principalMessageAr?: string[];
 }
 
 /* ── Media / News ─────────────────────────────────────────────
@@ -269,6 +280,14 @@ export const schools: School[] = [
       'Learning built on independent thinking, creativity, and real-world problem-solving',
       'Modern facilities — science labs, libraries, arts studios, and dedicated play areas',
     ],
+    principalName: "[Principal's Name]",
+    principalTitle: 'Principal, Al Maaref American School',
+    principalMessage: [
+      'Welcome to Al Maaref American School — a community built on curiosity, kindness, and the belief that every student deserves an education that meets them where they are and carries them further than they imagined.',
+      "Since 1987, our school has grown alongside the families who trust us with their children's earliest years and their final steps before university. What hasn't changed is our conviction that academic excellence and genuine care are not a trade-off — they reinforce one another. In our classrooms, rigor is paired with warmth, and high expectations sit alongside real relationships between teachers and students.",
+      'We are proud of a curriculum that prepares students for the US High School Diploma while staying rooted in the languages, culture, and values of the community we serve. But what I am proudest of is quieter than any accreditation: the confidence a shy student finds by Grade 3, the leadership a senior discovers running a club, the pride a family feels at graduation.',
+      'I invite you to visit our campus, meet our teachers, and see this community for yourself. Whether you are a prospective family or a current one, our doors — and my office — are always open.',
+    ],
     nameAr: 'مدرسة المعارف الأمريكية',
     shortAr: 'مدرسة المعارف الأمريكية',
     locationAr: 'دبي، الإمارات',
@@ -286,6 +305,14 @@ export const schools: School[] = [
       'معتمدة من جمعية نيو إنجلاند للمدارس والكليات (NEASC) ومؤسسة Cognia، وتقدم برامج معتمدة من College Board',
       'نهج تعليمي يرتكز على التفكير المستقل والإبداع وحل المشكلات الواقعية',
       'مرافق حديثة تشمل مختبرات العلوم والمكتبات واستوديوهات الفنون ومناطق مخصصة للعب',
+    ],
+    principalNameAr: '[اسم المدير/ة]',
+    principalTitleAr: 'مدير/ة مدرسة المعارف الأمريكية',
+    principalMessageAr: [
+      'مرحباً بكم في مدرسة المعارف الأمريكية — مجتمع تعليمي يقوم على الفضول واللطف، وإيمان راسخ بأن كل طالب يستحق تعليماً يلتقي معه أينما كان، ويأخذه إلى ما هو أبعد مما تخيّل.',
+      'منذ عام 1987، ونحن نكبر جنباً إلى جنب مع العائلات التي تثق بنا في أولى سنوات أبنائها وحتى خطواتهم الأخيرة قبل الجامعة. والثابت الذي لم يتغيّر هو قناعتنا بأن التميّز الأكاديمي والاهتمام الحقيقي ليسا خيارين متعارضين، بل يعزّز أحدهما الآخر. ففي صفوفنا، تلتقي الصرامة الأكاديمية بالدفء الإنساني، وتترافق التوقعات العالية مع علاقات حقيقية بين المعلمين والطلاب.',
+      'نفخر بمنهج يُعدّ طلابنا لنيل شهادة الثانوية الأمريكية، مع بقائه متجذراً في لغة وثقافة وقيم المجتمع الذي نخدمه. لكن ما أفخر به أكثر هو أهدأ من أي اعتماد أكاديمي: الثقة التي يكتسبها طالب خجول بحلول الصف الثالث، والقيادة التي يكتشفها طالب في الصف الثاني عشر عند إدارة أحد الأندية، والفخر الذي تشعر به عائلة يوم التخرّج.',
+      'أدعوكم لزيارة مدرستنا، والتعرّف على معلمينا، ورؤية هذا المجتمع عن قرب. سواء كنتم عائلة تفكر بالانضمام إلينا أو من عائلاتنا الحالية، فأبوابنا — ومكتبي — مفتوحة دائماً.',
     ],
   },
   {
@@ -315,6 +342,14 @@ export const schools: School[] = [
       'Sports: soccer, basketball, gymnastics, aerobics',
       'Strong Arabic instruction and Manners programme',
     ],
+    principalName: "[Principal's Name]",
+    principalTitle: 'Principal, MGIS — Qortuba Campus',
+    principalMessage: [
+      "Welcome to MGIS Qortuba — a school where the American curriculum's rigor meets the IB framework's spirit of inquiry, and where every child from Nursery to Grade 9 is known by name.",
+      'Our small average class size is a deliberate choice, not a constraint. It lets our teachers see each student clearly — their strengths, their struggles, the specific spark that makes them who they are — and teach to that child, not just to the curriculum.',
+      'We ask a great deal of our students academically, but we also want them to be kind, curious, and proudly bilingual. Our Arabic programme and Manners curriculum sit alongside science labs and chess club as equally central to who we hope our students become.',
+      'I would love to show you our campus and introduce you to the teachers who make this community what it is. Please reach out any time.',
+    ],
     nameAr: 'مدارس جلوبال العالمية الحديثة — فرع قرطبة',
     shortAr: 'جلوبال قرطبة',
     locationAr: 'الرياض، السعودية',
@@ -333,6 +368,14 @@ export const schools: School[] = [
       'مجموعة متنوعة من الأندية تشمل القراءة والشطرنج والموسيقى وإعادة التدوير والفنون',
       'أنشطة رياضية تشمل كرة القدم وكرة السلة والجمباز والتمارين الهوائية',
       'برنامج متقدم للغة العربية وبرنامج متكامل لتعزيز القيم والسلوكيات',
+    ],
+    principalNameAr: '[اسم المدير/ة]',
+    principalTitleAr: 'مدير/ة مدرسة MGIS — فرع قرطبة',
+    principalMessageAr: [
+      'مرحباً بكم في مدرسة MGIS – قرطبة، حيث تلتقي صرامة المنهج الأمريكي بروح الاستكشاف التي يرسخها إطار البكالوريا الدولية، وحيث يُعرف كل طالب باسمه من مرحلة الحضانة وحتى الصف التاسع.',
+      'إن اعتمادنا على متوسط صغير لعدد الطلاب في الفصل هو خيار مقصود وليس قيداً. فهو يتيح لمعلمينا رؤية كل طالب بوضوح — نقاط قوته، وتحدياته، والشرارة الخاصة التي تميّزه — والتعليم بما يناسبه هو، لا المنهج فقط.',
+      'نطلب الكثير من طلابنا أكاديمياً، لكننا نريدهم أيضاً أن يكونوا لطفاء وفضوليين وفخورين بثنائية لغتهم. فبرنامجنا للغة العربية ومنهج السلوكيات لا يقلّان أهمية عن مختبرات العلوم ونادي الشطرنج في تشكيل هوية طلابنا.',
+      'يسعدني اصطحابكم في جولة داخل مدرستنا وتعريفكم بالمعلمين الذين يصنعون هذا المجتمع. لا تترددوا بالتواصل معنا في أي وقت.',
     ],
   },
   {
@@ -362,6 +405,14 @@ export const schools: School[] = [
       'Family-oriented culture',
       'Operating hours: Sunday–Thursday, 7:30 AM–2:00 PM',
     ],
+    principalName: "[Principal's Name]",
+    principalTitle: 'Principal, MGIS — Digital City Campus',
+    principalMessage: [
+      "Welcome to MGIS Digital City — our network's youngest campus, and in many ways its most joyful. We are trilingual, technology-rich, and built on the simple idea that young children learn best inside a genuine partnership between school and family.",
+      'From the moment a child arrives in our kindergarten, we want them to feel the same warmth at school that they feel at home. Our teachers know our families by name, and our families are true partners in every decision we make about their child.',
+      'Learning here happens in English, Arabic, and French — not as separate subjects, but as a natural part of how our students play, ask questions, and make sense of the world. Technology supports that curiosity; it never replaces the relationships at the centre of it.',
+      "I would be delighted to welcome you and your family to our campus and show you what makes this community so special.",
+    ],
     nameAr: 'مدارس جلوبال العالمية الحديثة — فرع المدينة الرقمية',
     shortAr: 'جلوبال المدينة الرقمية',
     locationAr: 'الرياض، السعودية',
@@ -380,6 +431,14 @@ export const schools: School[] = [
       'تعليم مختلط مع مشاركة فاعلة من أولياء الأمور',
       'بيئة مدرسية تتمحور حول الأسرة وتعزز مشاركتها',
       'ساعات الدوام: من الأحد إلى الخميس، من 7:30 صباحاً حتى 2:00 ظهراً',
+    ],
+    principalNameAr: '[اسم المدير/ة]',
+    principalTitleAr: 'مدير/ة مدرسة MGIS — فرع المدينة الرقمية',
+    principalMessageAr: [
+      'مرحباً بكم في مدرسة MGIS – المدينة الرقمية، أحدث مدارس شبكتنا، ولعلها الأكثر بهجة من بين مدارسنا. نحن مدرسة ثلاثية اللغات وغنية بالتكنولوجيا، وقائمة على فكرة بسيطة مفادها أن الأطفال الصغار يتعلمون بشكل أفضل ضمن شراكة حقيقية بين المدرسة والأسرة.',
+      'منذ اللحظة التي يصل فيها الطفل إلى مرحلة الروضة لدينا، نريده أن يشعر بالدفء ذاته الذي يشعر به في منزله. يعرف معلمونا عائلاتنا بالاسم، وتُعدّ عائلاتنا شركاء حقيقيين في كل قرار نتخذه بشأن أبنائهم.',
+      'يجري التعلّم هنا باللغات الإنجليزية والعربية والفرنسية — ليس كموادّ منفصلة، بل كجزء طبيعي من طريقة لعب طلابنا وطرحهم للأسئلة وفهمهم للعالم من حولهم. والتكنولوجيا هنا تدعم هذا الفضول، ولا تحلّ محل العلاقات التي تبقى في صميم تجربتنا التعليمية.',
+      'يسعدني الترحيب بكم وبعائلتكم في مدرستنا، وإطلاعكم على ما يجعل هذا المجتمع مميزاً.',
     ],
   },
   {

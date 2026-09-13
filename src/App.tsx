@@ -25,6 +25,7 @@ import { schools } from './data';
 const AboutPage        = lazy(() => import('./pages').then((m) => ({ default: m.AboutPage })));
 const SchoolsPage      = lazy(() => import('./pages').then((m) => ({ default: m.SchoolsPage })));
 const SchoolDetailPage = lazy(() => import('./pages').then((m) => ({ default: m.SchoolDetailPage })));
+const PrincipalMessagePage = lazy(() => import('./pages').then((m) => ({ default: m.PrincipalMessagePage })));
 const FoundationPage   = lazy(() => import('./pages').then((m) => ({ default: m.FoundationPage })));
 const AcademyPage      = lazy(() => import('./pages').then((m) => ({ default: m.AcademyPage })));
 const ContactPage      = lazy(() => import('./pages').then((m) => ({ default: m.ContactPage })));
@@ -483,6 +484,13 @@ function SchoolDetailRoute() {
   return <SchoolDetailPage school={school} />;
 }
 
+/* ── route-bound wrapper for the principal's message page ─── */
+function PrincipalMessageRoute() {
+  const { slug } = useParams<{ slug: string }>();
+  const school = schools.find((s) => s.slug === slug);
+  return <PrincipalMessagePage school={school} />;
+}
+
 /* ── app shell (inside the router) ───────────────────────── */
 function AppShell() {
   const { t } = useTranslation();
@@ -547,6 +555,7 @@ function AppShell() {
             <Route path="/about/leadership/:slug"   element={<LeaderDetailRoute />} />
             <Route path="/schools"            element={<SchoolsPage schools={schools} />} />
             <Route path="/schools/:slug"      element={<SchoolDetailRoute />} />
+            <Route path="/schools/:slug/principals-message" element={<PrincipalMessageRoute />} />
             <Route path="/foundation"         element={<FoundationPage />} />
             <Route path="/academy"            element={<AcademyPage />} />
             <Route path="/careers"            element={<CareersPage />} />
