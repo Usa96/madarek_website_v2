@@ -238,11 +238,21 @@
     "overview": "Overview",
     "highlights": "Highlights",
     "gallery": "Campus gallery",
+    "principalMessageEyebrow": "From the principal",
+    "readFullMessage": "Read the full message",
     "contact": "Contact",
     "interestedIn": "Interested in",
     "address": "Address",
     "email": "Email",
     "contactAdmissions": "Contact admissions"
+  },
+  "principalMessage": {
+    "notFound": "Message not found.",
+    "breadcrumb": "Principal's Message",
+    "theLetter": "The letter",
+    "ctaLine1": "More about",
+    "ctaLine2": "the school.",
+    "backToSchool": "Back to {{school}}"
   },
   "foundation": {
     "hero": {

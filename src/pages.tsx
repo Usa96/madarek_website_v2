@@ -393,6 +393,55 @@ export function SchoolDetailPage({ school: schoolProp }: { school: School | unde
         </Container>
       </Section>
 
+      {/* Principal's Message teaser — surfaces the letter right on the
+          school page instead of leaving it only reachable via the nav
+          flyout. Gated on principalMessage being on file. */}
+      {school.principalMessage && (
+        <Section bg="paperLo" className={d.sectionY}>
+          <Container max="6xl">
+            <Reveal>
+              <div className="grid grid-cols-12 gap-6">
+                <div className="col-span-12 md:col-span-3">
+                  <SectionNumber n={4} tone="red" />
+                  <div className="mt-3"><Eyebrow tone="red">{t('schoolDetail.principalMessageEyebrow')}</Eyebrow></div>
+                </div>
+                <div className="col-span-12 md:col-span-9">
+                  <div
+                    className="grid grid-cols-12 gap-6 md:gap-10 items-center p-6 md:p-10 rounded-2xl"
+                    style={{ background: BRAND.paperHi, border: `1px solid ${BRAND.rule}` }}>
+                    <div className="col-span-4 sm:col-span-3 md:col-span-2">
+                      <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
+                        <Portrait
+                          src={school.principalMessage.photo ?? ''}
+                          alt={`${school.principalMessage.name}, ${school.principalMessage.title}`}
+                          name={school.principalMessage.name}
+                          tone="red" />
+                      </div>
+                    </div>
+                    <div className="col-span-8 sm:col-span-9 md:col-span-10">
+                      <div style={{ fontFamily: CARD_HEADING, fontWeight: 400, fontSize: 'clamp(1.2rem, 1.8vw, 1.5rem)', letterSpacing: '-0.01em', color: BRAND.ink }}>
+                        {school.principalMessage.name}
+                      </div>
+                      <div className="mt-1.5"><Meta>{school.principalMessage.title}</Meta></div>
+                      <div className="mt-4 max-w-2xl">
+                        <Body size="lg" muted style={{ fontStyle: 'italic' }}>
+                          &ldquo;{excerptText(school.principalMessage.paragraphs[0])}&rdquo;
+                        </Body>
+                      </div>
+                      <div className="mt-6">
+                        <TextLink to={`/schools/${school.slug}/principals-message`} tone="cyan">
+                          {t('schoolDetail.readFullMessage')}
+                        </TextLink>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </Container>
+        </Section>
+      )}
+
       <section className="w-full overflow-hidden" style={{ background: BRAND.paperLo }}>
         <div className="py-16 md:py-24 px-6 md:px-12">
           <div className="max-w-7xl mx-auto mb-10">
@@ -429,6 +478,157 @@ export function SchoolDetailPage({ school: schoolProp }: { school: School | unde
               <div className="mt-12">
                 <PillLink to="/contact" variant="invert" size="md">{t('schoolDetail.contactAdmissions')}</PillLink>
               </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+    </>
+  );
+}
+
+/* Trims to a whole-word boundary near `max` chars — used for the
+   teaser card's excerpt of a much longer letter paragraph. */
+function excerptText(text: string, max = 200): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}…`;
+}
+
+/* ── Principal's Message page ────────────────────────────────
+  One page per school, nested under Schools > [School] > Principal's
+  Message, and also teased directly on the school's own page (see
+  SchoolDetailPage above) so it isn't only reachable via the nav
+  flyout. Only rendered for schools with real copy on file
+  (school.principalMessage) — anything else falls through to the
+  not-found state below. `photo` is optional: the hero always shows
+  a portrait box, falling back to an initials monogram if absent. */
+export function PrincipalMessagePage({ school: schoolProp }: { school: School | undefined }) {
+  const { t } = useTranslation();
+  const d = useDensity();
+  const school = useLocalizedSchool(schoolProp);
+  const msg = school?.principalMessage;
+
+  if (!school || !msg) {
+    return (
+      <Section bg="paper" className="pt-48 pb-32">
+        <Container max="5xl">
+          <Display size="md">{t('principalMessage.notFound')}</Display>
+          <div className="mt-8">
+            <TextLink to="/schools" tone="cyan">{t('schoolDetail.backToAll')}</TextLink>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  return (
+    <>
+      {/* Hero — dark, breadcrumb + name/title. Portrait box always
+          renders (Portrait falls back to an initials monogram), so the
+          layout stays consistent whether or not a photo is on file. */}
+      <section className="relative w-full overflow-hidden pt-40 pb-20 md:pt-52 md:pb-28" style={{ background: BRAND.ink }}>
+        <Container>
+          <nav aria-label={t('schoolDetail.breadcrumb')} className="flex items-center gap-3 mb-10 flex-wrap">
+            <Link
+              to="/schools"
+              className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+              style={{ color: withOpacity('paper', 0.85), fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400 }}>
+              <span aria-hidden="true">←</span>
+              <span>{t('nav.allSchools')}</span>
+            </Link>
+            <span aria-hidden="true" style={{ color: withOpacity('paper', 0.3) }}>/</span>
+            <Link
+              to={`/schools/${school.slug}`}
+              className="hover:opacity-75 transition-opacity"
+              style={{ color: withOpacity('paper', 0.85), fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400 }}>
+              {school.name}
+            </Link>
+            <span aria-hidden="true" style={{ color: withOpacity('paper', 0.3) }}>/</span>
+            <span aria-current="page"><Meta tone="paper">{t('principalMessage.breadcrumb')}</Meta></span>
+          </nav>
+
+          <div className="grid grid-cols-12 gap-6 items-end">
+            <div className="col-span-12 md:col-span-7">
+              <div className="flex items-center gap-3 mb-6">
+                <FoldedMark size={32} tone="red" />
+                <Eyebrow tone="red">{school.name}</Eyebrow>
+              </div>
+              <Display size="lg" style={{ color: BRAND.paperHi }}>{msg.name}</Display>
+              <div className="mt-6">
+                <Body size="lg" style={{ color: withOpacity('paper', 0.8) }}>{msg.title}</Body>
+                {msg.credentials && (
+                  <div className="mt-3 max-w-md" style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 1.5, color: withOpacity('paper', 0.6) }}>
+                    {msg.credentials}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="col-span-12 md:col-span-5">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-xl" style={{ border: `1px solid ${withOpacity('paper', 0.18)}` }}>
+                <Portrait
+                  src={msg.photo ?? ''}
+                  alt={`${msg.name}, ${msg.title}`}
+                  name={msg.name}
+                  tone="red" />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Letter body */}
+      <Section bg="paper" className={d.sectionY}>
+        <Container max="6xl">
+          <Reveal>
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 md:col-span-3">
+                <SectionNumber n={1} tone="red" />
+                <div className="mt-3"><Eyebrow tone="red">{t('principalMessage.theLetter')}</Eyebrow></div>
+              </div>
+              <div className="col-span-12 md:col-span-8 space-y-8">
+                {msg.paragraphs.map((p, i) =>
+                  i === 0 ? (
+                    <div key={i} className="ps-6 border-s-2" style={{ borderColor: BRAND.red }}>
+                      <Body size="xl" style={{ fontStyle: 'italic', fontWeight: 300 }}>{p}</Body>
+                    </div>
+                  ) : (
+                    <Body key={i} size="xl">{p}</Body>
+                  ),
+                )}
+
+                <div className="pt-10 mt-10 border-t" style={{ borderColor: BRAND.rule }}>
+                  {msg.greeting && (
+                    <div className="mb-3">
+                      <Body size="md" muted>{msg.greeting}</Body>
+                    </div>
+                  )}
+                  <Display size="xs" style={{ fontWeight: 300, fontStyle: 'italic' }}>{msg.name}</Display>
+                  <div className="mt-3">
+                    <Meta>{msg.title}</Meta>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* CTA back to school */}
+      <Section bg="ink" className="py-24 md:py-32">
+        <Container max="6xl">
+          <div className="grid grid-cols-12 gap-6 items-end">
+            <div className="col-span-12 md:col-span-8">
+              <Eyebrow tone="paper">{school.name}</Eyebrow>
+              <div className="mt-6">
+                <Display size="md" style={{ color: BRAND.paperHi }}>
+                  {t('principalMessage.ctaLine1')}<span style={{ fontStyle: 'normal' }}> {t('principalMessage.ctaLine2')}</span>
+                </Display>
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-4 md:text-right">
+              <PillLink to={`/schools/${school.slug}`} variant="invert">{t('principalMessage.backToSchool', { school: school.short })}</PillLink>
             </div>
           </div>
         </Container>
@@ -877,7 +1077,7 @@ function Portrait({ src, alt, name, tone }: { src: string; alt: string; name: st
           {getInitials(name)}
         </span>
       </div>
-      {!failed && (
+      {!failed && src && (
         <img
           src={src}
           alt={alt}

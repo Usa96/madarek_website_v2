@@ -271,11 +271,21 @@
     "overview": "نظرة عامة",
     "highlights": "أبرز المزايا",
     "gallery": "صور المدرسة",
+    "principalMessageEyebrow": "كلمة المدير",
+    "readFullMessage": "قراءة الرسالة كاملة",
     "contact": "التواصل",
     "interestedIn": "مهتم بـ",
     "address": "العنوان",
     "email": "البريد الإلكتروني",
     "contactAdmissions": "تواصل مع قسم القبول"
+  },
+  "principalMessage": {
+    "notFound": "لم يتم العثور على الرسالة.",
+    "breadcrumb": "كلمة المدير",
+    "theLetter": "الرسالة",
+    "ctaLine1": "لمزيد من المعلومات عن",
+    "ctaLine2": "المدرسة.",
+    "backToSchool": "العودة إلى {{school}}"
   },
   "foundation": {
     "hero": {

@@ -25,6 +25,7 @@ import { schools } from './data';
 const AboutPage        = lazy(() => import('./pages').then((m) => ({ default: m.AboutPage })));
 const SchoolsPage      = lazy(() => import('./pages').then((m) => ({ default: m.SchoolsPage })));
 const SchoolDetailPage = lazy(() => import('./pages').then((m) => ({ default: m.SchoolDetailPage })));
+const PrincipalMessagePage = lazy(() => import('./pages').then((m) => ({ default: m.PrincipalMessagePage })));
 const FoundationPage   = lazy(() => import('./pages').then((m) => ({ default: m.FoundationPage })));
 const AcademyPage      = lazy(() => import('./pages').then((m) => ({ default: m.AcademyPage })));
 const ContactPage      = lazy(() => import('./pages').then((m) => ({ default: m.ContactPage })));
@@ -87,7 +88,9 @@ function Header() {
   }, [menuOpen]);
 
   // Dropdowns point at real destinations: About → its on-page sections,
-  // Schools → each campus (from the schools source of truth).
+  // Schools → each campus (from the schools source of truth). A campus's
+  // Principal's Message is surfaced on its own school page rather than
+  // nested further into this menu.
   const nav: { to: string; label: string; children?: { to: string; label: string }[] }[] = [
     { to: '/', label: t('nav.home') },
     { to: '/about', label: t('nav.about'), children: [
@@ -328,16 +331,15 @@ function Header() {
                         className="grid transition-[grid-template-rows] duration-300 ease-out"
                         style={{ gridTemplateRows: expanded ? '1fr' : '0fr' }}>
                         <div style={{ overflow: 'hidden' }}>
-                          <div className="mt-3 ps-1 pb-1 flex flex-wrap gap-x-5 gap-y-2.5">
-                            {item.children.map((c) => (
-                              <Link
-                                key={c.to}
-                                to={c.to}
-                                onClick={() => handleNavClick(c.to)}
-                                style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 16, color: withOpacity('paper', 0.65) }}>
-                                {c.label}
-                              </Link>
-                            ))}
+                          <div className="mt-3 ps-1 pb-1 flex flex-col gap-2.5">
+                            {item.children.map((c) => {
+                              const childStyle = { fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 16, color: withOpacity('paper', 0.65) } as const;
+                              return (
+                                <Link key={c.to} to={c.to} onClick={() => handleNavClick(c.to)} style={childStyle}>
+                                  {c.label}
+                                </Link>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>
@@ -483,6 +485,13 @@ function SchoolDetailRoute() {
   return <SchoolDetailPage school={school} />;
 }
 
+/* ── route-bound wrapper for the principal's message page ── */
+function PrincipalMessageRoute() {
+  const { slug } = useParams<{ slug: string }>();
+  const school = schools.find((s) => s.slug === slug);
+  return <PrincipalMessagePage school={school} />;
+}
+
 /* ── app shell (inside the router) ───────────────────────── */
 function AppShell() {
   const { t } = useTranslation();
@@ -547,6 +556,7 @@ function AppShell() {
             <Route path="/about/leadership/:slug"   element={<LeaderDetailRoute />} />
             <Route path="/schools"            element={<SchoolsPage schools={schools} />} />
             <Route path="/schools/:slug"      element={<SchoolDetailRoute />} />
+            <Route path="/schools/:slug/principals-message" element={<PrincipalMessageRoute />} />
             <Route path="/foundation"         element={<FoundationPage />} />
             <Route path="/academy"            element={<AcademyPage />} />
             <Route path="/careers"            element={<CareersPage />} />

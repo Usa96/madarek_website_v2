@@ -1,7 +1,7 @@
 /* Madarek redesign — data
-   --------------------------------------------------------------
-   Image paths are absolute (`/redesign-assets/...`) so they
-   resolve against the Vite public/ root from any route depth. */
+  --------------------------------------------------------------
+  Image paths are absolute (`/redesign-assets/...`) so they
+  resolve against the Vite public/ root from any route depth. */
 
 export interface School {
   slug: string;
@@ -23,7 +23,7 @@ export interface School {
   highlights: string[];
   status?: 'open' | 'upcoming';  // omit/'open' = operating; 'upcoming' = in development
   /* Arabic parallel fields — populated for the `ar` locale and picked at
-     render by the localize helpers. Missing fields fall back to English. */
+  render by the localize helpers. Missing fields fall back to English. */
   nameAr?: string;
   shortAr?: string;
   locationAr?: string;
@@ -34,21 +34,34 @@ export interface School {
   descriptionAr?: string;
   overviewAr?: string;
   highlightsAr?: string[];
+  /* Only set for schools with real copy on file — the page and its
+     teaser banner are gated on this being present. `photo` is optional;
+     omit it until a real portrait exists (no placeholder is rendered). */
+  principalMessage?: PrincipalMessage;
+}
+
+export interface PrincipalMessage {
+  name: string;
+  title: string;
+  credentials?: string;
+  photo?: string;
+  greeting?: string;      // optional opening line before the signature, e.g. "With sincere gratitude,"
+  paragraphs: string[];
 }
 
 /* ── Media / News ─────────────────────────────────────────────
-   Single source of truth for every announcement shown on the site
-   (the Media page and, later, the homepage media section both read
-   from here — never redefine this list anywhere else).
+  Single source of truth for every announcement shown on the site
+  (the Media page and, later, the homepage media section both read
+  from here — never redefine this list anywhere else).
 
-   Ordering is driven entirely by `date` (ISO `YYYY-MM-DD`): the site
-   always renders newest-first via `mediaByNewest` below, so you can
-   add a new item ANYWHERE in this array and older items are pushed
-   back automatically. To publish, just add an object; to change the
-   order, change its `date`.
+  Ordering is driven entirely by `date` (ISO `YYYY-MM-DD`): the site
+  always renders newest-first via `mediaByNewest` below, so you can
+  add a new item ANYWHERE in this array and older items are pushed
+  back automatically. To publish, just add an object; to change the
+  order, change its `date`.
 
-   Images are pending — leave `image` empty ('') and the card shows a
-   branded placeholder until the real photo is dropped in. */
+  Images are pending — leave `image` empty ('') and the card shows a
+  branded placeholder until the real photo is dropped in. */
 export interface MediaItem {
   id: string;        // stable, unique, kebab-case — also the /media/:id slug
   date: string;      // ISO 'YYYY-MM-DD' — drives newest-first ordering
@@ -242,6 +255,22 @@ export function formatMediaDate(iso: string, opts?: { short?: boolean }): string
   });
 }
 
+/* Shared by both MGIS campuses — one director, one message. */
+const MGIS_PRINCIPAL_MESSAGE: PrincipalMessage = {
+  name: 'Dr. Wafa Hassan',
+  title: 'Director of Operations, Modern Global International School (MGIS)',
+  credentials: 'Ed.D. Doctorate Degree in Education, The George Washington University, Washington DC, USA',
+  photo: '/redesign-assets/principal/mgis.webp',
+  greeting: 'With sincere gratitude,',
+  paragraphs: [
+    "As we embark on this journey together, it gives me immense pleasure to match the mission of our school with the lofty and revolutionary objectives of Saudi Arabia's Mission 2030. A dynamic society, a thriving economy, and a nation that is driven to achieve its goals are the three essential pillars that form the basis of this national vision. These pillars inspire our educational mission at all levels and guide the future of the nation they represent.",
+    "As an international school, we strive to create an environment where every student can flourish not only academically but also personally. In addition to ensuring that our pupils develop a strong feeling of confidence in their own potential to learn and succeed, as well as a respect for their community, we place a high priority on the relevance of cultural heritage and national pride. By blending the inquiry approach into our unique teaching techniques, we are able to cultivate in our pupils a passion for learning and a thirst for information, preparing them to become well-rounded individuals who are open to the future while yet honoring their roots.",
+    'The cornerstone of a thriving economy is the fundamentals of education. We dedicate our educational establishment to creating an active and supportive learning environment, emphasizing the acquisition of fundamental knowledge, requisite abilities, and soft skills essential for success in the future employment market. Our mission is to cultivate graduates who are ready to lead and excel in a global world by encouraging their entrepreneurial spirit, innovation, critical thinking, and creativity.',
+    'As part of our commitment to achieving excellence in all aspects of our educational endeavors, we are committed to the ongoing improvement, transparency, and accountability of our operations.',
+    'Now, I have the privilege of leading this organization into its next stage. Together, let us work toward the establishment of a future in which our children will have the opportunity to flourish, contribute, develop, and grow beyond what they ever imagined possible. It all starts right here, at Modern Global International School (MGIS), the institution that is responsible for producing the leaders of the future.',
+  ],
+};
+
 export const schools: School[] = [
   {
     slug: 'al-maaref-american-school',
@@ -287,6 +316,19 @@ export const schools: School[] = [
       'نهج تعليمي يرتكز على التفكير المستقل والإبداع وحل المشكلات الواقعية',
       'مرافق حديثة تشمل مختبرات العلوم والمكتبات واستوديوهات الفنون ومناطق مخصصة للعب',
     ],
+    principalMessage: {
+      name: 'Wael Ibrahim',
+      title: 'School Principal, Al Maaref American School',
+      photo: '/redesign-assets/principal/maaref.webp',
+      paragraphs: [
+        'Welcome to Al Maaref American School—a community built on strong values, ambitious aspirations, and a shared commitment to the success and wellbeing of every student.',
+        'At MAS, we believe that every student can learn, progress, and achieve when provided with the right opportunities, support, and challenge. Education extends beyond the delivery of a curriculum; it is about understanding students as individuals and developing their confidence, curiosity, independence, and sense of responsibility.',
+        'Our aspiration is to make high-quality, personalized learning a reality in every classroom. Through effective teaching, meaningful use of assessment and data, and the thoughtful integration of technology and artificial intelligence, we aim to ensure that each student receives the support and challenge needed to flourish.',
+        'This aspiration reflects the ambitions of "We the UAE 2031," which places education, innovation, future readiness, and the development of human potential at the heart of the nation\'s continued progress. We are committed to preparing knowledgeable, adaptable, and creative young people who are proud of the UAE\'s identity, heritage, and values and ready to contribute positively to their communities and the wider world.',
+        'Strong partnerships between students, families, staff, and the wider community are central to achieving this vision. Through trust, open communication, and shared responsibility, we will continue building a school culture in which everyone feels valued, supported, and inspired to grow.',
+        'It is a privilege to serve as Principal of Al Maaref American School and to work alongside our community on its continuing journey towards excellence.',
+      ],
+    },
   },
   {
     slug: 'mgis-qortuba-campus',
@@ -334,6 +376,7 @@ export const schools: School[] = [
       'أنشطة رياضية تشمل كرة القدم وكرة السلة والجمباز والتمارين الهوائية',
       'برنامج متقدم للغة العربية وبرنامج متكامل لتعزيز القيم والسلوكيات',
     ],
+    principalMessage: MGIS_PRINCIPAL_MESSAGE,
   },
   {
     slug: 'mgis-digital-city-campus',
@@ -381,6 +424,7 @@ export const schools: School[] = [
       'بيئة مدرسية تتمحور حول الأسرة وتعزز مشاركتها',
       'ساعات الدوام: من الأحد إلى الخميس، من 7:30 صباحاً حتى 2:00 ظهراً',
     ],
+    principalMessage: MGIS_PRINCIPAL_MESSAGE,
   },
   {
     slug: 'sharjah-sustainable-city',
